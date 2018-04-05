@@ -1,6 +1,6 @@
 # genume - *graphical enumeration*
 
-**genume** is a graphical user interface for a collection on enumeration scripts.
+**genume** is a graphical user interface for a collection of enumeration scripts.
 
 ```
 
@@ -24,7 +24,9 @@ Build with **Python 3** and **Gtk+3**.
 
 ## Contribute
 
-?
+We accept Pull requests!
+
+Pull requests that are not ready to be merged should have a title starting with `[WIP] `.
 
 ## License
 
