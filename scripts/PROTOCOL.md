@@ -4,7 +4,7 @@ This is the documentantion for the interface/protocol which should be able to ha
 
 ## How are scripts executed
 
-The directory 'scripts' is searched recursively. Each time a new directory is 'read', a new subcategory is created with the name of the directory. Any new registration will be stored inside that subcategory. The way this is displayed to the user can and will change. Else if the file is a [python](#Python) script, it is imported and executed. Else the file is executed only if the executable bit is set and its output is parsed as defined in the [other](#Other_executables) section.
+The directory 'scripts' is searched recursively and in alphabetical order. Each time a new directory is 'read', a new subcategory is created with the name of the directory. Any new registration will be stored inside that subcategory. The way this is displayed to the user can and will change. Else if the file is a [python](#python) script, it is imported and executed. Else the file is executed only if the executable bit is set and its output is parsed as defined in the [other](#other-executables) section.
 
 ### Python
 
@@ -12,4 +12,10 @@ The directory 'scripts' is searched recursively. Each time a new directory is 'r
 
 ### Other executables
 
-//TODO
+The output should contain any number of the following commands. Each command takes a number of arguments, which are split by any number of whitespace.
+
+* **`KVAL`** _`key`_ _`value`_
+
+&nbsp;&nbsp;key: a string of characters. It can only contain alphanumeric and underscores.
+&nbsp;&nbsp;value: a string such as `"I am a string"`
+___
