@@ -2,7 +2,7 @@
 
 **genume** is a graphical user interface for a collection of enumeration scripts.
 
-```
+```TEXT
 
 
 
@@ -26,7 +26,7 @@ Build with **Python 3** and **Gtk+3**.
 
 We accept Pull requests!
 
-Pull requests that are not ready to be merged should have a title starting with `[WIP] `.
+Pull requests that are not ready to be merged should have a title starting with `[WIP]`.
 
 ## License
 
@@ -38,4 +38,3 @@ Data in this repository is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 
 **genume author list** can be determined via `git shortlog -sne`.
-
