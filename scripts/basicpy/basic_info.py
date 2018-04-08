@@ -11,9 +11,8 @@ Script for finding basic infos of your box
 6.desktop enviroments
 7.print all the users of the system 
 
--ToDo-
 8.Basic network informations
-
+[we used 8.8.8.8 google dns for checking connectivity]
 
 Libraries used
 --------------
@@ -31,6 +30,7 @@ find_mem('True')
 disks()
 find_desktop_enviroment()
 users()
+local_ip()
 
 
 """
