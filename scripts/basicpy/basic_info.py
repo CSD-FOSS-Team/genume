@@ -21,7 +21,7 @@ os,subprocess,grp,pwd
 
 Calls to external programs
 --------------------------
-awk
+awk, ping, ip, curl
 
 Run with the following order
 find_distro()
@@ -89,7 +89,7 @@ def find_mem(all):
         string = 'MemTotal','MemFree','MemAvailable','SwapTotal'
         with open('/proc/meminfo',"r") as myfile:
             data=myfile.readlines()
-            while j<=3:
+            while j<=len(string)-1:
                 while i<len(data):
                     if data[i].find(string[j])!=-1:
                         print(data[i])
@@ -148,11 +148,24 @@ def users():
     cmd='echo $USER'
     B=subprocess.check_output(cmd, shell=True)
     print("current user:",B.decode('utf-8') )
-
+    
+def local_ip():
+    import os,subprocess
+    print('local ip')
+    print('--------------------')
+    cmd1 ='''ip r | grep src | cut -d ' ' -f 12'''
+    B1=subprocess.check_output(cmd1, shell=True)
+    print(B1.decode('utf-8'))
+    
+    cmd2 = '''ping -q -w 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error'''
+    B2=subprocess.check_output(cmd2, shell=True)
+    print("{0}? {1}".format("online",B2.decode('utf-8')))
+    
 find_distro()
 find_version()
-find_cpu('True')
+find_cpu('False')
 find_mem('True')  
 disks()
 find_desktop_enviroment()
 users()
+local_ip()
