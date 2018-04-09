@@ -11,7 +11,6 @@ from genume_basic_script import *
 """ improve basic_info.py and add suitable buttons  """
 
 class MyWindow(Gtk.Window):
-
     def __init__(self):
         Gtk.Window.__init__(self, title="Enumeration Script")
         self.set_default_size(500, 350)
@@ -39,7 +38,6 @@ class MyWindow(Gtk.Window):
         self.button1 = Gtk.Button(label="Linux distro")   
         self.button1.connect("clicked", self.on_button1_clicked)
         self.grid.attach(self.button1, 0,  0, 1, 1)      
-        
         self.button2 = Gtk.Button(label="kernel")
         self.button2.connect("clicked", self.on_button2_clicked)
         self.grid.attach_next_to(self.button2,self.button1,\
