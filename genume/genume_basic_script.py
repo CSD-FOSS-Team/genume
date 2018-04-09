@@ -13,15 +13,15 @@ Script for finding basic infos of your box
 8.Basic network informations (local ip, public ip, ifconfig)
  
 For checking the connectivity we ping 8.8.8.8 (google dns server)
-For finding thepublic ip we use the website ipinfo.io
+For finding the public ip we use the website 'ipinfo.io'
 
-Libraries used
---------------
+Python Libraries used
+--------------------------
 os,subprocess,grp,pwd
 
-Calls to external programs
+Bash Libraries used
 --------------------------
-awk,ping,curl
+awk,ping,curl,netstat
 
 Run with the following order
 find_distro()
@@ -179,9 +179,15 @@ def ifconfig():
     B2=subprocess.check_output(cmd2, shell=True)
     return ("{0}: {1}".format("netwrok interfaces",B2.decode('utf-8')))
     
+def open_ports():
+    import os,subprocess
+    cmd='''netstat -tuwanp|awk -F: '/:::/ && /LISTEN/ {print($4)}' '''
+    B = subprocess.check_output(cmd, shell=True)
+    return ("{0}\n{1}".format("Open ports",B.decode('utf-8')))
+    
 def about():
-    string1 ='genome version x.x.x'
-    string2 ='Licence:'
+    string1 ='genome version 1.0'
+    string2 ='Licence: GPL v.?'
     string3 ='website'
     return("{0}\n{1}\n{2}".format(string1,string2,string3))    
     

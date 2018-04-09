@@ -93,6 +93,11 @@ class MyWindow(Gtk.Window):
         self.grid.attach_next_to(self.button10,self.button9,\
         Gtk.PositionType.RIGHT, 1, 1)
         
+        self.button11 = Gtk.Button(label="open ports")
+        self.button11.connect("clicked", self.on_button11_clicked)
+        self.grid.attach_next_to(self.button11,self.button10,\
+        Gtk.PositionType.RIGHT, 1, 1)
+        
         #about button
         self.button100 = Gtk.Button(label="about")
         self.button100.connect("clicked", self.on_button100_clicked)
@@ -131,6 +136,9 @@ class MyWindow(Gtk.Window):
 
     def on_button10_clicked(self, widget):
         self.textbuffer.set_text(ifconfig())
+        
+    def on_button11_clicked(self, widget):
+        self.textbuffer.set_text(open_ports())       
         
         #about button
     def on_button100_clicked(self, widget):
