@@ -1,5 +1,8 @@
 #!/bin/bash
-RED='\033[0;31m'
-NC='\033[0m'
->&2 echo -e "${RED}Running within ${GENUME_VERSION} genume version.${NC}"
-echo -e "KVAL test \"I am a test string.\""
+if [ -z "$GENUME_VERSION" ]; then
+    echo "Running outside of enumeration."
+else
+    # The first echo command outputs to stderr which does not get read by the registry.
+    >&2 echo -e "Running within ${GENUME_VERSION} genume version."
+    echo -e "KVAL test \"I am a test string.\""
+fi

@@ -1,9 +1,8 @@
-print(__name__)
-import sys
-print(sys.path)
-def run(cat, entries):
-    # from registry.value import ValueEntry
-    # Test script.
-    print("Running...")
-    nkv = entries["ValueEntry"](cat, "Testing from python.")
-    cat["python"] = nkv
+from genume.registry.base import PythonScript
+from genume.registry.value import ValueEntry
+
+class PYEX(PythonScript):
+    "Example python script."
+    def run(self):
+        print("Script running!!!")
+        self.register("pytest", ValueEntry(self.category, "Python script test."))

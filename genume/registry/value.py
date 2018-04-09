@@ -1,4 +1,4 @@
-from .base import BaseEntry
+from genume.registry.base import BaseEntry
 
 class ValueEntry(BaseEntry):
     "A type of entry which contains a single string."
