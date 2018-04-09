@@ -185,6 +185,38 @@ def open_ports():
     B = subprocess.check_output(cmd, shell=True)
     return ("{0}\n{1}".format("Open ports",B.decode('utf-8')))
     
+def installed_programs():   
+    import os,subprocess
+    cmd='''ls -alh /usr/bin/|awk '{print $9}' '''
+    B = subprocess.check_output(cmd, shell=True)
+    return ("{0}\n{1}".format("installed programs",B.decode('utf-8')))
+     
+def installed_programs2():   
+    import os,subprocess
+    cmd='which perl'
+    B = subprocess.check_output(cmd, shell=True)
+    cmd1='which gcc'
+    B1 = subprocess.check_output(cmd1, shell=True)
+    cmd2='which nc'
+    B2 = subprocess.check_output(cmd2, shell=True)
+    cmd3='which python'
+    B3 = subprocess.check_output(cmd3, shell=True)
+    cmd4='which wget'
+    B4 = subprocess.check_output(cmd4, shell=True)
+    return ("{0}: {1}\n{2}: {3}\n{4}: {5}\n{6}: {7}\n{8}: {9}".format("Perl",B.decode('utf-8'),\
+    "GCC",B1.decode('utf-8'),\
+    "python",B3.decode('utf-8'),\
+    "netcat",B2.decode('utf-8'),\
+    "wget",B4.decode('utf-8')))
+
+    
+def passwd():
+    import os,subprocess
+    cmd='cat /etc/passwd'
+    B = subprocess.check_output(cmd, shell=True)
+    return("{0}".format(B.decode('utf-8'))) 
+
+    
 def about():
     string1 ='genome version 1.0'
     string2 ='Licence: GPL v.?'

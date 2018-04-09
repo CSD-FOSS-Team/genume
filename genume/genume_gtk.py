@@ -99,6 +99,23 @@ class MyWindow(Gtk.Window):
         self.grid.attach_next_to(self.button11,self.button10,\
         Gtk.PositionType.RIGHT, 1, 1)
         
+        #buttons for files and programs
+
+        self.button12 = Gtk.Button(label="Installed programs")
+        self.button12.connect("clicked", self.on_button12_clicked)
+        self.grid.attach(self.button12, 0, 3, 1, 1)
+        
+
+        self.button13 = Gtk.Button(label="Perl/gcc ...")
+        self.button13.connect("clicked", self.on_button13_clicked)
+        self.grid.attach_next_to(self.button13,self.button12,\
+        Gtk.PositionType.RIGHT, 1, 1)
+        
+        self.button14 = Gtk.Button(label="/etc/passwd")
+        self.button14.connect("clicked", self.on_button14_clicked)
+        self.grid.attach_next_to(self.button14,self.button13,\
+        Gtk.PositionType.RIGHT, 1, 1)
+        
         #about button
         
         self.button100 = Gtk.Button(label="about")
@@ -140,7 +157,16 @@ class MyWindow(Gtk.Window):
         self.textbuffer.set_text(ifconfig())
         
     def on_button11_clicked(self, widget):
-        self.textbuffer.set_text(open_ports())       
+        self.textbuffer.set_text(open_ports())    
+        
+    def on_button12_clicked(self, widget):
+        self.textbuffer.set_text(installed_programs()) 
+        
+    def on_button13_clicked(self, widget):
+        self.textbuffer.set_text(installed_programs2()) 
+
+    def on_button14_clicked(self, widget):
+        self.textbuffer.set_text(passwd()) 
         
         #about button
     def on_button100_clicked(self, widget):
