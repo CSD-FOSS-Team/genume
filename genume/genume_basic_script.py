@@ -203,11 +203,18 @@ def installed_programs2():
     B3 = subprocess.check_output(cmd3, shell=True)
     cmd4='which wget'
     B4 = subprocess.check_output(cmd4, shell=True)
-    return ("{0}: {1}\n{2}: {3}\n{4}: {5}\n{6}: {7}\n{8}: {9}".format("Perl",B.decode('utf-8'),\
+    cmd5='mysql --version'
+    B5 = subprocess.check_output(cmd5, shell=True)
+    cmd6='which java'
+    B6 = subprocess.check_output(cmd6, shell=True)
+    return ("{0}: {1}\n{2}: {3}\n{4}: {5}\
+    \n{6}: {7}\n{8}: {9}\n{10}: {11}\n{12}: {13}".format("Perl",B.decode('utf-8'),\
     "GCC",B1.decode('utf-8'),\
     "python",B3.decode('utf-8'),\
     "netcat",B2.decode('utf-8'),\
-    "wget",B4.decode('utf-8')))
+    "wget",B4.decode('utf-8'),\
+    "mysql",B5.decode('utf-8'),\
+    "Java",B6.decode('utf-8')))
 
     
 def passwd():

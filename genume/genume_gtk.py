@@ -159,6 +159,8 @@ class MyWindow(Gtk.Window):
     def on_button11_clicked(self, widget):
         self.textbuffer.set_text(open_ports())    
         
+        #file system enumeration buttons
+        
     def on_button12_clicked(self, widget):
         self.textbuffer.set_text(installed_programs()) 
         
