@@ -10,8 +10,7 @@ Script for finding basic infos of your box
 5.disks 
 6.desktop enviroments
 7.print all the users of the system 
-
-8.Basic network informations
+8.Basic network informations (local ip, public ip, ifconfig)
  
 For checking the connectivity we ping 8.8.8.8 (google dns server)
 For finding thepublic ip we use the website ipinfo.io
@@ -173,4 +172,17 @@ def public_ip():
         return ("{0}: {1}".format("public ip",B3.decode('utf-8')))
     else:
         return ("you are not online")
+
+def ifconfig():
+    import os,subprocess
+    cmd2 = '/sbin/ifconfig -a'
+    B2=subprocess.check_output(cmd2, shell=True)
+    return ("{0}: {1}".format("netwrok interfaces",B2.decode('utf-8')))
     
+def about():
+    string1 ='genome version x.x.x'
+    string2 ='Licence:'
+    string3 ='website'
+    return("{0}\n{1}\n{2}".format(string1,string2,string3))    
+    
+

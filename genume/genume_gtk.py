@@ -1,18 +1,27 @@
 # -*- coding: utf-8 -*-
 """
 
-initial author: K.Draziotis
+Initial author: K.Draziotis
+Tested in python 3.4.2
+
+This is a gui for the  genume_basic_script.py.
+It is very simple to add new functions and connect them with the gui.
+First add a new function in : genume_basic_script.py 
+Then, add a button in : genume_gtk.py
+
+Also, in parallel we write a text version (in directory : scripts)
+
 """
 
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import  Gtk, Pango
 from genume_basic_script import *
-""" improve basic_info.py and add suitable buttons  """
+""" improve genume_basic_script.py and add suitable buttons  """
 
 class MyWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Enumeration Script")
+        Gtk.Window.__init__(self, title="Linux Enumeration Script")
         self.set_default_size(500, 350)
         self.grid = Gtk.Grid()
         self.add(self.grid)
@@ -78,8 +87,19 @@ class MyWindow(Gtk.Window):
         self.button9.connect("clicked", self.on_button9_clicked)
         self.grid.attach_next_to(self.button9,self.button8,\
         Gtk.PositionType.RIGHT, 1, 1)
+        
+        self.button10 = Gtk.Button(label="ifconfig")
+        self.button10.connect("clicked", self.on_button10_clicked)
+        self.grid.attach_next_to(self.button10,self.button9,\
+        Gtk.PositionType.RIGHT, 1, 1)
+        
+        #about button
+        self.button100 = Gtk.Button(label="about")
+        self.button100.connect("clicked", self.on_button100_clicked)
+        self.grid.attach(self.button100, 0, 4, 100, 10)
     
-
+    #actions to be taken for each button
+    
     def on_button1_clicked(self, widget):
         self.textbuffer.set_text(find_distro())
 
@@ -101,12 +121,20 @@ class MyWindow(Gtk.Window):
     def on_button6_clicked(self, widget):
         self.textbuffer.set_text(disks())
         
+        #network buttons
+        
     def on_button8_clicked(self, widget):
         self.textbuffer.set_text(local_ip())
         
     def on_button9_clicked(self, widget):
         self.textbuffer.set_text(public_ip())
+
+    def on_button10_clicked(self, widget):
+        self.textbuffer.set_text(ifconfig())
         
+        #about button
+    def on_button100_clicked(self, widget):
+        self.textbuffer.set_text(about())
         
 win = MyWindow()
 win.connect("destroy", Gtk.main_quit)
