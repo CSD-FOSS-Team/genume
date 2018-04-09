@@ -8,7 +8,7 @@ The directory 'scripts' is searched recursively and in alphabetical order. Each 
 
 ### Python
 
-Each python script should call registerEntry on any new entries it wants to register. registerEntry takes two arguments. The first one is a string which is also the key. The second argument is an object which extends BaseEntry. These scripts also inherit the global variables of the main program.
+Each python script should define one run() function, which gets run every time the registry needs to be updated. run() receives one argument, which is the category new registrations should go.
 
 ### Other executables
 
