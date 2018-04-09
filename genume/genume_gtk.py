@@ -15,7 +15,7 @@ Also, in parallel we write a text version (in directory : scripts)
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import  Gtk, Pango
+from gi.repository import  Gtk, Pango, Gdk
 from genume_basic_script import *
 """ improve genume_basic_script.py and add suitable buttons  """
 
@@ -29,7 +29,7 @@ class MyWindow(Gtk.Window):
         self.create_textview()
         self.create_buttons()
         #self.create_toolbar()
-        
+
     def create_textview(self):
         scrolledwindow = Gtk.ScrolledWindow()
         scrolledwindow.set_hexpand(True)
@@ -46,7 +46,8 @@ class MyWindow(Gtk.Window):
     def create_buttons(self):
         self.button1 = Gtk.Button(label="Linux distro")   
         self.button1.connect("clicked", self.on_button1_clicked)
-        self.grid.attach(self.button1, 0,  0, 1, 1)      
+        self.grid.attach(self.button1, 0,  0, 1, 1)  
+        
         self.button2 = Gtk.Button(label="kernel")
         self.button2.connect("clicked", self.on_button2_clicked)
         self.grid.attach_next_to(self.button2,self.button1,\
@@ -99,6 +100,7 @@ class MyWindow(Gtk.Window):
         Gtk.PositionType.RIGHT, 1, 1)
         
         #about button
+        
         self.button100 = Gtk.Button(label="about")
         self.button100.connect("clicked", self.on_button100_clicked)
         self.grid.attach(self.button100, 0, 4, 100, 10)

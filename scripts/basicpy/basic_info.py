@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Mar 31 02:58:23 2018
+initial author:K.Draziotis
+
 Written in python 3.4.2
 Script for finding basic infos of your box
+Is the text version of genume.
+
+It contains :
 1.distro
 2.kernel version
 3.cpu info  [two options print all or less information]
@@ -10,7 +15,6 @@ Script for finding basic infos of your box
 5.disks 
 6.desktop enviroments
 7.print all the users of the system 
-
 8.Basic network informations
 [we used 8.8.8.8 google dns for checking connectivity]
 
