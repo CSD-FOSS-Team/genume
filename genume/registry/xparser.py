@@ -3,15 +3,19 @@ import subprocess as sbpr
 import os
 
 from genume.globals import VERSION
+from genume.registry.base import InfoLevel
 from genume.registry.value import ValueEntry
 
 def parse(cmdl, c):
     while len(cmdl) != 0:
         cmd = cmdl.pop(0)
-        if cmd == "KVAL":
-            # Key-value case.
+        if cmd == "VALUE":
+            # basic value case.
+            e = cmdl.pop(0)
             k = cmdl.pop(0)
             v = ValueEntry(c, cmdl.pop(0))
+            if e == "ADV":
+                v.level = InfoLevel.advanced
             c[k] = v
         else:
             print("Warn: invalid command {0}".format(cmd))

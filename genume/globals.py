@@ -7,4 +7,4 @@ VERSION = "0.0.0"
 SCRIPTS_ROOT = Path("scripts/")
 
 # A list of ignored files when searching for scripts.
-SCRIPTS_IGNORE = ["__pycache__"]
+SCRIPTS_IGNORE = [r"__pycache__", r"^\..+", r".*\.md$"]

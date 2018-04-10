@@ -1,8 +1,8 @@
 import re
 
 from genume.globals import SCRIPTS_ROOT, SCRIPTS_IGNORE
-from genume.registry.base import PythonScript
 from genume.registry.category import CategoryEntry
+from genume.registry.pyhandle import PythonScript
 from genume.registry.xparser import run_and_parse
 
 def match_list(s, l):

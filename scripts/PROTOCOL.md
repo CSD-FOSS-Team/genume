@@ -1,23 +1,56 @@
 # Script protocol
 
-This is the documentantion for the interface/protocol which should be able to handle both python and shell scripts. However there is nothing stopping someone to write a script at another language. As long as it can be executed by linux and it provides valid output it should work.
+Genume traverses the files under `script/` in alphabetical order every time it needs to update the enumeration. For every file in every directory it finds it performs the next steps:
 
-## How are scripts executed
+1. Ignores the file if it matches at least one regex from `SCRIPTS_IGNORE`.
+2. If the file is a directory, then it creates a new category and performs the same steps for all the files of the new directory.
+3. If the file's extension equals `py`, then it is executed as a [python](#python) script.
+4. Else if the executable bit is set, it is handled as a generic [executable](#other-executables).
 
-The directory 'scripts' is searched recursively and in alphabetical order. Each time a new directory is 'read', a new subcategory is created with the name of the directory. Any new registration will be stored inside that subcategory. The way this is displayed to the user can and will change. Else if the file is a [python](#python) script, it is imported and executed. Else the file is executed only if the executable bit is set and its output is parsed as defined in the [other](#other-executables) section.
+## Python
 
-### Python
+Each python script must `from genume.registry.pyhandle import PythonScript` and create a subclass of `PythonScript` with class name the filename of the python script, excluding the extension, in all caps. It must also overwrite the `run` method and inside that method call the `register` method.
 
-Each python script should define one run() function, which gets run every time the registry needs to be updated. run() receives one argument, which is the category new registrations should go.
+```py
+from genume.registry.pyhandle import PythonScript
+# Put this in a file named pyex.py
+class PYEX(PythonScript):
+    "Example python script."
+    def run(self):
+        # We just create a new entry with key "pytest" and value "Hello from python!!!"
+        self.register("pytest", "Hello from python!!!")
+```
 
-### Other executables
+## Other executables
 
-The output in stdout should contain any number of the following commands. Each command takes a number of arguments, which are split by any number of whitespace.
+- Communication with other executable formats happens with environment variables and pipes.
 
-* **`KVAL`** _`key`_ _`value`_
+### Getting input
 
-&nbsp;&nbsp;Adds a basic key=value entry to the registry.
-&nbsp;&nbsp;key: a string of characters. It can only contain alphanumeric and underscores.
-&nbsp;&nbsp;value: a string such as `"I am a string"`
-___
-A list of special environment variables are also defined. But for now only GENUME_VERSION is defined.
+Input from genume happens mostly with environment variables.
+
+1. `GENUME_VERSION`
+    - A string representing the genume version that is running this script. If this variable is not set, then your executable is probable run outside of genume <sub><sup>\*<sub><sup>*hint*</sup></sub></sup></sub>.
+
+### Creating entries
+
+Entries are created by parsing the output of the script. As a result it must output any number of the below sequences to modify the enumeration.
+
+1. `VALUE [BAS|ADV] key value`
+    - Creates a new entry containing a simple string.
+    - `VALUE` is the command name.
+    - `[BAS|ADV]` is an enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
+    - `key` is the key. It should contain only characters you would use to name a variable _(aka alphanumeric and underscores)_.
+    - `value` is the string to display. It must be between double quotation marks.
+
+### Example script
+
+```sh
+#!/bin/sh
+# Don't forget to set the executable bit with chmod +x ./example.sh
+if [ -z "$GENUME_VERSION" ]; then
+    echo "Running outside of genume."
+else
+    echo "VALUE BAS test \"Hello from shell!!!\""
+fi
+```
