@@ -13,7 +13,7 @@ def parse(cmdl, c):
             # basic value case.
             e = cmdl.pop(0)
             k = cmdl.pop(0)
-            v = ValueEntry(c, cmdl.pop(0))
+            v = ValueEntry(c, cmdl.pop(0).strip())
             if e == "ADV":
                 v.level = InfoLevel.advanced
             c[k] = v
@@ -23,8 +23,7 @@ def parse(cmdl, c):
 def run(f):
     if os.access(str(f), os.X_OK):
         o = sbpr.check_output(str(f))
-        # Make everything be on a single line.
-        s = o.decode("utf-8").strip().replace("\n", " ")
+        s = o.decode("utf-8").strip()
         return s
     else:
         print("Warn: {0} is not executable.".format(str(f)))

@@ -1,4 +1,5 @@
 #!/bin/bash
 
-cat /proc/cpuinfo | grep processor | wc -l
+processors=$(cat /proc/cpuinfo | grep processor | wc -l)
 
+echo VALUE BAS processors $processors
