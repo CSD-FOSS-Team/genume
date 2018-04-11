@@ -28,6 +28,8 @@ We accept Pull requests!
 
 Pull requests that are not ready to be merged should have a title starting with `[WIP]`.
 
+Not necessary but suggested to pass your code from the pep8 check.
+
 ## License
 
 All files in this repository are Copyright (c) 2018 **genume author list**.
