@@ -43,6 +43,13 @@ Entries are created by parsing the output of the script. As a result it must out
     - `key` is the key. It should contain only characters you would use to name a variable _(aka alphanumeric and underscores)_.
     - `value` is the string to display. It must be between double quotation marks.
 
+1. `VALUES [BAS|ADV] key value`
+    - Creates a new entry containing a list of strings.
+    - `VALUES` is the command name.
+    - `[BAS|ADV]` is an enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
+    - `key` is the key. It should contain only characters you would use to name a variable _(aka alphanumeric and underscores)_.
+    - `value` is one of the strings to display. It must be between double quotation marks.
+
 ### Example script
 
 ```sh
