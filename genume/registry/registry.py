@@ -1,6 +1,7 @@
+from pathlib import Path
 import re
 
-from genume.globals import SCRIPTS_ROOT, SCRIPTS_IGNORE
+from genume.constants import SCRIPTS_ROOT, SCRIPTS_IGNORE
 from genume.registry.category import CategoryEntry
 from genume.registry.pyhandle import PythonScript
 from genume.registry.xparser import run_and_parse
@@ -20,7 +21,7 @@ class Registry:
     def update(self):
         "This method reloads the enumeration by running all the scripts."
         self.root = CategoryEntry()
-        self._handle_dir(self.root, SCRIPTS_ROOT)
+        self._handle_dir(self.root, Path(SCRIPTS_ROOT))
     @staticmethod
     def _handle_dir(cat, path):
         "Internal static recursive method to find scripts."

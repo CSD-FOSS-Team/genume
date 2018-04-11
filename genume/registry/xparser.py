@@ -2,7 +2,7 @@ from shlex import split as cmdsplit
 import subprocess as sbpr
 import os
 
-from genume.globals import VERSION
+from genume.constants import VERSION
 from genume.registry.base import InfoLevel
 from genume.registry.value import ValueEntry
 

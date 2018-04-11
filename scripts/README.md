@@ -10,4 +10,4 @@ This where all the scripts go. For more info about the script interface and exam
         - [Linux ABI documentation](https://github.com/torvalds/linux/tree/master/Documentation/ABI)
         - [Linux proc documentation](https://github.com/torvalds/linux/blob/master/Documentation/filesystems/proc.txt)
 2. `/etc` and `/home`
-    - These directories store program configurations files. As a result there is no insurance that they exist or that there will be no changes to their structure. Please be carefull when reading from these directories.
+    - These directories store program configurations files. As a result there is no insurance that they will continue to exist or that there will be no changes to their structure. So please be carefull when reading files from these directories.
