@@ -6,22 +6,26 @@ from genume.registry.category import CategoryEntry
 from genume.registry.pyhandle import PythonScript
 from genume.registry.xparser import run_and_parse
 
+
 def match_list(s, l):
     for i in l:
         if re.match(i, s):
             return True
     return False
 
+
 class Registry:
-    "Class which transparently provides access to the enumeration."
-    # Constructor
+    """Class which transparently provides access to the enumeration."""
+
     def __init__(self):
         # Initialize root.
         self.root = CategoryEntry()
+
     def update(self):
         "This method reloads the enumeration by running all the scripts."
         self.root = CategoryEntry()
         self._handle_dir(self.root, Path(SCRIPTS_ROOT))
+
     @staticmethod
     def _handle_dir(cat, path):
         "Internal static recursive method to find scripts."
