@@ -10,6 +10,7 @@ from genume.registry.value import ValueEntry, ListEntry
 def parse(cmdl, c):
     while len(cmdl) != 0:
         cmd = cmdl.pop(0)
+
         if cmd == "VALUE":
             # basic value case.
             e = cmdl.pop(0)
@@ -18,6 +19,7 @@ def parse(cmdl, c):
             if e == "ADV":
                 v.level = InfoLevel.advanced
             c[k] = v
+
         elif cmd == "VALUES":
             # entry of list
             e = cmdl.pop(0)
