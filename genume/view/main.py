@@ -1,34 +1,26 @@
-# -*- coding: utf-8 -*-
-"""
-
-Initial author: K.Draziotis
-Tested in python 3.4.2
-
-This is a gui for the  genume_basic_script.py.
-It is very simple to add new functions and connect them with the gui.
-First add a new function in : genume_basic_script.py 
-Then, add a button in : genume_gtk.py
-
-Also, in parallel we write a text version (in directory : scripts)
-
-"""
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import  Gtk, Pango, Gdk
-from genume_basic_script import *
-""" improve genume_basic_script.py and add suitable buttons  """
+from gi.repository import Gtk, Gdk
 
-class MyWindow(Gtk.Window):
+
+def main():
+    MainWindow()
+
+
+class MainWindow(Gtk.Window):
+
     def __init__(self):
-        Gtk.Window.__init__(self, title="Linux Enumeration Script")
+        Gtk.Window.__init__(self, title="genume")
         self.set_default_size(500, 350)
         self.grid = Gtk.Grid()
         self.add(self.grid)
 
         self.create_textview()
         self.create_buttons()
-        #self.create_toolbar()
+
+        self.connect("destroy", Gtk.main_quit)
+        self.show_all()
 
     def create_textview(self):
         scrolledwindow = Gtk.ScrolledWindow()
@@ -40,8 +32,6 @@ class MyWindow(Gtk.Window):
         self.textbuffer = self.textview.get_buffer()
         self.textview.set_editable(False)
         self.textview.set_cursor_visible(False)
-        self.textview.override_font(Pango.font_description_from_string('DejaVu Sans Mono 12'))
-       
 
     def create_buttons(self):
         self.button1 = Gtk.Button(label="Linux distro")   
@@ -83,7 +73,6 @@ class MyWindow(Gtk.Window):
         self.button8.connect("clicked", self.on_button8_clicked)
         self.grid.attach(self.button8, 0, 2, 1, 1)
         
-        
         self.button9 = Gtk.Button(label="Public ip")
         self.button9.connect("clicked", self.on_button9_clicked)
         self.grid.attach_next_to(self.button9,self.button8,\
@@ -104,7 +93,6 @@ class MyWindow(Gtk.Window):
         self.button12 = Gtk.Button(label="Installed programs")
         self.button12.connect("clicked", self.on_button12_clicked)
         self.grid.attach(self.button12, 0, 3, 1, 1)
-        
 
         self.button13 = Gtk.Button(label="Perl/gcc ...")
         self.button13.connect("clicked", self.on_button13_clicked)
@@ -121,60 +109,55 @@ class MyWindow(Gtk.Window):
         self.button100 = Gtk.Button(label="about")
         self.button100.connect("clicked", self.on_button100_clicked)
         self.grid.attach(self.button100, 0, 4, 100, 10)
-    
-    #actions to be taken for each button
-    
-    def on_button1_clicked(self, widget):
-        self.textbuffer.set_text(find_distro())
 
-    def on_button7_clicked(self, widget):
-        self.textbuffer.set_text(find_desktop_enviroment())
+    # def on_button1_clicked(self, widget):
+    #     self.textbuffer.set_text(find_distro())
+    #
+    # def on_button7_clicked(self, widget):
+    #     self.textbuffer.set_text(find_desktop_enviroment())
+    #
+    # def on_button2_clicked(self, widget):
+    #     self.textbuffer.set_text(find_version())
+    #
+    # def on_button3_clicked(self, widget):
+    #     self.textbuffer.set_text(users())
+    #
+    # def on_button4_clicked(self, widget):
+    #     self.textbuffer.set_text(find_cpu('True'))
+    #
+    # def on_button5_clicked(self, widget):
+    #     self.textbuffer.set_text(find_mem('True'))
+    #
+    # def on_button6_clicked(self, widget):
+    #     self.textbuffer.set_text(disks())
+    #
+    #     # network buttons
+    #
+    # def on_button8_clicked(self, widget):
+    #     self.textbuffer.set_text(local_ip())
+    #
+    # def on_button9_clicked(self, widget):
+    #     self.textbuffer.set_text(public_ip())
+    #
+    # def on_button10_clicked(self, widget):
+    #     self.textbuffer.set_text(ifconfig())
+    #
+    # def on_button11_clicked(self, widget):
+    #     self.textbuffer.set_text(open_ports())
+    #
+    #     # file system enumeration buttons
+    #
+    # def on_button12_clicked(self, widget):
+    #     self.textbuffer.set_text(installed_programs())
+    #
+    # def on_button13_clicked(self, widget):
+    #     self.textbuffer.set_text(installed_programs2())
+    #
+    # def on_button14_clicked(self, widget):
+    #     self.textbuffer.set_text(passwd())
+    #
+    #     # about button
+    #
+    # def on_button100_clicked(self, widget):
+    #     self.textbuffer.set_text(about())
 
-    def on_button2_clicked(self, widget):
-        self.textbuffer.set_text(find_version())
-    
-    def on_button3_clicked(self, widget):
-        self.textbuffer.set_text(users())
-        
-    def on_button4_clicked(self, widget):
-        self.textbuffer.set_text(find_cpu('True'))
-        
-    def on_button5_clicked(self, widget):
-        self.textbuffer.set_text(find_mem('True'))
-        
-    def on_button6_clicked(self, widget):
-        self.textbuffer.set_text(disks())
-        
-        #network buttons
-        
-    def on_button8_clicked(self, widget):
-        self.textbuffer.set_text(local_ip())
-        
-    def on_button9_clicked(self, widget):
-        self.textbuffer.set_text(public_ip())
-
-    def on_button10_clicked(self, widget):
-        self.textbuffer.set_text(ifconfig())
-        
-    def on_button11_clicked(self, widget):
-        self.textbuffer.set_text(open_ports())    
-        
-        #file system enumeration buttons
-        
-    def on_button12_clicked(self, widget):
-        self.textbuffer.set_text(installed_programs()) 
-        
-    def on_button13_clicked(self, widget):
-        self.textbuffer.set_text(installed_programs2()) 
-
-    def on_button14_clicked(self, widget):
-        self.textbuffer.set_text(passwd()) 
-        
-        #about button
-    def on_button100_clicked(self, widget):
-        self.textbuffer.set_text(about())
-        
-win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
