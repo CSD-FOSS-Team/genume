@@ -26,4 +26,7 @@ class ListEntry(BaseEntry):
         self.values.append(value)
 
     def __repr__(self):
+        return '\n'.join(self.values)
+
+    def __str__(self):
         return '[' + ', '.join(self.values) + ']'
