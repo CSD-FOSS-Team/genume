@@ -1,34 +1,111 @@
-# -*- coding: utf-8 -*-
-"""
-
-Initial author: K.Draziotis
-Tested in python 3.4.2
-
-This is a gui for the  genume_basic_script.py.
-It is very simple to add new functions and connect them with the gui.
-First add a new function in : genume_basic_script.py 
-Then, add a button in : genume_gtk.py
-
-Also, in parallel we write a text version (in directory : scripts)
-
-"""
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import  Gtk, Pango, Gdk
-from genume_basic_script import *
-""" improve genume_basic_script.py and add suitable buttons  """
+from gi.repository import Gtk, Gdk
 
-class MyWindow(Gtk.Window):
+from genume.registry.registry import Registry
+from genume.registry.category import CategoryEntry
+from genume.terminterface import print_enumeration
+
+
+def main():
+    MainWindow()
+
+
+class MainWindow(Gtk.Window):
+
     def __init__(self):
-        Gtk.Window.__init__(self, title="Linux Enumeration Script")
+        Gtk.Window.__init__(self, title="genume")
         self.set_default_size(500, 350)
-        self.grid = Gtk.Grid()
-        self.add(self.grid)
 
-        self.create_textview()
-        self.create_buttons()
-        #self.create_toolbar()
+        grid = Gtk.Box()
+        self.add(grid)
+
+        # setup the layout
+        
+        roots_container = self.generate_roots_container()
+        grid.pack_start(roots_container, False, False, 0)
+        subtrees_container = self.generate_subtrees_container()
+        grid.pack_start(subtrees_container, True, True, 0)
+
+        # fill the layout
+
+        # TODO improve, covert Registry to a signleton
+        reg = Registry()
+        reg.update()
+        # TODO remove, here for debugging
+        print_enumeration(reg.root)
+
+        for name, entry in reg.root.items():
+            if isinstance(entry, CategoryEntry):
+
+                self.generate_root_and_subtree(name, entry, roots_container, subtrees_container)
+            else:
+                print("Scripts on the root scripts folder are not supported, yet")  # TODO implement
+
+        # handle events
+        self.connect("destroy", Gtk.main_quit)
+        self.show_all()
+
+        # store state
+        self.reg = reg
+        self.subtrees_container = subtrees_container
+
+    def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
+
+        root = self.generate_root(name, entry)
+        roots_container.add(root)
+
+        subtree = self.generate_subtree(name, entry)
+        subtrees_container.append_page(subtree, Gtk.Label(label=name))
+
+        # setup the events
+        root.page_index = subtrees_container.get_n_pages() - 1
+        root.connect("clicked", self.show_root)
+
+    def generate_roots_container(self):
+
+        return Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=6,
+            border_width=6
+        )
+
+    def generate_root(self, name, entry: CategoryEntry):
+        """Generate the tab like button that correspond to the given entry"""
+
+        return Gtk.Button(
+            label=name
+        )
+
+    def generate_subtrees_container(self):
+
+        return Gtk.Notebook(
+            show_tabs=False
+        )
+
+    def generate_subtree(self, name, entry: CategoryEntry):
+        """Generate the list like view that correspond to the given entry"""
+
+        # create the store
+
+        store = Gtk.ListStore(str, str)
+        for name, entry in entry.items():
+            if isinstance(entry, CategoryEntry):
+                print("Scripts on the sub root folders are not supported, yet")  # TODO implement
+            else:
+                store.append([name, repr(entry)])
+
+        # create the tree view
+
+        tree = Gtk.TreeView(store)
+        for i, column_title in enumerate(["Name", "Value"]):
+            tree.append_column(Gtk.TreeViewColumn(
+                column_title,
+                Gtk.CellRendererText(),
+                text=i
+            ))
+        return tree
 
     def create_textview(self):
         scrolledwindow = Gtk.ScrolledWindow()
@@ -40,141 +117,6 @@ class MyWindow(Gtk.Window):
         self.textbuffer = self.textview.get_buffer()
         self.textview.set_editable(False)
         self.textview.set_cursor_visible(False)
-        self.textview.override_font(Pango.font_description_from_string('DejaVu Sans Mono 12'))
-       
 
-    def create_buttons(self):
-        self.button1 = Gtk.Button(label="Linux distro")   
-        self.button1.connect("clicked", self.on_button1_clicked)
-        self.grid.attach(self.button1, 0,  0, 1, 1)  
-        
-        self.button2 = Gtk.Button(label="kernel")
-        self.button2.connect("clicked", self.on_button2_clicked)
-        self.grid.attach_next_to(self.button2,self.button1,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.button3 = Gtk.Button(label="users")
-        self.button3.connect("clicked", self.on_button3_clicked)
-        self.grid.attach_next_to(self.button3,self.button2,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.button4 = Gtk.Button(label="CPU")
-        self.button4.connect("clicked", self.on_button4_clicked)
-        self.grid.attach_next_to(self.button4,self.button3,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.button5 = Gtk.Button(label="Memory")
-        self.button5.connect("clicked", self.on_button5_clicked)
-        self.grid.attach_next_to(self.button5,self.button4,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.button6 = Gtk.Button(label="disks")
-        self.button6.connect("clicked", self.on_button6_clicked)
-        self.grid.attach_next_to(self.button6,self.button5,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.button7 = Gtk.Button(label="Desktop enviroment")
-        self.button7.connect("clicked", self.on_button7_clicked)
-        self.grid.attach_next_to(self.button7,self.button6,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        #### network buttons
-        self.button8 = Gtk.Button(label="Local ip")
-        self.button8.connect("clicked", self.on_button8_clicked)
-        self.grid.attach(self.button8, 0, 2, 1, 1)
-        
-        
-        self.button9 = Gtk.Button(label="Public ip")
-        self.button9.connect("clicked", self.on_button9_clicked)
-        self.grid.attach_next_to(self.button9,self.button8,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.button10 = Gtk.Button(label="ifconfig")
-        self.button10.connect("clicked", self.on_button10_clicked)
-        self.grid.attach_next_to(self.button10,self.button9,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.button11 = Gtk.Button(label="open ports")
-        self.button11.connect("clicked", self.on_button11_clicked)
-        self.grid.attach_next_to(self.button11,self.button10,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        #buttons for files and programs
-
-        self.button12 = Gtk.Button(label="Installed programs")
-        self.button12.connect("clicked", self.on_button12_clicked)
-        self.grid.attach(self.button12, 0, 3, 1, 1)
-        
-
-        self.button13 = Gtk.Button(label="Perl/gcc ...")
-        self.button13.connect("clicked", self.on_button13_clicked)
-        self.grid.attach_next_to(self.button13,self.button12,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.button14 = Gtk.Button(label="/etc/passwd")
-        self.button14.connect("clicked", self.on_button14_clicked)
-        self.grid.attach_next_to(self.button14,self.button13,\
-        Gtk.PositionType.RIGHT, 1, 1)
-        
-        #about button
-        
-        self.button100 = Gtk.Button(label="about")
-        self.button100.connect("clicked", self.on_button100_clicked)
-        self.grid.attach(self.button100, 0, 4, 100, 10)
-    
-    #actions to be taken for each button
-    
-    def on_button1_clicked(self, widget):
-        self.textbuffer.set_text(find_distro())
-
-    def on_button7_clicked(self, widget):
-        self.textbuffer.set_text(find_desktop_enviroment())
-
-    def on_button2_clicked(self, widget):
-        self.textbuffer.set_text(find_version())
-    
-    def on_button3_clicked(self, widget):
-        self.textbuffer.set_text(users())
-        
-    def on_button4_clicked(self, widget):
-        self.textbuffer.set_text(find_cpu('True'))
-        
-    def on_button5_clicked(self, widget):
-        self.textbuffer.set_text(find_mem('True'))
-        
-    def on_button6_clicked(self, widget):
-        self.textbuffer.set_text(disks())
-        
-        #network buttons
-        
-    def on_button8_clicked(self, widget):
-        self.textbuffer.set_text(local_ip())
-        
-    def on_button9_clicked(self, widget):
-        self.textbuffer.set_text(public_ip())
-
-    def on_button10_clicked(self, widget):
-        self.textbuffer.set_text(ifconfig())
-        
-    def on_button11_clicked(self, widget):
-        self.textbuffer.set_text(open_ports())    
-        
-        #file system enumeration buttons
-        
-    def on_button12_clicked(self, widget):
-        self.textbuffer.set_text(installed_programs()) 
-        
-    def on_button13_clicked(self, widget):
-        self.textbuffer.set_text(installed_programs2()) 
-
-    def on_button14_clicked(self, widget):
-        self.textbuffer.set_text(passwd()) 
-        
-        #about button
-    def on_button100_clicked(self, widget):
-        self.textbuffer.set_text(about())
-        
-win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+    def show_root(self, button):
+        self.subtrees_container.set_current_page(button.page_index)
