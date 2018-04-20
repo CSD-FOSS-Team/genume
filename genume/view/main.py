@@ -22,7 +22,7 @@ class MainWindow(Gtk.Window):
         self.add(grid)
 
         # setup the layout
-
+        
         roots_container = self.generate_roots_container()
         grid.pack_start(roots_container, False, False, 0)
         subtrees_container = self.generate_subtrees_container()
@@ -39,8 +39,7 @@ class MainWindow(Gtk.Window):
         for name, entry in reg.root.items():
             if isinstance(entry, CategoryEntry):
 
-                self.generate_root_and_subtree(name, entry,
-                        roots_container, subtrees_container)
+                self.generate_root_and_subtree(name, entry, roots_container, subtrees_container)
             else:
                 print("Scripts on the root scripts folder are not supported, yet")  # TODO implement
 
@@ -49,8 +48,8 @@ class MainWindow(Gtk.Window):
         self.show_all()
 
         # store state
+        self.reg = reg
         self.subtrees_container = subtrees_container
-
 
     def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
 
@@ -63,7 +62,6 @@ class MainWindow(Gtk.Window):
         # setup the events
         root.page_index = subtrees_container.get_n_pages() - 1
         root.connect("clicked", self.show_root)
-
 
     def generate_roots_container(self):
 
@@ -122,4 +120,3 @@ class MainWindow(Gtk.Window):
 
     def show_root(self, button):
         self.subtrees_container.set_current_page(button.page_index)
-
