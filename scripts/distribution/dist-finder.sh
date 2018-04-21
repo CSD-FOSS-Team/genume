@@ -65,7 +65,7 @@ if [ -z "$DISPLAY_NAME" ]; then
     giveup
 fi
 # Get linux version.
-ARCH=$(uname -i)
+ARCH=$(uname -m)
 LINUX_VERSION=$(uname -sr)
 LINUX_INFO="${LINUX_VERSION}(${ARCH})"
 # Output findings.
