@@ -65,12 +65,7 @@ if [ -z "$DISPLAY_NAME" ]; then
     giveup
 fi
 # Get linux version.
-ARCH=$(uname -i)
-# -i parametre is non-portable
-if [ $ARCH == "unknown" ]
-then
-	ARCH=$(uname -m)
-fi
+ARCH=$(uname -m)
 LINUX_VERSION=$(uname -sr)
 LINUX_INFO="${LINUX_VERSION}(${ARCH})"
 # Output findings.
