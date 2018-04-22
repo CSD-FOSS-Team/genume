@@ -34,6 +34,7 @@ class MainWindow(Gtk.Window):
         self.reg = reg
 
     def refresh(self):
+        """Updates the registry and refreshes the view"""
         # TODO improve
         self.reg.update()
         current_page = self.subtrees_container.get_current_page()
@@ -62,6 +63,7 @@ class MainWindow(Gtk.Window):
         return bar
 
     def generate_header_bar_menu(self):
+        """Generates and returns a menu for the header bar menu button"""
 
         menu = Gtk.Menu(halign=Gtk.Align.END)
 
@@ -70,13 +72,20 @@ class MainWindow(Gtk.Window):
             item.connect("activate", func)
             menu.append(item)
 
+        def add_separator():
+            menu.append(Gtk.SeparatorMenuItem())
+
         add("Refresh", self.request_refresh)
+        add_separator()
         add("Close", self.request_close)
+
+        # TODO extend the menu
 
         menu.show_all()
         return menu
 
     def generate_main_view(self, reg):
+        """Generate and return the content of the window"""
 
         grid = Gtk.Box()
         roots_container = self.generate_roots_container()
@@ -97,6 +106,7 @@ class MainWindow(Gtk.Window):
         return grid
 
     def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
+        """Generate a root tab and the corresponding subtree view"""
 
         root = self.generate_root(name, entry)
         roots_container.add(root)
@@ -153,6 +163,7 @@ class MainWindow(Gtk.Window):
         return tree
 
     def show_root(self, button):
+        """Changes to the tab given by the page_index value of the button"""
         self.subtrees_container.set_current_page(button.page_index)
 
     def request_refresh(self, _):
