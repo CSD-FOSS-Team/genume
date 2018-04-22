@@ -22,7 +22,10 @@ class MainWindow(Gtk.Window):
         self.add(grid)
 
         # setup the layout
-        
+
+        bar = self.generate_header_bar()
+        self.set_titlebar(bar)
+
         roots_container = self.generate_roots_container()
         grid.pack_start(roots_container, False, False, 0)
         subtrees_container = self.generate_subtrees_container()
@@ -50,6 +53,40 @@ class MainWindow(Gtk.Window):
         # store state
         self.reg = reg
         self.subtrees_container = subtrees_container
+
+    def generate_header_bar(self):
+
+        bar = Gtk.HeaderBar(
+            title="genume",
+            show_close_button=True
+        )
+
+        menu_button = Gtk.MenuButton()
+        menu_button.add(Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.BUTTON))
+        menu_button.set_popup(self.generate_header_bar_menu())
+        bar.pack_end(menu_button)
+
+        refresh_button = Gtk.Button()
+        refresh_button.add(Gtk.Image(stock=Gtk.STOCK_REFRESH))
+        refresh_button.connect("clicked", self.request_refresh)
+        bar.pack_start(refresh_button)
+
+        return bar
+
+    def generate_header_bar_menu(self):
+
+        menu = Gtk.Menu(halign=Gtk.Align.END)
+
+        def add(name, func):
+            item = Gtk.MenuItem(name)
+            item.connect("activate", func)
+            menu.append(item)
+
+        add("Refresh", self.request_refresh)
+        add("Close", self.request_close)
+
+        menu.show_all()
+        return menu
 
     def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
 
@@ -107,16 +144,13 @@ class MainWindow(Gtk.Window):
             ))
         return tree
 
-    def create_textview(self):
-        scrolledwindow = Gtk.ScrolledWindow()
-        scrolledwindow.set_hexpand(True)
-        scrolledwindow.set_vexpand(True)
-        self.grid.attach(scrolledwindow, 0, 1, 50, 1)
-        self.textview = Gtk.TextView()
-        scrolledwindow.add(self.textview)
-        self.textbuffer = self.textview.get_buffer()
-        self.textview.set_editable(False)
-        self.textview.set_cursor_visible(False)
-
     def show_root(self, button):
         self.subtrees_container.set_current_page(button.page_index)
+
+    def request_refresh(self, _):
+        # TODO implement refresh
+        pass
+
+    def request_close(self, _):
+        self.close()
+
