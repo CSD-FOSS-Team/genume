@@ -18,33 +18,13 @@ class MainWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="genume")
         self.set_default_size(500, 350)
 
-        grid = Gtk.Box()
-        self.add(grid)
-
-        # setup the layout
-
-        bar = self.generate_header_bar()
-        self.set_titlebar(bar)
-
-        roots_container = self.generate_roots_container()
-        grid.pack_start(roots_container, False, False, 0)
-        subtrees_container = self.generate_subtrees_container()
-        grid.pack_start(subtrees_container, True, True, 0)
-
-        # fill the layout
-
-        # TODO improve, covert Registry to a signleton
         reg = Registry()
         reg.update()
-        # TODO remove, here for debugging
-        print_enumeration(reg.root)
+        print_enumeration(reg.root)  # TODO remove, here for debugging
 
-        for name, entry in reg.root.items():
-            if isinstance(entry, CategoryEntry):
-
-                self.generate_root_and_subtree(name, entry, roots_container, subtrees_container)
-            else:
-                print("Scripts on the root scripts folder are not supported, yet")  # TODO implement
+        # setup the layout
+        self.set_titlebar(self.generate_header_bar())
+        self.add(self.generate_main_view(reg))
 
         # handle events
         self.connect("destroy", Gtk.main_quit)
@@ -52,7 +32,15 @@ class MainWindow(Gtk.Window):
 
         # store state
         self.reg = reg
-        self.subtrees_container = subtrees_container
+
+    def refresh(self):
+        # TODO improve
+        self.reg.update()
+        current_page = self.subtrees_container.get_current_page()
+        self.remove(self.get_child())
+        self.add(self.generate_main_view(self.reg))
+        self.show_all()
+        self.subtrees_container.set_current_page(current_page)
 
     def generate_header_bar(self):
 
@@ -87,6 +75,26 @@ class MainWindow(Gtk.Window):
 
         menu.show_all()
         return menu
+
+    def generate_main_view(self, reg):
+
+        grid = Gtk.Box()
+        roots_container = self.generate_roots_container()
+        grid.pack_start(roots_container, False, False, 0)
+        subtrees_container = self.generate_subtrees_container()
+        grid.pack_start(subtrees_container, True, True, 0)
+
+        # fill the layout
+
+        for name, entry in reg.root.items():
+            if isinstance(entry, CategoryEntry):
+
+                self.generate_root_and_subtree(name, entry, roots_container, subtrees_container)
+            else:
+                print("Scripts on the root scripts folder are not supported, yet")  # TODO implement
+
+        self.subtrees_container = subtrees_container
+        return grid
 
     def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
 
@@ -148,9 +156,7 @@ class MainWindow(Gtk.Window):
         self.subtrees_container.set_current_page(button.page_index)
 
     def request_refresh(self, _):
-        # TODO implement refresh
-        pass
+        self.refresh()
 
     def request_close(self, _):
         self.close()
-
