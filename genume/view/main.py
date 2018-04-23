@@ -5,11 +5,12 @@ from gi.repository import Gtk, Gdk
 
 from genume.registry.registry import Registry
 from genume.registry.category import CategoryEntry
-from genume.terminterface import print_enumeration
+from genume.exports.terminal import print_enumeration
 
 
 def main():
     MainWindow()
+    Gtk.main()
 
 
 class MainWindow(Gtk.Window):
