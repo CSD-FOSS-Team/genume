@@ -19,8 +19,8 @@ class ColoredFormatter(log.Formatter):
 
     def format(self, record):
         msg = super().format(record)
-        l = record.levelno
-        color = ColoredFormatter.LEVEL2COLOR.get(l, ColoredFormatter.LEVEL2COLOR[log.NOTSET])
+        level = record.levelno
+        color = ColoredFormatter.LEVEL2COLOR.get(level, ColoredFormatter.LEVEL2COLOR[log.NOTSET])
         return color + msg + ColoredFormatter.RESET
 
 

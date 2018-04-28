@@ -52,6 +52,7 @@ def run_and_parse(cat, file):
     if s:
         parse(cmdsplit(s), cat)
 
+
 # Initialize environment variables.
 # TODO move elsewhere
 os.putenv("GENUME_VERSION", VERSION)

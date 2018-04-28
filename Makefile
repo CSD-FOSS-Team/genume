@@ -1,12 +1,16 @@
 # Utility makefile for python shortcuts
 
+PYTHON := $(shell command -v python3 > /dev/null && echo python3 || echo python)
+
 .phony: run
 run:
-	python3 -m genume
+	@$(PYTHON) -m genume
 
 .phony: lint
 lint:
-	pep8 --ignore=E501,E402 genume/
+	@$(PYTHON) -m compileall -fq genume
+	@pycodestyle --ignore=E501,E402 genume/
+	@echo OK
 
 .phony: help
 help:
