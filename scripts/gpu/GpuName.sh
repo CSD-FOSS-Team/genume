@@ -1,8 +1,5 @@
-#!/bin/bash
+#!/bin/bas
+GpuName=$(lspci| grep "VGA compatible" | head -n 1)
+GpuName="${GpuName##*:}"
 
-Manufacter=$(glxinfo| grep "OpenGL vendor string"| head -n 1|cut -d ":" -f 2)
-GpuName=$(glxinfo| grep "OpenGL renderer string"| head -n 1|cut -d ":" -f 2)
-
-
-echo VALUE BAS gpu_manufacter\"$Manufacter\"
 echo VALUE BAS gpu_model\"$GpuName\"

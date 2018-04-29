@@ -10,6 +10,7 @@ OpenGLCoreProfMask=$(glxinfo|grep "OpenGL core profile profile mask"|head -n 1|c
 OpenGLCoreProfContext=$(glxinfo|grep "OpenGL core profile context"|head -n 1|cut -d ":" -f 2)
 
 
+
 echo VALUE ADV OpenGl_Core_Profile_Version \"$OpenGLCoreProfVersion\"
 echo VALUE ADV OpenGl_Core_Profile_Shanding_Language_Version \"$OpenGLCoreProfShadLang\"
 echo VALUE ADV OpenGl_Core_Profile_Mask \"$OpenGLCoreProfMask\"
