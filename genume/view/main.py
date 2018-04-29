@@ -21,7 +21,7 @@ primary_color_light = "#FFFFFF"
 accent_color = "#673AB7"
 accent_color_light = "#9575CD"
 
-LOGO = "genume/data/images/logo.png"
+LOGO = "data/images/logo.png"
 
 class MainWindow(Gtk.Window):
 
