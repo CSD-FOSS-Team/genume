@@ -10,8 +10,8 @@ OpenGLExtension=$(glxinfo|grep "OpenGL extensions"| head -n 1|cut -d ":" -f 2)
 
 
 echo VALUE BAS OpenGl_Vendor_String \"$OpenGlVendor\"
-echo VALUE BAS OpenGl_Rendrerer_String\"$OpenGLRendererString\"
+echo VALUE BAS OpenGl_Rendrerer_String \"$OpenGLRendererString\"
 echo VALUE BAS OpenGl_Version \"$OpenGLVersion\"
 echo VALUE ADV OpenGL_Shading_Language_Version \"$OpenGLShadLangVersion\"
 echo VALUE ADV OpenGL_Context_Flags \"$OpenGLContextFlags\"
-echo VALUE ADV OpengGL_Extension \"$OpenGLExtension\"
+echo VALUE ADV OpenGL_Extension \"$OpenGLExtension\"
