@@ -215,10 +215,12 @@ class MainWindow(Gtk.Window):
     def show_root(self, page_index):
         self.subtrees_container.set_current_page(page_index)
 
-"""
-This class represents a root element.
-"""
+
 class Item(FixedVBox):
+    """
+    This class represents a root element.
+    """
+    
     title = ""
     page_index = ""
     parent = MainWindow

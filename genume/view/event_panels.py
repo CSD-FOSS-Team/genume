@@ -1,13 +1,10 @@
-"""
-This is a number of classes that extend the GTK.Widget classes.
-Proper syntax and method naming were added, as well as more functionality.
-"""
-
-
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
+
+# This is a number of classes that extend the GTK.Widget classes.
+# Proper syntax and method naming were added, as well as more functionality.
 
 
 def translate(value, leftMin, leftMax, rightMin, rightMax):
@@ -21,10 +18,12 @@ def translate(value, leftMin, leftMax, rightMin, rightMax):
     # Convert the 0-1 range into a value in the right range.
     return rightMin + (valueScaled * rightSpan)
 
-"""
-A VBox of fixed size with added event listeners.
-"""
+
 class FixedVBox(Gtk.Fixed):
+    """
+    A VBox of fixed size with added event listeners.    
+    """
+
     vbox = Gtk.VBox
     mainBox = Gtk.EventBox
 
@@ -36,8 +35,8 @@ class FixedVBox(Gtk.Fixed):
         Gtk.Fixed.__init__(self)
         self.mainBox = Gtk.EventBox()
         
-        self.setSize(100,200)
-        self.mainBox.set_size_request(100,200)
+        self.setSize(100, 200)
+        self.mainBox.set_size_request(100, 200)
         self.vbox = Gtk.VBox(100, 200)
 
         self.mainBox.add(self.vbox)
