@@ -12,6 +12,11 @@ lint:
 	@pycodestyle --ignore=E501,E402 genume/
 	@echo OK
 
+.phony: git
+git:
+	git remote add upstream https://github.com/CSD-FOSS-Team/genume
+	git remote -v
+
 .phony: help
 help:
-	@echo "Usage: make [run|lint]"
+	@echo "Usage: make [run|lint|git]"
