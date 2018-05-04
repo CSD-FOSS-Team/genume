@@ -42,15 +42,15 @@ do
 	then
 		fieldsuffix="(${name})"
 	fi
-	if [  "${manufacturer}" != "" ]
+	if [  ! -z "${manufacturer}" ]
 	then
 		echo VALUE BAS manufacturer${fieldsuffix} ${manufacturer}
 	fi
-	if [  "${model_name}" != "" ]
+	if [  ! -z "${model_name}" ]
 	then
 		echo VALUE BAS model_name${fieldsuffix} ${model_name}
 	fi
-	if [  "${serial_number}" != "" ]
+	if [  ! -z "${serial_number}" ]
 	then
 		echo VALUE ADV serial_number${fieldsuffix} ${serial_number}
 	fi
