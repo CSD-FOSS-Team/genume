@@ -7,10 +7,21 @@ from genume.registry.registry import Registry
 from genume.registry.category import CategoryEntry
 from genume.exports.terminal import print_enumeration
 
+from genume.view.event_panels import FixedVBox
+
 
 def main():
     MainWindow()
     Gtk.main()
+
+
+# Define colors -> subject to change
+# TODO: Add CSS support
+primary_color_light = "#FFFFFF"
+accent_color = "#673AB7"
+accent_color_light = "#9575CD"
+
+LOGO = "data/images/logo.png"
 
 
 class MainWindow(Gtk.Window):
@@ -96,6 +107,19 @@ class MainWindow(Gtk.Window):
 
         # fill the layout
 
+        # Add logo
+        logo = Item()
+        logo.setImage(LOGO)
+        logo.setBackgroundColor(primary_color_light)
+        logo.noEventListeners()
+        roots_container.pack_start(logo, False, False, 0)
+
+        # TODO improve, covert Registry to a signleton
+        reg = Registry()
+        reg.update()
+        # TODO remove, here for debugging
+        print_enumeration(reg.root)
+
         for name, entry in reg.root.items():
             if isinstance(entry, CategoryEntry):
 
@@ -110,35 +134,35 @@ class MainWindow(Gtk.Window):
         """Generate a root tab and the corresponding subtree view"""
 
         root = self.generate_root(name, entry)
-        roots_container.add(root)
+        roots_container.pack_start(root, False, False, 0)
 
         subtree = self.generate_subtree(name, entry)
         subtrees_container.append_page(subtree, Gtk.Label(label=name))
 
         # setup the events
         root.page_index = subtrees_container.get_n_pages() - 1
-        root.connect("clicked", self.show_root)
+        root.parent = self
 
     def generate_roots_container(self):
+        mainBox = Gtk.VBox()
+        mainBox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(accent_color))
 
-        return Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL,
-            spacing=6,
-            border_width=6
-        )
+        return mainBox
 
     def generate_root(self, name, entry: CategoryEntry):
         """Generate the tab like button that correspond to the given entry"""
 
-        return Gtk.Button(
-            label=name
-        )
+        item = Item()
+        item.setBackgroundColor(accent_color)
+        item.setTitle(name)
+
+        return item
 
     def generate_subtrees_container(self):
+        backBox = Gtk.Notebook(show_tabs=False)
+        # backBox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
 
-        return Gtk.Notebook(
-            show_tabs=False
-        )
+        return backBox
 
     def generate_subtree(self, name, entry: CategoryEntry):
         """Generate the list like view that correspond to the given entry"""
@@ -155,7 +179,12 @@ class MainWindow(Gtk.Window):
         # create the tree view
 
         tree = Gtk.TreeView(store)
+        # Enable this if the show_tabs value is set to True
+        # tree.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
+
+        # TODO: find a way to set this background
         for i, column_title in enumerate(["Name", "Value"]):
+
             tree.append_column(Gtk.TreeViewColumn(
                 column_title,
                 Gtk.CellRendererText(),
@@ -172,3 +201,65 @@ class MainWindow(Gtk.Window):
 
     def request_close(self, _):
         self.close()
+
+    def create_textview(self):
+        scrolledwindow = Gtk.ScrolledWindow()
+        scrolledwindow.set_hexpand(True)
+        scrolledwindow.set_vexpand(True)
+        self.grid.attach(scrolledwindow, 0, 1, 50, 1)
+        self.textview = Gtk.TextView()
+        scrolledwindow.add(self.textview)
+        self.textbuffer = self.textview.get_buffer()
+        self.textview.set_editable(False)
+        self.textview.set_cursor_visible(False)
+
+    def show_root(self, page_index):
+        self.subtrees_container.set_current_page(page_index)
+
+
+class Item(FixedVBox):
+    """
+    This class represents a root element.
+    """
+
+    title = ""
+    page_index = ""
+    parent = MainWindow
+
+    def __init__(self):
+        FixedVBox.__init__(self)
+
+        self.setSize(200, 50)
+
+        self.setOnClickHandler(self.on_click)
+        self.setOnMouseEnterHandler(self.on_mouse_enter)
+        self.setOnMouseLeaveHandler(self.on_mouse_leave)
+
+    def setTitle(self, title=""):
+        label = Gtk.Label(title)
+        label.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
+        self.addChild(label)
+        self.title = title
+
+    def setImage(self, path):
+        image = Gtk.Image()
+        image.set_from_file(path)
+        self.addChild(image)
+
+    def noEventListeners(self):
+        self.removeOnClickHandler()
+        self.removeOnMouseEnterHandler()
+        self.removeOnMouseLeaveHandler()
+
+    # Event handlers
+
+    def on_click(self, widget, event):
+        self.parent.show_root(self.page_index)
+
+    def on_mouse_enter(self, widget, event):
+        self.setBackgroundColor(accent_color_light)
+        self.parent.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.HAND2))
+
+    def on_mouse_leave(self, widget, event):
+        self.setBackgroundColor(accent_color)
+        self.parent.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
