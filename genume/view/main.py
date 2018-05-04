@@ -23,6 +23,7 @@ accent_color_light = "#9575CD"
 
 LOGO = "data/images/logo.png"
 
+
 class MainWindow(Gtk.Window):
 
     def __init__(self):
@@ -145,7 +146,7 @@ class MainWindow(Gtk.Window):
     def generate_roots_container(self):
         mainBox = Gtk.VBox()
         mainBox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(accent_color))
-        
+
         return mainBox
 
     def generate_root(self, name, entry: CategoryEntry):
@@ -220,7 +221,7 @@ class Item(FixedVBox):
     """
     This class represents a root element.
     """
-    
+
     title = ""
     page_index = ""
     parent = MainWindow
@@ -228,13 +229,13 @@ class Item(FixedVBox):
     def __init__(self):
         FixedVBox.__init__(self)
 
-        self.setSize(200,50)
+        self.setSize(200, 50)
 
         self.setOnClickHandler(self.on_click)
         self.setOnMouseEnterHandler(self.on_mouse_enter)
         self.setOnMouseLeaveHandler(self.on_mouse_leave)
-        
-    def setTitle(self, title = ""):
+
+    def setTitle(self, title=""):
         label = Gtk.Label(title)
         label.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
         self.addChild(label)
@@ -262,4 +263,3 @@ class Item(FixedVBox):
     def on_mouse_leave(self, widget, event):
         self.setBackgroundColor(accent_color)
         self.parent.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
-

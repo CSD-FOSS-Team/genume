@@ -21,7 +21,7 @@ def translate(value, leftMin, leftMax, rightMin, rightMax):
 
 class FixedVBox(Gtk.Fixed):
     """
-    A VBox of fixed size with added event listeners.    
+    A VBox of fixed size with added event listeners.
     """
 
     vbox = Gtk.VBox
@@ -34,7 +34,7 @@ class FixedVBox(Gtk.Fixed):
     def __init__(self):
         Gtk.Fixed.__init__(self)
         self.mainBox = Gtk.EventBox()
-        
+
         self.setSize(100, 200)
         self.mainBox.set_size_request(100, 200)
         self.vbox = Gtk.VBox(100, 200)
@@ -68,7 +68,7 @@ class FixedVBox(Gtk.Fixed):
 
     def setOnMouseLeaveHandler(self, handler):
         self.onLeaveId = self.mainBox.connect("leave-notify-event", handler)
-    
+
     def removeOnClickHandler(self):
         self.disconnect(self.onClickId)
 
@@ -78,5 +78,5 @@ class FixedVBox(Gtk.Fixed):
     def removeOnMouseLeaveHandler(self):
         self.mainBox.disconnect(self.onLeaveId)
 
-    def addChild(self, widget = Gtk.Widget):
+    def addChild(self, widget=Gtk.Widget):
         self.vbox.add(widget)
