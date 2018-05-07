@@ -1,6 +1,8 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
+import cairo
+import math
 
 from genume.registry.registry import Registry
 from genume.registry.category import CategoryEntry
@@ -21,17 +23,21 @@ accent_color = "#673AB7"
 accent_color_light = "#9575CD"
 
 LOGO = "data/images/logo.png"  # The logo image must be 200X100 px
+CSS = "genume/view/styles.css"
 
+# Sizes
+WIDTH = 400
+HEIGHT = 350
 
 class MainWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="genume")
-        self.set_default_size(750, 500)
+        self.set_default_size(WIDTH, HEIGHT)
 
         reg = Registry()
         reg.update()
-        print_enumeration(reg.root)  # TODO remove, here for debugging
+        # print_enumeration(reg.root)  # TODO remove, here for debugging
 
         # setup the layout
         self.set_titlebar(self.generate_header_bar())
@@ -98,6 +104,10 @@ class MainWindow(Gtk.Window):
 
     def generate_main_view(self, reg):
         """Generate and return the content of the window"""
+        
+        main_view = Gtk.Overlay()
+
+        self.load_css()
 
         def srcoll_wrap(container, vertical=False):
             s = Gtk.ScrolledWindow()
@@ -108,6 +118,13 @@ class MainWindow(Gtk.Window):
             return s
 
         grid = Gtk.Box()
+        grid.set_size_request(WIDTH, HEIGHT)
+        main_view.add(grid)
+
+        refresh_button = self.generate_refresh_button()
+        # main_view.add_overlay(refresh_button)
+
+
         roots_container = self.generate_roots_container()
 
         # The inner container is used so that the only content that is
@@ -144,7 +161,30 @@ class MainWindow(Gtk.Window):
                 print("Scripts on the root scripts folder are not supported, yet")  # TODO implement
 
         self.subtrees_container = subtrees_container
-        return grid
+        return main_view
+
+    def load_css(self):
+        style_provider = Gtk.CssProvider()
+
+        css = open(CSS, 'rb')
+        css_data = css.read()
+        css.close()
+
+        style_provider.load_from_data(css_data)
+
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(), style_provider,     
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+    def generate_refresh_button(self):
+        container = Gtk.Fixed()
+        button = Gtk.Box()
+        button.set_name("refresh-button")
+        container.add(button)
+
+        return container
+        
 
     def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
         """Generate a root tab and the corresponding subtree view"""
