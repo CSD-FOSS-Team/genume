@@ -1,4 +1,3 @@
-
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
@@ -21,7 +20,7 @@ primary_color_light = "#FFFFFF"
 accent_color = "#673AB7"
 accent_color_light = "#9575CD"
 
-LOGO = "data/images/logo.png"
+LOGO = "data/images/logo.png"  # The logo image must be 200X100 px
 
 
 class MainWindow(Gtk.Window):
@@ -101,7 +100,16 @@ class MainWindow(Gtk.Window):
 
         grid = Gtk.Box()
         roots_container = self.generate_roots_container()
-        grid.pack_start(roots_container, False, False, 0)
+
+        scroll_container = Gtk.ScrolledWindow()
+        scroll_container.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        scroll_container.add(roots_container)
+
+        # The inner container is used so that the only content that is scrollable is the tabs and not the logo
+        inner_container = Gtk.VBox()
+        inner_container.pack_end(scroll_container, True, True, 0)
+
+        grid.pack_start(inner_container, False, False, 0)
         subtrees_container = self.generate_subtrees_container()
         grid.pack_start(subtrees_container, True, True, 0)
 
@@ -112,7 +120,7 @@ class MainWindow(Gtk.Window):
         logo.setImage(LOGO)
         logo.setBackgroundColor(primary_color_light)
         logo.noEventListeners()
-        roots_container.pack_start(logo, False, False, 0)
+        inner_container.pack_start(logo, False, False, 0)
 
         # TODO improve, covert Registry to a signleton
         reg = Registry()
