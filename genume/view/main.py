@@ -27,7 +27,7 @@ class MainWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="genume")
-        self.set_default_size(500, 350)
+        self.set_default_size(750, 500)
 
         reg = Registry()
         reg.update()
@@ -88,6 +88,7 @@ class MainWindow(Gtk.Window):
 
         add("Refresh", self.request_refresh)
         add_separator()
+        add("About", self.request_about)
         add("Close", self.request_close)
 
         # TODO extend the menu
@@ -98,20 +99,27 @@ class MainWindow(Gtk.Window):
     def generate_main_view(self, reg):
         """Generate and return the content of the window"""
 
+        def srcoll_wrap(container, vertical=False):
+            s = Gtk.ScrolledWindow()
+            s.set_policy(
+                Gtk.PolicyType.AUTOMATIC if vertical else Gtk.PolicyType.NEVER,
+                Gtk.PolicyType.AUTOMATIC)
+            s.add(container)
+            return s
+
         grid = Gtk.Box()
         roots_container = self.generate_roots_container()
 
-        scroll_container = Gtk.ScrolledWindow()
-        scroll_container.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        scroll_container.add(roots_container)
-
-        # The inner container is used so that the only content that is scrollable is the tabs and not the logo
+        # The inner container is used so that the only content that is
+        # scrollable is the tabs and not the logo
         inner_container = Gtk.VBox()
-        inner_container.pack_end(scroll_container, True, True, 0)
+        inner_container.pack_end(srcoll_wrap(roots_container), True, True, 0)
 
         grid.pack_start(inner_container, False, False, 0)
+
         subtrees_container = self.generate_subtrees_container()
-        grid.pack_start(subtrees_container, True, True, 0)
+
+        grid.pack_start(srcoll_wrap(subtrees_container, True), True, True, 0)
 
         # fill the layout
 
@@ -182,7 +190,7 @@ class MainWindow(Gtk.Window):
             if isinstance(entry, CategoryEntry):
                 print("Scripts on the sub root folders are not supported, yet")  # TODO implement
             else:
-                store.append([name, repr(entry)])
+                store.append([self.format_name(name), repr(entry)])
 
         # create the tree view
 
@@ -200,6 +208,10 @@ class MainWindow(Gtk.Window):
             ))
         return tree
 
+    def format_name(self, name):
+        # TODO extend
+        return name.replace("_", " ")
+
     def show_root(self, button):
         """Changes to the tab given by the page_index value of the button"""
         self.subtrees_container.set_current_page(button.page_index)
@@ -207,19 +219,12 @@ class MainWindow(Gtk.Window):
     def request_refresh(self, _):
         self.refresh()
 
+    def request_about(self, _):
+        # TODO show about dialog
+        pass
+
     def request_close(self, _):
         self.close()
-
-    def create_textview(self):
-        scrolledwindow = Gtk.ScrolledWindow()
-        scrolledwindow.set_hexpand(True)
-        scrolledwindow.set_vexpand(True)
-        self.grid.attach(scrolledwindow, 0, 1, 50, 1)
-        self.textview = Gtk.TextView()
-        scrolledwindow.add(self.textview)
-        self.textbuffer = self.textview.get_buffer()
-        self.textview.set_editable(False)
-        self.textview.set_cursor_visible(False)
 
     def show_root(self, page_index):
         self.subtrees_container.set_current_page(page_index)
