@@ -88,6 +88,7 @@ class MainWindow(Gtk.Window):
 
         add("Refresh", self.request_refresh)
         add_separator()
+        add("About", self.request_about)
         add("Close", self.request_close)
 
         # TODO extend the menu
@@ -189,7 +190,7 @@ class MainWindow(Gtk.Window):
             if isinstance(entry, CategoryEntry):
                 print("Scripts on the sub root folders are not supported, yet")  # TODO implement
             else:
-                store.append([name, repr(entry)])
+                store.append([self.format_name(name), repr(entry)])
 
         # create the tree view
 
@@ -207,12 +208,20 @@ class MainWindow(Gtk.Window):
             ))
         return tree
 
+    def format_name(self, name):
+        # TODO extend
+        return name.replace("_", " ")
+
     def show_root(self, button):
         """Changes to the tab given by the page_index value of the button"""
         self.subtrees_container.set_current_page(button.page_index)
 
     def request_refresh(self, _):
         self.refresh()
+
+    def request_about(self, _):
+        # TODO show about dialog
+        pass
 
     def request_close(self, _):
         self.close()
