@@ -6,7 +6,6 @@ from genume.exports.terminal import TextExporter
 from genume.exports.json import JsonExporter, JsonPrettyExporter
 from genume.exports.html import HtmlExporter
 
-# TODO: Argument checking will go here.
 # Also check if we are running inside a virtual console.
 # Then just dump the registry to stdout.
 
@@ -14,11 +13,12 @@ from genume.exports.html import HtmlExporter
 def main():
     exporters = gen_exporters()
 
-    parser = argparse.ArgumentParser(description='genume')
+    parser = argparse.ArgumentParser(prog='genume', description='genume - graphical enumeration')
 
-    for k in exporters.keys():
-        parser.add_argument('--' + k, dest='export', action='store_const',
-                            const=k, help='exports in ' + k + ' format')
+    export_group = parser.add_mutually_exclusive_group()
+    for k in sorted(exporters.keys()):
+        export_group.add_argument('--' + k, dest='export', action='store_const',
+                                  const=k, help='exports in ' + k + ' format')
 
     args = parser.parse_args()
 
