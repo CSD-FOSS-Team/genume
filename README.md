@@ -40,7 +40,7 @@ Not necessary but suggested to pass your code from the pycodestyle check by runn
 
 All files in this repository are Copyright (c) 2018 **genume author list**.
 
-Code in this repository is licensed under ?
+Code in this repository is licensed under [GNU General Public License v2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html).
 
 Data in this repository is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
