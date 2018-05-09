@@ -23,6 +23,7 @@ REFRESH_ICON = "data/icons/refresh.png"
 WIDTH = 650
 HEIGHT = 400
 
+
 class MainWindow(Gtk.Window):
     selected_tab = None
 
@@ -96,7 +97,7 @@ class MainWindow(Gtk.Window):
 
     def generate_main_view(self, reg):
         """Generate and return the content of the window"""
-        
+
         main_view = Gtk.Overlay()
 
         def srcoll_wrap(container, vertical=False):
@@ -122,7 +123,6 @@ class MainWindow(Gtk.Window):
         main_view.add_overlay(refresh_button)
         main_view.set_overlay_pass_through(refresh_button, True)
         main_view.connect("get-child-position", set_button_location)
-
 
         roots_container = self.generate_roots_container()
 
@@ -168,7 +168,7 @@ class MainWindow(Gtk.Window):
         style_provider.load_from_data(css_data)
 
         Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(), style_provider,     
+            Gdk.Screen.get_default(), style_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
@@ -184,7 +184,7 @@ class MainWindow(Gtk.Window):
         container = Gtk.Fixed()
         container.set_size_request(40, 40)
         event = Gtk.EventBox()
-        event.set_size_request(40,40)
+        event.set_size_request(40, 40)
         button = Gtk.Box()
         icon = Gtk.Image()
         icon.set_from_file(REFRESH_ICON)
@@ -212,7 +212,6 @@ class MainWindow(Gtk.Window):
         container.add(event)
 
         return container
-        
 
     def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
         """Generate a root tab and the corresponding subtree view"""
@@ -337,7 +336,7 @@ class Item(FixedVBox):
     def on_click(self, widget, event):
         self.parent.show_root(self.page_index)
         self.addClass("tab-clicked")
-        if(self.parent.selected_tab != None):
+        if(self.parent.selected_tab is not None):
             self.parent.selected_tab.removeClass("tab-clicked")
         self.parent.selected_tab = self
 
