@@ -20,8 +20,8 @@ CSS = "genume/view/styles.css"
 REFRESH_ICON = "data/icons/refresh.png"
 
 # Sizes
-WIDTH = 400
-HEIGHT = 350
+WIDTH = 650
+HEIGHT = 400
 
 class MainWindow(Gtk.Window):
     selected_tab = None
