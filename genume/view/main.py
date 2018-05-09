@@ -1,7 +1,6 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
-import cairo
 import math
 
 from genume.registry.registry import Registry
@@ -16,20 +15,16 @@ def main():
     Gtk.main()
 
 
-# Define colors -> subject to change
-# TODO: Add CSS support
-primary_color_light = "#FFFFFF"
-accent_color = "#673AB7"
-accent_color_light = "#9575CD"
-
 LOGO = "data/images/logo.png"  # The logo image must be 200X100 px
 CSS = "genume/view/styles.css"
+REFRESH_ICON = "data/icons/refresh.png"
 
 # Sizes
 WIDTH = 400
 HEIGHT = 350
 
 class MainWindow(Gtk.Window):
+    selected_tab = None
 
     def __init__(self):
         Gtk.Window.__init__(self, title="genume")
@@ -38,6 +33,9 @@ class MainWindow(Gtk.Window):
         reg = Registry()
         reg.update()
         # print_enumeration(reg.root)  # TODO remove, here for debugging
+
+        # Load css once
+        self.load_css()
 
         # setup the layout
         self.set_titlebar(self.generate_header_bar())
@@ -72,11 +70,6 @@ class MainWindow(Gtk.Window):
         menu_button.set_popup(self.generate_header_bar_menu())
         bar.pack_end(menu_button)
 
-        refresh_button = Gtk.Button()
-        refresh_button.add(Gtk.Image(stock=Gtk.STOCK_REFRESH))
-        refresh_button.connect("clicked", self.request_refresh)
-        bar.pack_start(refresh_button)
-
         return bar
 
     def generate_header_bar_menu(self):
@@ -92,7 +85,6 @@ class MainWindow(Gtk.Window):
         def add_separator():
             menu.append(Gtk.SeparatorMenuItem())
 
-        add("Refresh", self.request_refresh)
         add_separator()
         add("About", self.request_about)
         add("Close", self.request_close)
@@ -107,8 +99,6 @@ class MainWindow(Gtk.Window):
         
         main_view = Gtk.Overlay()
 
-        self.load_css()
-
         def srcoll_wrap(container, vertical=False):
             s = Gtk.ScrolledWindow()
             s.set_policy(
@@ -117,12 +107,21 @@ class MainWindow(Gtk.Window):
             s.add(container)
             return s
 
+        def set_button_location(s, b, allocation):
+            allocation.x = 200 - 25
+            allocation.y = HEIGHT - 100
+            allocation.width = 50
+            allocation.height = 50
+            return allocation
+
         grid = Gtk.Box()
         grid.set_size_request(WIDTH, HEIGHT)
         main_view.add(grid)
 
         refresh_button = self.generate_refresh_button()
-        # main_view.add_overlay(refresh_button)
+        main_view.add_overlay(refresh_button)
+        main_view.set_overlay_pass_through(refresh_button, True)
+        main_view.connect("get-child-position", set_button_location)
 
 
         roots_container = self.generate_roots_container()
@@ -141,11 +140,7 @@ class MainWindow(Gtk.Window):
         # fill the layout
 
         # Add logo
-        logo = Item()
-        logo.setImage(LOGO)
-        logo.setBackgroundColor(primary_color_light)
-        logo.noEventListeners()
-        inner_container.pack_start(logo, False, False, 0)
+        inner_container.pack_start(self.load_logo(), False, False, 0)
 
         # TODO improve, covert Registry to a signleton
         reg = Registry()
@@ -177,11 +172,44 @@ class MainWindow(Gtk.Window):
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
+    def load_logo(self):
+        logo = Item()
+        logo.setImage(LOGO)
+        logo.noEventListeners()
+        logo.addClass("logo")
+
+        return logo
+
     def generate_refresh_button(self):
         container = Gtk.Fixed()
+        container.set_size_request(40, 40)
+        event = Gtk.EventBox()
+        event.set_size_request(40,40)
         button = Gtk.Box()
-        button.set_name("refresh-button")
-        container.add(button)
+        icon = Gtk.Image()
+        icon.set_from_file(REFRESH_ICON)
+        icon.set_opacity(0.9)
+        button.pack_start(icon, True, True, 0)
+        button.get_style_context().add_class("refresh-button")
+
+        def on_mouse_enter(w, e):
+            self.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.HAND2))
+            button.get_style_context().add_class("refresh-button-hover")
+
+        def on_mouse_leave(w, e):
+            self.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
+            button.get_style_context().remove_class("refresh-button-hover")
+
+        def refresh(w, e):
+            self.request_refresh(self)
+
+        event.connect("button-press-event", refresh)
+        event.connect("enter-notify-event", on_mouse_enter)
+
+        event.connect("leave-notify-event", on_mouse_leave)
+
+        event.add(button)
+        container.add(event)
 
         return container
         
@@ -201,7 +229,8 @@ class MainWindow(Gtk.Window):
 
     def generate_roots_container(self):
         mainBox = Gtk.VBox()
-        mainBox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(accent_color))
+        # mainBox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(accent_color))
+        mainBox.set_name("tab-holder")
 
         return mainBox
 
@@ -209,7 +238,6 @@ class MainWindow(Gtk.Window):
         """Generate the tab like button that correspond to the given entry"""
 
         item = Item()
-        item.setBackgroundColor(accent_color)
         item.setTitle(name)
 
         return item
@@ -290,7 +318,7 @@ class Item(FixedVBox):
 
     def setTitle(self, title=""):
         label = Gtk.Label(title)
-        label.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
+        label.get_style_context().add_class("label")
         self.addChild(label)
         self.title = title
 
@@ -308,11 +336,16 @@ class Item(FixedVBox):
 
     def on_click(self, widget, event):
         self.parent.show_root(self.page_index)
+        self.addClass("tab-clicked")
+        if(self.parent.selected_tab != None):
+            self.parent.selected_tab.removeClass("tab-clicked")
+        self.parent.selected_tab = self
 
+    # TODO: Find a way for pseudoclasses to work
     def on_mouse_enter(self, widget, event):
-        self.setBackgroundColor(accent_color_light)
+        self.addClass("tab-hover")
         self.parent.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.HAND2))
 
     def on_mouse_leave(self, widget, event):
-        self.setBackgroundColor(accent_color)
+        self.removeClass("tab-hover")
         self.parent.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
