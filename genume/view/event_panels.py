@@ -54,6 +54,12 @@ class FixedVBox(Gtk.Fixed):
     def setBackgroundColor(self, hexademical):
         self.mainBox.modify_bg(Gtk.StateType.NORMAL,
                                Gdk.color_parse(hexademical))
+    
+    def addClass(self, class_name):
+        self.mainBox.get_style_context().add_class(class_name)
+
+    def removeClass(self, class_name):
+        self.mainBox.get_style_context().remove_class(class_name)
 
     def setSize(self, width, height):
         self.set_size_request(width, height)
