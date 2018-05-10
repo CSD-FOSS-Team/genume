@@ -146,7 +146,7 @@ class MainWindow(Gtk.Window):
         reg = Registry()
         reg.update()
         # TODO remove, here for debugging
-        print_enumeration(reg.root)
+        # print_enumeration(reg.root)
 
         for name, entry in reg.root.items():
             if isinstance(entry, CategoryEntry):
@@ -228,7 +228,6 @@ class MainWindow(Gtk.Window):
 
     def generate_roots_container(self):
         mainBox = Gtk.VBox()
-        # mainBox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(accent_color))
         mainBox.set_name("tab-holder")
 
         return mainBox
@@ -238,6 +237,17 @@ class MainWindow(Gtk.Window):
 
         item = Item()
         item.setTitle(name)
+
+        # Make the first tab active
+        if (self.selected_tab is None):
+            self.selected_tab = item
+            item.addClass("tab-active")
+
+        # After refresh:
+        # Keep the active atribute of the selected class
+        if (self.selected_tab is not None and item.title == self.selected_tab.title):
+            self.selected_tab = item
+            item.addClass("tab-active")
 
         return item
 
@@ -335,9 +345,9 @@ class Item(FixedVBox):
 
     def on_click(self, widget, event):
         self.parent.show_root(self.page_index)
-        self.addClass("tab-clicked")
+        self.addClass("tab-active")
         if(self.parent.selected_tab is not None):
-            self.parent.selected_tab.removeClass("tab-clicked")
+            self.parent.selected_tab.removeClass("tab-active")
         self.parent.selected_tab = self
 
     # TODO: Find a way for pseudoclasses to work

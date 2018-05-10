@@ -36,6 +36,6 @@
 }
 
 /* Treat as a pseudoclass */
-.tab-clicked {
+.tab-active {
     background-color: @accent_color_light; 
 }
