@@ -1,22 +1,15 @@
-<<<<<<< HEAD
-=======
 from collections.abc import MutableMapping
->>>>>>> 88ed0ef... Rebasing
 from collections import OrderedDict
 
 from genume.registry.base import BaseEntry, InfoLevel
 
 
-<<<<<<< HEAD
-class CategoryEntry(BaseEntry, OrderedDict):
-=======
-class CategoryEntry(BaseEntry):
->>>>>>> 88ed0ef... Rebasing
+class CategoryEntry(BaseEntry, MutableMapping):
     """A registry entry which acts as a container for other entries."""
     def __init__(self, parent=None, level=InfoLevel.basic):
         self.storage = OrderedDict()
         super().__init__(parent, level)
-        
+
     def __getitem__(self, key):
         return self.storage[self.__keytransform__(key)]
 
