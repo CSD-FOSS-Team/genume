@@ -182,9 +182,9 @@ class MainWindow(Gtk.Window):
 
     def generate_refresh_button(self):
         container = Gtk.Fixed()
-        container.set_size_request(40, 40)
+        container.set_size_request(50, 50)
         event = Gtk.EventBox()
-        event.set_size_request(40, 40)
+        event.set_size_request(50, 50)
         button = Gtk.Box()
         icon = Gtk.Image()
         icon.set_from_file(REFRESH_ICON)
