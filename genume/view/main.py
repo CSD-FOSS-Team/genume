@@ -1,6 +1,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
+import math
 
 from genume.registry.registry import Registry
 from genume.registry.category import CategoryEntry
@@ -14,24 +15,28 @@ def main():
     Gtk.main()
 
 
-# Define colors -> subject to change
-# TODO: Add CSS support
-primary_color_light = "#FFFFFF"
-accent_color = "#673AB7"
-accent_color_light = "#9575CD"
-
 LOGO = "data/images/logo.png"  # The logo image must be 200X100 px
+CSS = "genume/view/styles.css"
+REFRESH_ICON = "data/icons/refresh.png"
+
+# Sizes
+WIDTH = 650
+HEIGHT = 400
 
 
 class MainWindow(Gtk.Window):
+    selected_tab = None
 
     def __init__(self):
         Gtk.Window.__init__(self, title="genume")
-        self.set_default_size(750, 500)
+        self.set_default_size(WIDTH, HEIGHT)
 
         reg = Registry()
         reg.update()
-        print_enumeration(reg.root)  # TODO remove, here for debugging
+        # print_enumeration(reg.root)  # TODO remove, here for debugging
+
+        # Load css once
+        self.load_css()
 
         # setup the layout
         self.set_titlebar(self.generate_header_bar())
@@ -66,11 +71,6 @@ class MainWindow(Gtk.Window):
         menu_button.set_popup(self.generate_header_bar_menu())
         bar.pack_end(menu_button)
 
-        refresh_button = Gtk.Button()
-        refresh_button.add(Gtk.Image(stock=Gtk.STOCK_REFRESH))
-        refresh_button.connect("clicked", self.request_refresh)
-        bar.pack_start(refresh_button)
-
         return bar
 
     def generate_header_bar_menu(self):
@@ -86,7 +86,6 @@ class MainWindow(Gtk.Window):
         def add_separator():
             menu.append(Gtk.SeparatorMenuItem())
 
-        add("Refresh", self.request_refresh)
         add_separator()
         add("About", self.request_about)
         add("Close", self.request_close)
@@ -99,6 +98,8 @@ class MainWindow(Gtk.Window):
     def generate_main_view(self, reg):
         """Generate and return the content of the window"""
 
+        main_view = Gtk.Overlay()
+
         def srcoll_wrap(container, vertical=False):
             s = Gtk.ScrolledWindow()
             s.set_policy(
@@ -107,7 +108,22 @@ class MainWindow(Gtk.Window):
             s.add(container)
             return s
 
+        def set_button_location(s, b, allocation):
+            allocation.x = 200 - 25
+            allocation.y = HEIGHT - 100
+            allocation.width = 50
+            allocation.height = 50
+            return allocation
+
         grid = Gtk.Box()
+        grid.set_size_request(WIDTH, HEIGHT)
+        main_view.add(grid)
+
+        refresh_button = self.generate_refresh_button()
+        main_view.add_overlay(refresh_button)
+        main_view.set_overlay_pass_through(refresh_button, True)
+        main_view.connect("get-child-position", set_button_location)
+
         roots_container = self.generate_roots_container()
 
         # The inner container is used so that the only content that is
@@ -124,17 +140,13 @@ class MainWindow(Gtk.Window):
         # fill the layout
 
         # Add logo
-        logo = Item()
-        logo.setImage(LOGO)
-        logo.setBackgroundColor(primary_color_light)
-        logo.noEventListeners()
-        inner_container.pack_start(logo, False, False, 0)
+        inner_container.pack_start(self.load_logo(), False, False, 0)
 
         # TODO improve, covert Registry to a signleton
         reg = Registry()
         reg.update()
         # TODO remove, here for debugging
-        print_enumeration(reg.root)
+        # print_enumeration(reg.root)
 
         for name, entry in reg.root.items():
             if isinstance(entry, CategoryEntry):
@@ -144,7 +156,62 @@ class MainWindow(Gtk.Window):
                 print("Scripts on the root scripts folder are not supported, yet")  # TODO implement
 
         self.subtrees_container = subtrees_container
-        return grid
+        return main_view
+
+    def load_css(self):
+        style_provider = Gtk.CssProvider()
+
+        css = open(CSS, 'rb')
+        css_data = css.read()
+        css.close()
+
+        style_provider.load_from_data(css_data)
+
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(), style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+    def load_logo(self):
+        logo = Item()
+        logo.setImage(LOGO)
+        logo.noEventListeners()
+        logo.addClass("logo")
+
+        return logo
+
+    def generate_refresh_button(self):
+        container = Gtk.Fixed()
+        container.set_size_request(50, 50)
+        event = Gtk.EventBox()
+        event.set_size_request(50, 50)
+        button = Gtk.Box()
+        icon = Gtk.Image()
+        icon.set_from_file(REFRESH_ICON)
+        icon.set_opacity(0.9)
+        button.pack_start(icon, True, True, 0)
+        button.get_style_context().add_class("refresh-button")
+
+        def on_mouse_enter(w, e):
+            self.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.HAND2))
+            button.get_style_context().add_class("refresh-button-hover")
+
+        def on_mouse_leave(w, e):
+            self.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
+            button.get_style_context().remove_class("refresh-button-hover")
+
+        def refresh(w, e):
+            self.request_refresh(self)
+
+        event.connect("button-press-event", refresh)
+        event.connect("enter-notify-event", on_mouse_enter)
+
+        event.connect("leave-notify-event", on_mouse_leave)
+
+        event.add(button)
+        container.add(event)
+
+        return container
 
     def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
         """Generate a root tab and the corresponding subtree view"""
@@ -161,7 +228,7 @@ class MainWindow(Gtk.Window):
 
     def generate_roots_container(self):
         mainBox = Gtk.VBox()
-        mainBox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(accent_color))
+        mainBox.set_name("tab-holder")
 
         return mainBox
 
@@ -169,8 +236,18 @@ class MainWindow(Gtk.Window):
         """Generate the tab like button that correspond to the given entry"""
 
         item = Item()
-        item.setBackgroundColor(accent_color)
         item.setTitle(name)
+
+        # Make the first tab active
+        if (self.selected_tab is None):
+            self.selected_tab = item
+            item.addClass("tab-active")
+
+        # After refresh:
+        # Keep the active atribute of the selected class
+        if (self.selected_tab is not None and item.title == self.selected_tab.title):
+            self.selected_tab = item
+            item.addClass("tab-active")
 
         return item
 
@@ -250,7 +327,7 @@ class Item(FixedVBox):
 
     def setTitle(self, title=""):
         label = Gtk.Label(title)
-        label.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
+        label.get_style_context().add_class("label")
         self.addChild(label)
         self.title = title
 
@@ -268,11 +345,16 @@ class Item(FixedVBox):
 
     def on_click(self, widget, event):
         self.parent.show_root(self.page_index)
+        self.addClass("tab-active")
+        if(self.parent.selected_tab is not None):
+            self.parent.selected_tab.removeClass("tab-active")
+        self.parent.selected_tab = self
 
+    # TODO: Find a way for pseudoclasses to work
     def on_mouse_enter(self, widget, event):
-        self.setBackgroundColor(accent_color_light)
+        self.addClass("tab-hover")
         self.parent.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.HAND2))
 
     def on_mouse_leave(self, widget, event):
-        self.setBackgroundColor(accent_color)
+        self.removeClass("tab-hover")
         self.parent.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))

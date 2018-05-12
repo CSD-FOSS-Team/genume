@@ -1,0 +1,41 @@
+/* Colors */
+
+@define-color primary_color_light #FFFFFF;
+@define-color accent_color #403c4c;
+@define-color accent_color_light #7B1FA2;
+
+
+#tab-holder {
+    background-color: @accent_color;
+}
+
+.logo {
+    background-color: @primary_color_light;
+}
+
+.refresh-button {
+    background: linear-gradient(45deg, #4527A0, #7B1FA2);
+    /* background: linear-gradient(45deg, #7B1FA2, #7C4DFF); */
+    /* background: linear-gradient(45deg, #303F9F, #7B1FA2); */
+    border-radius: 50%;
+    box-shadow: 0 0px 2px 0px rgba(0, 0, 0, 0.3);
+}
+
+/* Treat as a pseudoclass */
+.refresh-button-hover {
+    
+}
+
+.label {
+    color: @primary_color_light;
+}
+
+/* Treat as a pseudoclass */
+.tab-hover {
+    background-color: @accent_color_light; 
+}
+
+/* Treat as a pseudoclass */
+.tab-active {
+    background-color: @accent_color_light; 
+}
