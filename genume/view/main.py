@@ -21,7 +21,7 @@ REFRESH_ICON = "data/icons/refresh.png"
 
 # Sizes
 WIDTH = 650
-HEIGHT = 400
+HEIGHT = 425
 
 
 class MainWindow(Gtk.Window):
