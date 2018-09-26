@@ -260,18 +260,8 @@ class MainWindow(Gtk.Window):
     def generate_subtree(self, name, entry: CategoryEntry):
         """Generate the list like view that correspond to the given entry"""
 
-        # create the store
-
-        store = Gtk.ListStore(str, str)
-        for name, entry in entry.items():
-            if isinstance(entry, CategoryEntry):
-                print("Scripts on the sub root folders are not supported, yet")  # TODO implement
-            else:
-                store.append([self.format_name(name), repr(entry)])
-
-        # create the tree view
-
-        tree = Gtk.TreeView(store)
+        tree = Gtk.TreeView(self.create_treestore(entry))
+        tree.expand_all()
         # Enable this if the show_tabs value is set to True
         # tree.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
 
@@ -284,6 +274,22 @@ class MainWindow(Gtk.Window):
                 text=i
             ))
         return tree
+
+    def create_treestore(self, entry: CategoryEntry):
+
+        store = Gtk.TreeStore(str, str)
+        self.create_subtreestore(store, None, entry)
+
+        return store
+
+    def create_subtreestore(self, store, parent, entry: CategoryEntry):
+
+        for name, entry in entry.items():
+            if isinstance(entry, CategoryEntry):
+                x = store.append(parent, [self.format_name(name), None])
+                self.create_subtreestore(store, x, entry)
+            else:
+                store.append(parent, [self.format_name(name), repr(entry)])
 
     def format_name(self, name):
         # TODO extend
