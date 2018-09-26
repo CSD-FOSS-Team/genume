@@ -8,7 +8,7 @@ OpenGLContextFlags=$(glxinfo|grep "OpenGL context"| head -n 1|cut -d ":" -f 2)
 OpenGLExtension=$(glxinfo|grep "OpenGL extensions"| head -n 1|cut -d ":" -f 2)
 
 
-
+echo GROUP BAS opengl
 echo VALUE BAS OpenGl_Vendor_String \"$OpenGlVendor\"
 echo VALUE BAS OpenGl_Rendrerer_String \"$OpenGLRendererString\"
 echo VALUE BAS OpenGl_Version \"$OpenGLVersion\"

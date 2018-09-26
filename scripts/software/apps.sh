@@ -11,9 +11,9 @@ function check {
 
 	if command -v "$name" > /dev/null; then
 
-		echo VALUE BAS "$key" \"$($name $version 2>&1 | head -n1)\"
+		echo VALUE BAS "$key" \"$($name $version 2>&1 | head -n1)\" GROUP "apps"
 	else
-		echo VALUE BAS "$key" \""<not found>"\"	
+		echo VALUE BAS "$key" \""<not found>"\"	GROUP "missing_apps"
 	fi
 }
 

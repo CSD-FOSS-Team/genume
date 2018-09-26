@@ -13,6 +13,7 @@ l12Size=$( grep *-cache -A 7 hardware.txt | grep size | head -n 3 | tail -n 1 | 
 
 rm hardware.txt
 
+echo GROUP ADV cache
 echo VALUE BAS L1i Size \" $l11Size \"
 echo VALUE BAS L1d Size \" $l12Size \"
 echo VALUE BAS L2  Size \" $l2Size  \"
