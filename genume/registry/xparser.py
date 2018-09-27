@@ -21,15 +21,15 @@ def parse(cmdl, c):
             value = cmdl.pop(0).strip()
 
             path = None
-            if len(cmdl) != 0:
-                if cmdl[0] == "GROUP":
+            if len(cmdl) >= 2:
+                if cmdl[0] == "GROUP" and cmdl[1] != "BAS" and cmdl[1] != "ADV":
                     cmdl.pop(0)
                     path = parse_path(cmdl.pop(0), False)
-                elif cmdl[0] == "PATH":
+                elif cmdl[0] == "PATH" and cmdl[1] != "BAS" and cmdl[1] != "ADV":
                     cmdl.pop(0)
                     path = parse_path(cmdl.pop(0), True)
 
-            parent = get_category_from_path(c, path) if path is not None else c
+            parent = get_category_from_path(root_c, path) if path is not None else c
 
             if command == "VALUE":
                 # basic value case.
@@ -53,8 +53,8 @@ def parse(cmdl, c):
             if key == ".":
                 c = root_c
             else:
-                path = parse_path(key, command == "PATH");
-                c = get_category_from_path(c, path, level)
+                path = parse_path(key, command == "PATH")
+                c = get_category_from_path(root_c, path, level)
 
         else:
             print("Warn: invalid command {0}".format(command))
