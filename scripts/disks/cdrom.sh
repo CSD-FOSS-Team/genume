@@ -2,6 +2,7 @@
 
 num=$(awk '{print NF}' /proc/sys/dev/cdrom/info | head -n 3 | tail -n 1)
 num=$[ $num - 2 ]
+echo GROUP BAS cdroms
 echo VALUE BAS connected_cdrom_devices ${num}
 
 if (($num > 0))
@@ -84,19 +85,21 @@ then
 		else
 			writes_dvdram=false
 		fi
-		echo VALUE BAS drive_name_$i \"$drive_name\"
-		echo VALUE ADV drive_speed_$i \"$drive_speed\"
-		echo VALUE ADV number_of_slots_$i \"$number_of_slots\"
-		echo VALUE ADV closes_tray_$i \"$closes_tray\"
-		echo VALUE ADV opens_tray_$i \"$opens_tray\"
-		echo VALUE ADV locks_tray_$i \"$locks_tray\"
-		echo VALUE ADV changes_speed_$i \"$changes_speed\"
-		echo VALUE ADV plays_audio_$i \"$plays_audio\"
-		echo VALUE ADV writes_cdr_$i \"$writes_cdr\"
-		echo VALUE ADV writes_cdrw_$i \"$writes_cdrw\"
-		echo VALUE ADV reads_dvd_$i \"$reads_dvd\"
-		echo VALUE ADV writes_dvdr_$i \"$writes_dvdr\"
-		echo VALUE ADV writes_dvdram_$i \"$writes_dvdram\"
+		
+		echo PATH BAS cdroms.cdrom_$i
+		echo VALUE BAS drive_name \"$drive_name\"
+		echo VALUE ADV drive_speed \"$drive_speed\"
+		echo VALUE ADV number_of_slots \"$number_of_slots\"
+		echo VALUE ADV closes_tray \"$closes_tray\"
+		echo VALUE ADV opens_tray \"$opens_tray\"
+		echo VALUE ADV locks_tray \"$locks_tray\"
+		echo VALUE ADV changes_speed \"$changes_speed\"
+		echo VALUE ADV plays_audio \"$plays_audio\"
+		echo VALUE ADV writes_cdr \"$writes_cdr\"
+		echo VALUE ADV writes_cdrw \"$writes_cdrw\"
+		echo VALUE ADV reads_dvd \"$reads_dvd\"
+		echo VALUE ADV writes_dvdr \"$writes_dvdr\"
+		echo VALUE ADV writes_dvdram \"$writes_dvdram\"
 	done
 fi 
 
