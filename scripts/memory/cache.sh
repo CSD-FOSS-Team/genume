@@ -30,7 +30,7 @@ do
 	fi	
 	let l=$( expr $l + 1 )
 done
-echo VALUE BAS numOfCaches \" $numOfCaches \"
+echo VALUE BAS num_Of_Caches \" $numOfCaches \"
 unset sizes
 unset strings
 unset nums
@@ -87,7 +87,7 @@ do
 	then 
 		echo VALUE ADV $s \" doesnt exist \"
 	else 
-		echo VALUE ADV $s \" ${nums[$l]}
+		echo VALUE ADV $s \" ${nums[$l]} \"
 	fi
 	let l=$( expr $l + 1 )
 done
