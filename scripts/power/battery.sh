@@ -72,10 +72,13 @@ do
 	if [ -f ${curdir}/voltage_now ]
 	then
 		voltage=$(cat ${curdir}/voltage_now)
-		hrvoltage=$[ $voltage / 1000000 ]  
-		hrvoltage=${hrvoltage}.$[ ( $voltage / 100000 )% 10]  
-		hrvoltage=${hrvoltage}$[ ( $voltage / 10000 )% 10]  
-		echo VALUE ADV current_voltage${fieldsuffix} ${hrvoltage}V
+		if [ ! -z "$voltage" ]
+		then
+			hrvoltage=$[ $voltage / 1000000 ]  
+			hrvoltage=${hrvoltage}.$[ ( $voltage / 100000 )% 10]  
+			hrvoltage=${hrvoltage}$[ ( $voltage / 10000 )% 10]  
+			echo VALUE ADV current_voltage${fieldsuffix} ${hrvoltage}V
+		fi
 	fi
 	if [ -f ${curdir}/power_now ]
 	then
