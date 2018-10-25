@@ -3,7 +3,6 @@ import re
 
 from genume.constants import SCRIPTS_ROOT, SCRIPTS_IGNORE
 from genume.registry.category import CategoryEntry
-from genume.registry.pyhandle import PythonScript
 from genume.registry.xparser import run_and_parse
 
 
@@ -39,9 +38,6 @@ class Registry:
                 key = file.name
                 cat[key] = new_cat
                 Registry._handle_dir(new_cat, file)
-            elif file.suffix == ".py":
-                # Python script case.
-                PythonScript.runscript(cat, file)
             else:
                 # Generic executable case.
                 run_and_parse(cat, file)
