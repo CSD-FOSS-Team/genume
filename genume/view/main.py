@@ -33,7 +33,6 @@ class MainWindow(Gtk.Window):
 
         self.reg = Registry()
         self.reg.update()
-        # print_enumeration(reg.root)  # TODO: remove, here for debugging
 
         # Load css once.
         self.load_css()
@@ -138,9 +137,6 @@ class MainWindow(Gtk.Window):
 
         # Add logo.
         inner_container.pack_start(self.load_logo(), False, False, 0)
-
-        # TODO: remove, here for debugging
-        # print_enumeration(reg.root)
 
         for name, entry in self.reg.root.items():
             if isinstance(entry, CategoryEntry):

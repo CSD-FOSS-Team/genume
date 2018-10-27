@@ -8,72 +8,62 @@ Genume traverses the files under `script/` in alphabetical order every time it n
 
 ## Bash
 
-- Communication with other executable formats happens with environment variables and pipes.
+- Expand genume while learning how to write bash scripts (ver 2.0)!
 
-### Getting input
+### A sample script
 
-Input from genume happens mostly with environment variables.
-
-1. `GENUME_VERSION`
-    - A string representing the genume version that is running this script. If this variable is not set, then your executable is probable run outside of genume.
+TODO:
 
 ## Low Level
 
-- Communication with other executable formats happens with environment variables and pipes.
+- Communication with the host program happens threw environment variables and pipes.
 
-### Getting input
+### Input
 
-Input from genume happens mostly with environment variables.
+Constants are passed from the host program to the child as environments variables. These currently are:
 
 1. `GENUME_VERSION`
-    - A string representing the genume version that is running this script. If this variable is not set, then your executable is probable run outside of genume.
+    - A string representing the host version that is running this script. If this variable is not set, then your executable is probably getting run in a terminal.
 
-### Creating entries
+2. `MASTER_CATEGORY`
+    - Contains the name of the category that will contain any new subcategory/value created by this executable.
 
-Entries are created by parsing the output of the script. As a result it must output any number of the below sequences to modify the enumeration.
+### Communicating with the host
 
+Commands are sent to the host by writing to stdout. Responses, if specified by the command are sent to the stdin of the child process. Stderr gets redirected to host's stdout.
+
+```sh
+CONF id [dependencies...]
+SET DESCRIPTION value
+VALUE [BAS|ADV] [SUBCAT path] key value...
+SUBCAT [BAS|ADV] path
 ```
-[VALUE|VALUES] [BAS|ADV] key value
-[GROUP|PATH] [BAS|ADV] path
-[VALUE|VALUES] [BAS|ADV] key value [GROUP|PATH] path
-```
 
-1. `VALUE [BAS|ADV] key value`
-    - Creates a new entry containing a simple string.
+1. `CONF id [dependencies...]`
+    - Configures the child process. This must be sent only once and be the first command sent.
+    - `id` is the id/name of the child.
+    - `dependencies` is a variable size set of strings of all the external executables the child needs. One custom dependency is `root`, which provides root access to the child(if allowed by the user).
+    - This commands replies with `OK` if everything has been setup correctly. Else it replies with an error message.
+
+2. `SET DESCRIPTION value`
+    - Changes a property to a new value.
+    - Currently supported properties are:
+        1. `DESCRIPTION`: The description of the master category (string).
+
+3. `VALUE [BAS|ADV] [SUBCAT path] key value...`
+    - Creates a new entry containing a string or multiples.
     - `VALUE` is the command name.
-    - `[BAS|ADV]` is an enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
+    - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
+    - `[SUBCAT path]` is an optional subcategory. Unlike the full command the effects of this option are temporary.
     - `key` is the key. It should contain only characters you would use to name a variable _(aka alphanumeric and underscores)_.
-    - `value` is the string to display. It must be between double quotation marks.
+    - `value...` is the string or strings to display. Each one must be between double or single quotation marks or parenthesis.
 
-2. `VALUES [BAS|ADV] key value`
-    - Creates a new entry containing a list with the single string value passed. If the key already exists, it adds the value to the list.
-    - `VALUES` is the command name.
-    - `[BAS|ADV]` is an enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
-    - `key` is the key. It should contain only characters you would use to name a variable _(aka alphanumeric and underscores)_.
-    - `value` is one of the strings to display. It must be between double quotation marks.
-
-3. `GROUP [BAS|ADV] name`
-    - Defines a new group. All following commands will refer to the new group untill a new group or path command.
-
-4. `PATH [BAS|ADV] path`
-    - Equivalent to the group command except the given value correspnds to a path of groups. The groups in the path are separated with `.`
-
-5. `[VALUE|VALUES] [BAS|ADV] key value [GROUP|PATH] path`
-    - A combination of the value and group commands
-    - The group or path specified for this command will not affect the folloing commands.
+4. `SUBCAT [BAS|ADV] path`
+    - Creates a new subcategory or switches to an already existing one. All following commands will refer to the new subcategory until a new subcat command.
+    - `SUBCAT` the command name.
+    - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
+    - `path` is the path of the subcategory to switch to. Two subcategories must be seperated by a dot and should only contain alphanumeric and underscores. Paths starting with dot (.) are interpreted as relative paths. An empty path is interpreted as the root category.
 
 #### Notes
 
-- The values will be trimmed of whitespace.
-
-### Example script
-
-```sh
-#!/bin/sh
-# Don't forget to set the executable bit with chmod +x ./example.sh
-if [ -z "$GENUME_VERSION" ]; then
-    echo "Running outside of genume."
-else
-    echo "VALUE BAS test \"Hello from shell!!!\""
-fi
-```
+- String values will be trimmed of leading and trailing whitespace.

@@ -3,6 +3,7 @@ import argparse
 import genume.view.main as gui
 from genume.registry.registry import Registry
 from genume.exports.terminal import TextExporter
+from genume.exports.async_test import ASyncExporter
 from genume.exports.json import JsonExporter, JsonPrettyExporter
 from genume.exports.html import HtmlExporter
 
@@ -26,13 +27,13 @@ def main():
         gui.main()
     else:
         registry = Registry()
-        registry.update()
+        registry.refresh()
         print(exporters[args.export].export(registry))
 
 
 def gen_exporters():
     # a list of all the available export methods
-    list = [TextExporter(), JsonExporter(), HtmlExporter(), JsonPrettyExporter()]
+    list = [TextExporter(), ASyncExporter(), JsonExporter(), HtmlExporter(), JsonPrettyExporter()]
     # generate a name to export map
     map = {i.name: i for i in list}
     return map

@@ -2,6 +2,9 @@ from shlex import split as cmdsplit
 import subprocess as sbpr
 import os
 
+import logging as log
+import time
+
 from genume.constants import VERSION
 from genume.registry.base import InfoLevel
 from genume.registry.value import ValueEntry, ListEntry
@@ -81,8 +84,10 @@ def get_category_from_path(category, path, level=InfoLevel.basic):
 
 def run(f):
     if os.access(str(f), os.X_OK):
+        start = time.time()
         o = sbpr.check_output(str(f))
         s = o.decode("utf-8").strip()
+        log.debug(str(f) + " took " + str(time.time() - start))
         return s
     else:
         print("Warn: {0} is not executable.".format(str(f)))
