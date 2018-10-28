@@ -12,7 +12,9 @@ Genume traverses the files under `script/` in alphabetical order every time it n
 
 ### A sample script
 
+```sh
 TODO:
+```
 
 ## Low Level
 
@@ -26,7 +28,7 @@ Constants are passed from the host program to the child as environments variable
     - A string representing the host version that is running this script. If this variable is not set, then your executable is probably getting run in a terminal.
 
 2. `MASTER_CATEGORY`
-    - Contains the name of the category that will contain any new subcategory/value created by this executable.
+    - Contains the name of the root category of the current child. Any new entries will go under this category.
 
 ### Communicating with the host
 
@@ -39,9 +41,8 @@ VALUE [BAS|ADV] [SUBCAT path] key value...
 SUBCAT [BAS|ADV] path
 ```
 
-1. `CONF id [dependencies...]`
+1. `CONF [dependencies...]`
     - Configures the child process. This must be sent only once and be the first command sent.
-    - `id` is the id/name of the child.
     - `dependencies` is a variable size set of strings of all the external executables the child needs. One custom dependency is `root`, which provides root access to the child(if allowed by the user).
     - This commands replies with `OK` if everything has been setup correctly. Else it replies with an error message.
 

@@ -6,8 +6,9 @@ from genume.registry.base import BaseEntry, InfoLevel
 
 class CategoryEntry(BaseEntry, MutableMapping):
     """A registry entry which acts as a container for other entries."""
-    def __init__(self, parent=None, level=InfoLevel.basic):
+    def __init__(self, parent=None, level=InfoLevel.basic, path=None):
         self.storage = OrderedDict()
+        self.path = path
         super().__init__(parent, level)
 
     def __getitem__(self, key):
