@@ -73,9 +73,25 @@ class Registry(Thread, GObject.Object):
                         log.warning("Ignoring: %s" % (file.name))
         return child_list
 
-    def execute_children(self, pending_children):
+    def execute_children(self, children):
+        # Children waiting execution.
+        pending = deque(children)
+        # Children currently under execution.
         executing = [None] * MAX_MULTIEXE
-        # TODO: similar to how modern cpus handle parallel execution in the same core(pending_children are the instructions and executing[] are the 'parallel' units).
+        while len(children) != 0 or executing.count(None) != len(executing):
+            for i, slot in enumerate(executing):
+                if slot is None and len(pending) != 0:
+                    # Get the next available child.
+                    executing[i] = pending.popleft().start()
+                elif slot is not None and slot.do_step():
+                    # Child has finished, pick next one.
+                    if len(pending) != 0:
+                        executing[i] = pending.popleft().start()
+                    else:
+                        executing[i] = None
+        # Finish up.
+        for c in children:
+            children.finish_up()
 
     def run(self):
         log.info("Registry helper thread is starting up...")
