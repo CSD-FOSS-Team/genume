@@ -12,6 +12,7 @@
 Build with **Python 3** and **Gtk+3**.
 
 First `git clone https://github.com/CSD-FOSS-Team/genume.git`
+
 Start **genume** by running `make` or `python3 -m genume`.
 
 ## Install
