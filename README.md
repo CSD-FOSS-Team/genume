@@ -6,19 +6,8 @@
 ![](https://img.shields.io/badge/python-3.3,%203.4,%203.5,%203.6-blue.svg)
 ![](https://img.shields.io/badge/license-GPLv2-lightgrey.svg)
 
-```TEXT
-
-
-
-
-
 ![Alt text](data/images/screenshot_genume.png?raw=true "")
 
-
-
-
-
-```
 
 Build with **Python 3** and **Gtk+3**.
 
