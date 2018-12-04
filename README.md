@@ -22,6 +22,7 @@ Image placeholder
 
 Build with **Python 3** and **Gtk+3**.
 
+First `git clone https://github.com/CSD-FOSS-Team/genume.git`
 Start **genume** by running `make` or `python3 -m genume`.
 
 ## Install
@@ -46,4 +47,3 @@ Data in this repository is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 
 **genume author list** can be determined via `git shortlog -sne`.
-

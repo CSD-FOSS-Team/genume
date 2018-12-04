@@ -121,7 +121,7 @@ class MainWindow(Gtk.Window):
 
         refresh_button = self.generate_refresh_button()
         main_view.add_overlay(refresh_button)
-        main_view.set_overlay_pass_through(refresh_button, True)
+        #main_view.set_overlay_pass_through(refresh_button, True)
         main_view.connect("get-child-position", set_button_location)
 
         roots_container = self.generate_roots_container()

@@ -1,0 +1,3 @@
+Bash Libraries used
+--------------------------
+awk,ping,curl,netstat
