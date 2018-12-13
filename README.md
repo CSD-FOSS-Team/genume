@@ -6,21 +6,12 @@
 ![](https://img.shields.io/badge/python-3.3,%203.4,%203.5,%203.6-blue.svg)
 ![](https://img.shields.io/badge/license-GPLv2-lightgrey.svg)
 
-```TEXT
+![Alt text](data/images/screenshot_genume.png?raw=true "")
 
-
-
-
-
-Image placeholder
-
-
-
-
-
-```
 
 Build with **Python 3** and **Gtk+3**.
+
+First `git clone https://github.com/CSD-FOSS-Team/genume.git`
 
 Start **genume** by running `make` or `python3 -m genume`.
 
@@ -46,4 +37,3 @@ Data in this repository is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 
 **genume author list** can be determined via `git shortlog -sne`.
-
