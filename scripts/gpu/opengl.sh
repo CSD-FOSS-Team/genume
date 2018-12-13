@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! hash glxinfo 2>/dev/null; then
+	echo VALUE BAS opengl \"\<opengl info not found\>\"
+	exit 0
+fi
+
 info="$(glxinfo)"
 
 OpenGlVendor=$(echo "$info"| grep "OpenGL vendor string"| head -n 1|cut -d ":" -f 2)
