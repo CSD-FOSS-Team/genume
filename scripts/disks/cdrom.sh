@@ -1,5 +1,5 @@
 #!/bin/bash
-files=$(ls /proc/sys/dev/cdroms 2> /dev/null | wc -l)
+files=$(ls /proc/sys/dev/cdrom 2> /dev/null | wc -l)
 if [ "$files" != "0" ]; then 
 	num=$(awk '{print NF}' /proc/sys/dev/cdrom/info | head -n 3 | tail -n 1)
 	num=$[ $num - 2 ]
