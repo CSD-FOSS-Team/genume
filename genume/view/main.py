@@ -31,8 +31,8 @@ class MainWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="genume")
         self.set_default_size(WIDTH, HEIGHT)
 
-        reg = Registry()
-        reg.update()
+        self.reg = Registry()
+        self.reg.update()
         # print_enumeration(reg.root)  # TODO remove, here for debugging
 
         # Load css once
@@ -40,14 +40,11 @@ class MainWindow(Gtk.Window):
 
         # setup the layout
         self.set_titlebar(self.generate_header_bar())
-        self.add(self.generate_main_view(reg))
+        self.add(self.generate_main_view())
 
         # handle events
         self.connect("destroy", Gtk.main_quit)
         self.show_all()
-
-        # store state
-        self.reg = reg
 
     def refresh(self):
         """Updates the registry and refreshes the view"""
@@ -55,7 +52,7 @@ class MainWindow(Gtk.Window):
         self.reg.update()
         current_page = self.subtrees_container.get_current_page()
         self.remove(self.get_child())
-        self.add(self.generate_main_view(self.reg))
+        self.add(self.generate_main_view())
         self.show_all()
         self.subtrees_container.set_current_page(current_page)
 
@@ -95,7 +92,7 @@ class MainWindow(Gtk.Window):
         menu.show_all()
         return menu
 
-    def generate_main_view(self, reg):
+    def generate_main_view(self):
         """Generate and return the content of the window"""
 
         main_view = Gtk.Overlay()
@@ -142,13 +139,10 @@ class MainWindow(Gtk.Window):
         # Add logo
         inner_container.pack_start(self.load_logo(), False, False, 0)
 
-        # TODO improve, covert Registry to a signleton
-        reg = Registry()
-        reg.update()
         # TODO remove, here for debugging
         # print_enumeration(reg.root)
 
-        for name, entry in reg.root.items():
+        for name, entry in self.reg.root.items():
             if isinstance(entry, CategoryEntry):
 
                 self.generate_root_and_subtree(name, entry, roots_container, subtrees_container)
