@@ -8,26 +8,26 @@ Genume traverses the files under `script/` in alphabetical order every time it n
 
 ## Bash
 
-- Expand genume while learning how to write bash scripts (ver 2.0)!
-
-### A sample script
-
-```sh
-TODO:
-```
+- For bash scripts there are some helper executables. For more information read [bash helpers](../bash_helpers/README.md). For more advanced usage the [low level](#low-level) can also be used directly.
 
 ## Low Level
 
-- Communication with the host program happens threw environment variables and pipes.
+- Communication with the host program happens threw environment variables and pipes/streams.
 
 ### Input
 
 Constants are passed from the host program to the child as environments variables. These currently are:
 
-1. `GENUME_VERSION`
+1. `HOST_VERSION`
     - A string representing the host version that is running this script. If this variable is not set, then your executable is probably getting run in a terminal.
 
-2. `MASTER_CATEGORY`
+2. `HOST_NAME`
+    - A string containing the name of the host program.
+
+3. `HOST_DESC`
+    - A string containing a small description of the host program.
+
+4. `MASTER_CATEGORY`
     - Contains the name of the root category of the current child. Any new entries will go under this category.
 
 ### Communicating with the host

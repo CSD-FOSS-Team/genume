@@ -1,24 +1,16 @@
 from pathlib import Path
 import logging as log
 from threading import Thread, Semaphore
-import re
 from enum import Enum
 import os
 from collections import deque
 
-from gi.repository import GObject
+from gi.repository import GObject, GLib
 
-from genume.constants import SCRIPTS_ROOT, SCRIPTS_IGNORE, MAX_MULTIEXE
+from genume.constants import SCRIPTS_ROOT, SCRIPTS_IGNORE, SCRIPTS_MAX_MULTI_DISPATCH
+from genume.utils import match_list
 from genume.registry.category import CategoryEntry
 from genume.registry.child import ChildHandler
-
-
-def match_list(s, l):
-    "Match any regex test."
-    for i in l:
-        if re.match(i, s):
-            return True
-    return False
 
 
 RegistryStates = Enum("RegistryStates", "waiting start scanning collecting finish")
@@ -44,6 +36,14 @@ class Registry(Thread, GObject.Object):
         # Fire up the thread.
         self.start()
 
+    @GObject.Signal
+    def scan_complete():
+        pass
+
+    @GObject.Signal
+    def refresh_complete():
+        pass
+
     def scan_ahead(self):
         child_list = []
         self.root = CategoryEntry(path=self.path)
@@ -61,13 +61,11 @@ class Registry(Thread, GObject.Object):
                     new_cat = CategoryEntry(parent=current_cat, path=file)
                     key = file.name
                     current_cat[key] = new_cat
-                    log.debug("Adding new category: %s" % (key))
                     pending_cats.appendleft(new_cat)
                 else:
                     # Executable case.
                     if os.access(str(file), os.X_OK):
                         new_child = ChildHandler(path=file, root_cat=current_cat)
-                        log.debug("Adding new executable: %s" % (file.name))
                         child_list.append(new_child)
                     else:
                         log.warning("Ignoring: %s" % (file.name))
@@ -77,7 +75,7 @@ class Registry(Thread, GObject.Object):
         # Children waiting execution.
         pending = deque(children)
         # Children currently under execution.
-        executing = [None] * MAX_MULTIEXE
+        executing = [None] * SCRIPTS_MAX_MULTI_DISPATCH
         while len(children) != 0 or executing.count(None) != len(executing):
             for i, slot in enumerate(executing):
                 if slot is None and len(pending) != 0:
@@ -94,22 +92,25 @@ class Registry(Thread, GObject.Object):
             children.finish_up()
 
     def run(self):
-        log.info("Registry helper thread is starting up...")
+        log.info("Registry thread is starting up...")
         while True:
             if self.lock.acquire(blocking=True) and self.state is RegistryStates.start:
-                log.info("Registry is refreshing...")
+                log.debug("A refresh has been requested.")
                 # Actual refresh starts here.
                 # First scan the directories.
                 self.state = RegistryStates.scanning
                 pending_children = self.scan_ahead()
                 # Take a break to process events.
-                # TODO: GLib.idle_add
-                # Start collecting and parsing commands in steps so the main threads can continue processing.
+                GLib.idle_add(GLib.PRIORITY_HIGH_IDLE, lambda: self.emit("scan_complete"), None)
+                # Start collecting and parsing commands in steps,
+                # so the main thread is not getting blocked.
                 self.state = RegistryStates.collecting
                 self.execute_children(pending_children)
                 # Change state and prepare to hand data to main thread.
                 self.state = RegistryStates.finish
-                log.info("Registry has finished refreshing.")
+                # Inform main thread.
+                GLib.idle_add(GLib.PRIORITY_HIGH_IDLE, lambda: self.emit("refresh_complete"), None)
+                log.debug("Registry refresh has been completed.")
 
     def request_refresh(self):
         "This method reloads the enumeration by running all the scripts(async version)."
@@ -131,21 +132,13 @@ class Registry(Thread, GObject.Object):
 
     def refresh(self):
         "This method reloads the enumeration by running all the scripts(synchronized version)."
-        pass
+        # Registry needs a glib main loop to be running.
+        self.loop = GObject.MainLoop()
+        # Register event handlers.
+        self.connect("refresh_complete", lambda self: self.loop.quit())
+        # Start refresh.
+        self.request_refresh()
+        # Enter main loop.
+        main.run()
 
-    @staticmethod
-    def _handle_dir(cat, path):
-        "Internal static recursive method to find scripts."
-        for file in sorted(path.iterdir()):
-            if match_list(file.name, SCRIPTS_IGNORE):
-                # Ignore case.
-                pass
-            elif file.is_dir():
-                # Directory case.
-                new_cat = CategoryEntry(cat)
-                key = file.name
-                cat[key] = new_cat
-                Registry._handle_dir(new_cat, file)
-            else:
-                # Generic executable case.
-                run_and_parse(cat, file)
+GObject.type_register(Registry)

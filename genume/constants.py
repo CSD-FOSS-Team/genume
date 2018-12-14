@@ -1,6 +1,12 @@
 import os.path
 import multiprocessing
 
+# A string with the name of this program
+NAME = "genume"
+
+# A string containing a small description of this program.
+DESC = "Graphical ENUMEration"
+
 # A string representing our current version.
 VERSION = "0.1.2"
 
@@ -19,8 +25,9 @@ SCRIPTS_ROOT = os.path.dirname(os.path.realpath(__file__)) + "/../" + "scripts/"
 # A list of ignored files when searching for scripts.
 SCRIPTS_IGNORE = [r"__pycache__", r"^\..+", r".*\.md$"]
 
-# Limit the maximum number of child processes to have open at the same time.
-MAX_MULTIEXE = multiprocessing.cpu_count()
+# Extra executables for bash folder.
+SCRIPTS_BASH_EXTRA = os.path.dirname(os.path.realpath(__file__)) + "/../" + "bash_helpers/"
 
-# A list of preinstalled executables in the sandbox.
-PREINSTALLED_DEPS = ("cat", "grep")
+# Limit the maximum number of child processes to have running at any given time.
+# This limit is imposed by each instance of Registry separately.
+SCRIPTS_MAX_MULTI_DISPATCH = multiprocessing.cpu_count()

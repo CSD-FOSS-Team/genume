@@ -1,20 +1,20 @@
+import os
 import argparse
 
 import genume.view.main as gui
+from genume.constants import NAME, DESC, VERSION
 from genume.registry.registry import Registry
 from genume.exports.terminal import TextExporter
-from genume.exports.async_test import ASyncExporter
 from genume.exports.json import JsonExporter, JsonPrettyExporter
 from genume.exports.html import HtmlExporter
-
-# Also check if we are running inside a virtual console.
-# Then just dump the registry to stdout.
 
 
 def main():
     exporters = gen_exporters()
 
-    parser = argparse.ArgumentParser(prog='genume', description='genume - graphical enumeration')
+    parser = argparse.ArgumentParser(prog=NAME, description=DESC)
+
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + VERSION)
 
     export_group = parser.add_mutually_exclusive_group()
     for k in sorted(exporters.keys()):
@@ -24,7 +24,11 @@ def main():
     args = parser.parse_args()
 
     if args.export is None:
-        gui.main()
+        # Check if a graphical environment is available(X11 or Wayland).
+        if "DISPLAY" in os.environ or "WAYLAND_DISPLAY" in os.environ:
+            gui.main()
+        else:
+            print("Could not detect a graphical environment!")
     else:
         registry = Registry()
         registry.refresh()
@@ -33,7 +37,7 @@ def main():
 
 def gen_exporters():
     # a list of all the available export methods
-    list = [TextExporter(), ASyncExporter(), JsonExporter(), HtmlExporter(), JsonPrettyExporter()]
+    list = [TextExporter(), JsonExporter(), HtmlExporter(), JsonPrettyExporter()]
     # generate a name to export map
     map = {i.name: i for i in list}
     return map
