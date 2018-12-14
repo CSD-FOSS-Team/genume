@@ -140,5 +140,3 @@ class Registry(Thread, GObject.Object):
         self.request_refresh()
         # Enter main loop.
         main.run()
-
-GObject.type_register(Registry)
