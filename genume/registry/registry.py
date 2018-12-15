@@ -146,3 +146,5 @@ class Registry(Thread):
         self.observer.loop.run()
         # Cleanup.
         del self.observer.loop
+        # The refresh has already finished, so this resets the state and also returns the root.
+        return self.get_async_data()
