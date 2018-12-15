@@ -21,3 +21,11 @@ def merge_dicts(a, b):
     c = a.copy()
     c.update(b)
     return c
+
+
+def make_signal_emitter(gobj, signal):
+    "Creates a one time signal emitter for use with GLib.idle_add"
+    def _emitter():
+        gobj.emit(signal)
+        return False
+    return _emitter

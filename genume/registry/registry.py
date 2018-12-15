@@ -5,10 +5,10 @@ from enum import Enum
 import os
 from collections import deque
 
-from gi.repository import GObject, GLib
+from gi.repository import GObject
 
 from genume.constants import SCRIPTS_ROOT, SCRIPTS_IGNORE, SCRIPTS_MAX_MULTI_DISPATCH
-from genume.utils import match_list
+from genume.utils import match_list, make_signal_emitter
 from genume.registry.category import CategoryEntry
 from genume.registry.child import ChildHandler
 
@@ -16,7 +16,18 @@ from genume.registry.child import ChildHandler
 RegistryStates = Enum("RegistryStates", "waiting start scanning collecting finish")
 
 
-class Registry(Thread, GObject.Object):
+class RegistryObserver(GObject.Object):
+    """Private type to provide signal support for registry."""
+    @GObject.Signal
+    def scan_complete(self):
+        pass
+
+    @GObject.Signal
+    def refresh_complete(self):
+        pass
+
+
+class Registry(Thread):
     """Class which transparently provides access to the enumeration."""
     _instance_count = 0
 
@@ -33,16 +44,9 @@ class Registry(Thread, GObject.Object):
         self.lock = Semaphore()
         self.state = RegistryStates.waiting
         self.root = None
+        self.observer = RegistryObserver()
         # Fire up the thread.
         self.start()
-
-    @GObject.Signal
-    def scan_complete():
-        pass
-
-    @GObject.Signal
-    def refresh_complete():
-        pass
 
     def scan_ahead(self):
         child_list = []
@@ -76,7 +80,7 @@ class Registry(Thread, GObject.Object):
         pending = deque(children)
         # Children currently under execution.
         executing = [None] * SCRIPTS_MAX_MULTI_DISPATCH
-        while len(children) != 0 or executing.count(None) != len(executing):
+        while len(pending) != 0 or executing.count(None) != len(executing):
             for i, slot in enumerate(executing):
                 if slot is None and len(pending) != 0:
                     # Get the next available child.
@@ -89,7 +93,7 @@ class Registry(Thread, GObject.Object):
                         executing[i] = None
         # Finish up.
         for c in children:
-            children.finish_up()
+            c.finish_up()
 
     def run(self):
         log.info("Registry thread is starting up...")
@@ -101,7 +105,7 @@ class Registry(Thread, GObject.Object):
                 self.state = RegistryStates.scanning
                 pending_children = self.scan_ahead()
                 # Take a break to process events.
-                GLib.idle_add(GLib.PRIORITY_HIGH_IDLE, lambda: self.emit("scan_complete"), None)
+                GObject.idle_add(make_signal_emitter(self.observer, "scan_complete"))
                 # Start collecting and parsing commands in steps,
                 # so the main thread is not getting blocked.
                 self.state = RegistryStates.collecting
@@ -109,7 +113,7 @@ class Registry(Thread, GObject.Object):
                 # Change state and prepare to hand data to main thread.
                 self.state = RegistryStates.finish
                 # Inform main thread.
-                GLib.idle_add(GLib.PRIORITY_HIGH_IDLE, lambda: self.emit("refresh_complete"), None)
+                GObject.idle_add(make_signal_emitter(self.observer, "refresh_complete"))
                 log.debug("Registry refresh has been completed.")
 
     def request_refresh(self):
@@ -133,10 +137,12 @@ class Registry(Thread, GObject.Object):
     def refresh(self):
         "This method reloads the enumeration by running all the scripts(synchronized version)."
         # Registry needs a glib main loop to be running.
-        self.loop = GObject.MainLoop()
+        self.observer.loop = GObject.MainLoop()
         # Register event handlers.
-        self.connect("refresh_complete", lambda self: self.loop.quit())
+        self.observer.connect("refresh_complete", lambda self: self.loop.quit())
         # Start refresh.
         self.request_refresh()
         # Enter main loop.
-        main.run()
+        self.observer.loop.run()
+        # Cleanup.
+        del self.observer.loop
