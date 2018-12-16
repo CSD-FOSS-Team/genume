@@ -69,7 +69,7 @@ ARCH=$(uname -m)
 LINUX_VERSION=$(uname -sr)
 LINUX_INFO="${LINUX_VERSION}(${ARCH})"
 # Output findings.
-if [ -z "$GENUME_VERSION" ]; then
+if [ -z "$HOST_VERSION" ]; then
     echo $DISPLAY_NAME
     if [ ! -z "$EXTRA_URL" ]; then
         echo $EXTRA_URL

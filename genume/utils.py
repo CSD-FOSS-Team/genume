@@ -1,4 +1,5 @@
 import re
+import os
 
 # Random methods used by the rest of the program.
 
@@ -24,8 +25,17 @@ def merge_dicts(a, b):
 
 
 def make_signal_emitter(gobj, signal):
-    "Creates a one time signal emitter for use with GLib.idle_add"
+    "Creates a one time signal emitter for use with GLib.idle_add()."
     def _emitter():
         gobj.emit(signal)
         return False
     return _emitter
+
+
+def find_executable(name):
+    "Finds the path of an executable. Returns None if the executable could not be found."
+    paths = os.environ["PATH"].split(':')
+    for path in paths:
+        if name in os.listdir(path):
+            return path + "/" + name
+    return None

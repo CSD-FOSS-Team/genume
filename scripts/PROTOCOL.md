@@ -49,12 +49,12 @@ SUBCAT [BAS|ADV] path
 2. `SET DESCRIPTION value`
     - Changes a property to a new value.
     - Currently supported properties are:
-        1. `DESCRIPTION`: The description of the master category (string).
+        1. `DESCRIPTION`: The description of the current (sub)category (string).
 
 3. `VALUE [BAS|ADV] [SUBCAT path] key value...`
     - Creates a new entry containing a string or multiples.
     - `VALUE` is the command name.
-    - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
+    - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information. It has no effect if the entry already exists.
     - `[SUBCAT path]` is an optional subcategory. Unlike the full command the effects of this option are temporary.
     - `key` is the key. It should contain only characters you would use to name a variable _(aka alphanumeric and underscores)_.
     - `value...` is the string or strings to display. Each one must be between double or single quotation marks or parenthesis.
@@ -62,8 +62,8 @@ SUBCAT [BAS|ADV] path
 4. `SUBCAT [BAS|ADV] path`
     - Creates a new subcategory or switches to an already existing one. All following commands will refer to the new subcategory until a new subcat command.
     - `SUBCAT` the command name.
-    - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
-    - `path` is the path of the subcategory to switch to. Two subcategories must be seperated by a dot and should only contain alphanumeric and underscores. Paths starting with dot (.) are interpreted as relative paths. An empty path is interpreted as the root category.
+    - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information. It has no effect if the category already exists.
+    - `path` is the path of the subcategory to switch to. Two subcategories must be seperated by a dot and should only contain alphanumeric and underscores. Paths starting with dot (.) are interpreted as relative paths. An empty path is interpreted as the master/root category.
 
 #### Notes
 

@@ -5,7 +5,6 @@ import math
 
 from genume.registry.registry import Registry
 from genume.registry.category import CategoryEntry
-from genume.exports.terminal import print_enumeration
 
 from genume.view.event_panels import FixedVBox
 

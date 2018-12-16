@@ -69,7 +69,7 @@ class Registry(Thread):
                 else:
                     # Executable case.
                     if os.access(str(file), os.X_OK):
-                        new_child = ChildHandler(path=file, root_cat=current_cat)
+                        new_child = ChildHandler(path=file, root_cat=current_cat, parent=self)
                         child_list.append(new_child)
                     else:
                         log.warning("Ignoring: %s" % (file.name))

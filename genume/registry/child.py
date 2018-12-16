@@ -13,11 +13,12 @@ from genume.registry.parser import COMMAND_REGISTRY
 class ChildHandler:
     """Handles child lifecycle and command parsing."""
 
-    def __init__(self, path, root_cat):
+    def __init__(self, path, root_cat, parent):
         self.path = path
         self.root = root_cat
         self.shadow = CategoryEntry()
         self.state = {}
+        self.observer = parent.observer
         self.done = False
 
     def generate_env(self):
@@ -71,8 +72,8 @@ class ChildHandler:
         if len(command_stack) != 0:
             command = command_stack.pop(0)
             if command in COMMAND_REGISTRY:
-                reply = COMMAND_REGISTRY[command](
-                    command_stack, self.shadow, self.state)
+                parse_func = COMMAND_REGISTRY[command]
+                reply = parse_func(command_stack, self.shadow, self.observer, self.state)
             else:
                 log.warning("%s: command not found." % (command))
         # Send reply if any.
@@ -84,4 +85,4 @@ class ChildHandler:
 
     def finish_up(self):
         "Applies all changes to the registry."
-        self.root.update(self.shadow)
+        self.root.merge(self.shadow)

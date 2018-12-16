@@ -2,7 +2,7 @@
 import json
 from genume.exports.exporter import Exporter
 from genume.registry.category import CategoryEntry
-from genume.registry.value import ListEntry
+from genume.registry.value import ValueEntry
 
 
 class JsonExporterBase(Exporter):
@@ -18,7 +18,7 @@ class JsonExporterBase(Exporter):
         for k, v in root.items():
             if isinstance(v, CategoryEntry):
                 o[k] = self.sub_handle(v)
-            elif isinstance(v, ListEntry):
+            elif isinstance(v, ValueEntry):
                 o[k] = v.values
             else:
                 o[k] = str(v)
