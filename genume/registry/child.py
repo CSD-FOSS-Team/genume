@@ -40,14 +40,14 @@ class ChildHandler:
         log.debug("Started child \"%s\" with pid %i" %
                   (self.path.name, child.pid))
         self.executable = child
-        self.start = time.time_ns()
+        self.start = time.time()
         # Return self for chaining support.
         return self
 
     def check_status(self):
         "Returns true if the executable has finished execution."
         if self.executable.poll() is not None:
-            delta_ms = (time.time_ns() - self.start) / 1000000
+            delta_ms = (time.time() - self.start) * 1000
             if self.executable.returncode == 0:
                 log.info("Child %s (%i) has been executed successfully in %.2f ms!" % (
                     self.path.name, self.executable.pid, delta_ms))
