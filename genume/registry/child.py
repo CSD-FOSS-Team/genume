@@ -61,9 +61,6 @@ class ChildHandler:
 
     def do_step(self):
         "Performs one command proccessing step. Returns true if the command finished execution else false."
-        # Trying to avoid any potential deadlocks...
-        if self.check_status():
-            return True
         # Get next command.
         command_text = self.executable.stdout.readline()
         command_stack = cmdsplit(command_text)
@@ -76,12 +73,18 @@ class ChildHandler:
                 reply = parse_func(command_stack, self.shadow, self.observer, self.state)
             else:
                 log.warning("%s: command not found." % (command))
+        elif self.check_status():
+            # Child does not exist anymore, so avoid sending back any data.
+            return True
+        else:
+            log.warning("Ignoring zero length command!")
         # Send reply if any.
         if reply is not None:
             self.executable.stdin.write(reply)
             self.executable.stdin.write("\n")
             self.executable.stdin.flush()
-        return self.check_status()
+        # There may still be more output.
+        return False
 
     def finish_up(self):
         "Applies all changes to the registry."
