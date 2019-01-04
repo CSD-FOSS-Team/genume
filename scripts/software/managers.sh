@@ -18,6 +18,9 @@ fi
 name="yum"
 if command -v "$name" > /dev/null; then
         echo VALUE BAS "$name" \""$version"\" GROUP "software_managers"
+        if command -v rpm > /dev/null; then
+                echo VALUE ADV "${name}_pkgs"  \""$(rmp -qa |wc -l)"\" GROUP "software_managers"
+        fi
 else
         echo VALUE BAS "$name" \""<not found>"\" GROUP "software_managers"
 fi
@@ -25,6 +28,9 @@ fi
 name="apt"
 if command -v "$name" > /dev/null; then
         echo VALUE BAS "$name" \""$version"\" GROUP "software_managers"
+        if command -v dpkg > /dev/null; then
+                echo VALUE ADV "${name}_pkgs"  \""$(dpkg -l| grep -c '^i')"\" GROUP "software_managers"
+        fi
 else
         echo VALUE BAS "$name" \""<not found>"\" GROUP "software_managers"
 fi
