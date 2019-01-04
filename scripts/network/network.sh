@@ -6,10 +6,10 @@ ecnt=0
 echo $ecnt > /tmp/ethernetgenume
 echo PATH BAS Ethernet
 echo PATH BAS Wireless
-wireless=''
-ethernet=''
 lspci | egrep -i 'Network|Ethernet|802.11' | while read i
 do
+	wireless=''
+	ethernet=''
 	a=${i#*: }
 	if [ $(echo $a | egrep -i "Wireless|802.11" | wc -l) -eq 1 ]; then
 		wireless=$(echo $a)
@@ -35,6 +35,8 @@ do
 done
 lsusb | egrep -i "Network|Wireless|Ethernet|802.11" | while read i
 do
+	wireless=''
+	ethernet=''
 	a=${i#*: }
 	if [ $(echo $a | egrep -i "Wireless|802.11" | wc -l) -eq 1 ]; then
 		wireless=$(echo $a)
