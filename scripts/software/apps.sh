@@ -74,12 +74,24 @@ Window Managers
 '''
 
 check "i3" "--version"
+# Partition Tables Manipulator
 check "parted" "--version"
+# System Optimizer
 check "stacer" "--version"
+# BitTorrent Client
 check "transmission-cli" "--version"
+
+''' 
+Media 
+'''
+
+# Multimedia Player/Framework
 check "vlc" "--version"
+# Audio Player
 check "audacious" "--version"
+# Graphics Editor
 check "gimp" "--version"
+# Entertainment Center
 check "kodi" "--version"
 
 '''
