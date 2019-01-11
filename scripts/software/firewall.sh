@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ]; then
 
 else
 
-	# TODO extend
+	# TODO: extend
 
 	status=$(sudo ufw status verbose)
 

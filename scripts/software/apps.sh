@@ -1,18 +1,20 @@
 #!/bin/bash
 
 
-# check for a app and if exists provide the version
+# check for an app and if it exists provide the version
 function check {
 	name=$1
 	version=$2
 
+	# FIXME: is this really needed? seems redundant
 	# add the prefix app_ to every entry
-	key="app_$name"
+	key=$name # key="app_$name"
 
 	if command -v "$name" > /dev/null; then
 		echo VALUE BAS "$key" \"$($name $version 2>&1 | sed '/./q; d')\" GROUP "apps"
-	else
-		echo VALUE BAS "$key" \""<not found>"\"	GROUP "missing_apps"
+	#else
+		# FIXME: why though?
+		#echo VALUE BAS "$key" \""<not found>"\"	GROUP "missing_apps"
 	fi
 }
 
@@ -51,7 +53,15 @@ Text Editors
 '''
 
 check "nano" "--version"
-check "vi" "--version"
+'''
+used to be check "vi" "--version" which leads to
+"vi illegal option" to be printed
+'''
+if hash vi --version 2>/dev/null; then
+	check "vi" "--version"
+else
+	check "vim" "--version"
+fi
 check "emacs" "--version"
 check "code" "--version"
 check "atom" "--version"
@@ -75,6 +85,9 @@ Window Managers
 
 check "i3" "--version"
 # Partition Tables Manipulator
+
+# TODO:""
+
 check "parted" "--version"
 # System Optimizer
 check "stacer" "--version"
