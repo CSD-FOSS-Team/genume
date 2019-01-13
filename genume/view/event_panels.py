@@ -8,11 +8,11 @@ from gi.repository import Gtk, Gdk
 
 
 def translate(value, leftMin, leftMax, rightMin, rightMax):
-    # Figure out how 'wide' each range is
+    # Figure out how 'wide' each range is.
     leftSpan = leftMax - leftMin
     rightSpan = rightMax - rightMin
 
-    # Convert the left range into a 0-1 range (float)
+    # Convert the left range into a 0-1 range (float).
     valueScaled = float(value - leftMin) / float(leftSpan)
 
     # Convert the 0-1 range into a value in the right range.
@@ -44,7 +44,7 @@ class FixedVBox(Gtk.Fixed):
         self.show_all()
 
     def setBackgroundColorRGB(self, red, green, blue):
-        # Use proper RGB
+        # Use proper RGB.
         r = translate(red, 0, 255, 0, 65535)
         g = translate(green, 0, 255, 0, 65535)
         b = translate(blue, 0, 255, 0, 65535)
@@ -65,7 +65,7 @@ class FixedVBox(Gtk.Fixed):
         self.set_size_request(width, height)
         self.mainBox.set_size_request(width, height)
 
-    # Event handlers
+    # Event handlers.
 
     def setOnClickHandler(self, handler):
         self.onClickId = self.connect("button-press-event", handler)

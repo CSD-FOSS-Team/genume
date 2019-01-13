@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#looks for all the storage devices
+# Looks for all the storage devices.
 dir=$(cat /proc/partitions | grep -E -o '\<[s][r][[:alpha:]]*[0-9]\>|\<[s][d][[:alpha:]]*\>|\<[h][d][[:alpha:]]*\>')
 
 cnt=0
-#counts the storage devices
+# Counts the storage devices.
 for i in $dir; do
   cnt=$(($cnt + 1))
 done

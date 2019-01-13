@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Dependencies: lscpu
+# Dependencies: lscpu.
 
 echo VALUE BAS threads \"$(lscpu | grep ^CPU\(s\): | cut -d: -f2)\"
 

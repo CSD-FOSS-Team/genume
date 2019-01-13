@@ -1,22 +1,22 @@
 #!/bin/bash
 
-#float point divisions have been done without the use of extra tools
-#the output is human readable
+# Float point divisions have been done without the use of extra tools.
+# The output is human readable.
 
-#looks for all the power supplies
+# Looks for all the power supplies.
 dir=$(find /sys/ -name power_supply -type d 2>/dev/null)
 
-#distinguises the batteries
+# Distinguises the batteries.
 dir=$(grep -lir Battery $dir 2>/dev/null)
 cnt=0
 
-#counts the batteries
+# Counts the batteries.
 for i in $dir; do
   cnt=$(($cnt + 1))
 done
 echo VALUE BAS connected_batteries ${cnt}
 
-#prints info for each battery
+# Prints info for each battery.
 for i in $dir; do
   curdir=${i%/*}
   if [ -f ${curdir}/manufacturer ]; then
@@ -32,7 +32,7 @@ for i in $dir; do
     name=${name}-${serial_number}
   fi
 
-  #specify the battery only if there are more than 1
+  # Specify the battery only if there are more than 1.
   if [ $cnt -gt 1 ]; then
     fieldsuffix="(${name})"
   fi

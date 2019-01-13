@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# check for an app and if it exists provide the version
+# Check for an app and if it exists provide the version.
 function check() {
   name=$1
   version=$2
@@ -13,7 +13,7 @@ function check() {
 }
 
 '''
-Shells
+Shells.
 '''
 
 check "bash" "-version"
@@ -23,114 +23,114 @@ check "ksh" "--version"
 check "fish" "--version"
 
 '''
-Code Helpers
+Code Helpers.
 '''
 
-# Shell Parser, Formatter and Interpreter
+# Shell Parser, Formatter and Interpreter.
 check "shfmt" "--version"
-# Regex Evaluator
+# Regex Evaluator.
 check "kiki" "--version"
-# Flash Card Tool to Help Memorize Shortcuts
+# Flash Card Tool to Help Memorize Shortcuts.
 check "mnemosyne" "--version"
-# Fix Previous Command
+# Fix Previous Command.
 check "thefuck" "--version"
-# Hex Editor
+# Hex Editor.
 check "ghex" "--version"
-# GUI Diff
+# GUI Diff.
 check "meld" "--version"
-# Code Indexing
+# Code Indexing.
 check "ctags" "--version"
-# Code Search (a specialized grep)
+# Code Search (a specialized grep).
 check "ack" "--version"
 
 '''
-Terminal Management
+Terminal Management.
 '''
 
-# Terminal Multiplexer
+# Terminal Multiplexer.
 check "byobu" "--version"
-# Another Terminal Multiplexer
+# Another Terminal Multiplexer.
 check "tmux" "--version"
-# Multiple Terminals Management
+# Multiple Terminals Management.
 check "terminator" "--version"
 
 '''
 # TODO:
 '''
 
-# Executes Commands in Makefile
+# Executes Commands in Makefile.
 check "make" "--version"
 
 '''
-Version Control
+Version Control.
 '''
 
 check "git" "--version"
 check "subversion" "--version"
 
 '''
-GNOME
+GNOME.
 '''
 
 check "gnome-software" "--version"
 
 '''
-KDE
+KDE.
 '''
 
 check "kde-applications" "--version"
-# Bulk rename
+# Bulk rename.
 check "krename" "--version"
-# File-version control
+# File-version control.
 check "kdiff" "--version" 
 
 '''
-Programming Languages & Compilers
+Programming Languages & Compilers.
 '''
 
-# GNU Compiler Collection (C, C++, Go...)
+# GNU Compiler Collection (C, C++, Go...).
 check "gcc" "--version"
 check "java" "-version"
 check "python" "-V"
-# Haskell Compiler
+# Haskell Compiler.
 check "ghci" "--version"
 check "ruby" "-v"
-# Ruby version control
+# Ruby version control.
 check "rvm" "--version"
-# Another Ruby Version Manager
+# Another Ruby Version Manager.
 check "rbenv" "--version"
 check "perl" "-v"
 check "lua" "-v"
 check "mysql" "--version"
 
 '''
-PenTest
+PenTest.
 '''
 
 check "freedom" "-version"
-# Security Scanner
+# Security Scanner.
 check "nmap" "-V"
-# Wire protocols inspector
+# Wire protocols inspector.
 check "wireshark-cli" "--version"
 
 '''
-Remote Connectivity
+Remote Connectivity.
 '''
 
 check "ssh" "--version"
-# Uses FUSE to mount folders remotely using SSH
+# Uses FUSE to mount folders remotely using SSH.
 check "sshfs" "--version"
-# FTP Client 
+# FTP Client.
 check "filezilla" "--version"
-# Cross-Platform Multiple Computers Control
+# Cross-Platform Multiple Computers Control.
 check "synergy" "--version"
-# Sync Dir-Trees in Multiple Systems
+# Sync Dir-Trees in Multiple Systems.
 check "unison" "--version"
-# Dropbox Alternative
+# Dropbox Alternative.
 check "sparkleshare" "--version"
 
 '''
-Encryption
+Encryption.
 '''
 
 check "veracrypt" "--version"
@@ -138,7 +138,7 @@ check "pgp" "--version"
 check "gpg" "--version"
 
 ''' 
-Text Editors/IDEs
+Text Editors/IDEs.
 '''
 
 check "nano" "--version"
@@ -161,35 +161,35 @@ check "kwrite" "--version"
 check "scite" "--version"
 
 '''
-Virtual Enviroment Testing
+Virtual Enviroment Testing.
 '''
 
 check "vagrant" "--version"
 check "docker" "--version" 
 
 '''
-File Editors
+File Editors.
 '''
 
-# Text-Based File Manager
+# Text-Based File Manager.
 check "ranger" "--version"
-# Office Suite
+# Office Suite.
 check "libreoffice" "--version"
-# PDF Viewer
+# PDF Viewer.
 check "okular" "--version"
-# Another PDF Viewer
+# Another PDF Viewer.
 check "zathura" "--version"
-# Typesetting System
+# Typesetting System.
 check "tex" "--version"
-# Diagrams Creator
+# Diagrams Creator.
 check "dia" "--version"
-# Plots Creator
+# Plots Creator.
 check "gnuplot" "--version"
-# 3D CAD Modeler
+# 3D CAD Modeler.
 check "freecad" "--version"
 
 '''
-Window Managers
+Window Managers.
 '''
 
 check "i3" "--version"
@@ -198,46 +198,46 @@ check "i3" "--version"
 # TODO:
 '''
 
-# Partition Tables Manipulator
+# Partition Tables Manipulator.
 check "parted" "--version"
-# Command Line System Monitor
+# Command Line System Monitor.
 check "htop" "--version"
-# System Optimizer
+# System Optimizer.
 check "stacer" "--version"
-# BitTorrent Client
+# BitTorrent Client.
 check "transmission-cli" "--version"
 
 ''' 
-Media 
+Media.
 '''
 
-# CD/DVD Burner
+# CD/DVD Burner.
 check "k3b" "--version"
-# Multimedia Player/Framework
+# Multimedia Player/Framework.
 check "vlc" "--version"
-# Graphics Editor
+# Graphics Editor.
 check "gimp" "--version"
 
 '''
-IRC & General Communication
+IRC & General Communication.
 '''
 
-# Communication Wrapper
+# Communication Wrapper.
 check "pidgin" "--version"
-# IRC Client
+# IRC Client.
 check "hexchat" "--version"
 
 '''
-Browsers
+Browsers.
 '''
 
 check "chromium" "--version"
 check "firefox" "--version"
 
 '''
-Email Applications
+Email Applications.
 '''
 
 check "thunderbird" "--version"
 
-# TODO: extend
+# TODO: Extend.

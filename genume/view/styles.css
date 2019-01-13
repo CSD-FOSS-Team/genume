@@ -21,7 +21,7 @@
     box-shadow: 0 0px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
-/* Treat as a pseudoclass */
+/* Treat as a pseudoclass. */
 .refresh-button-hover {
     
 }
@@ -30,12 +30,12 @@
     color: @primary_color_light;
 }
 
-/* Treat as a pseudoclass */
+/* Treat as a pseudoclass. */
 .tab-hover {
     background-color: @accent_color_light; 
 }
 
-/* Treat as a pseudoclass */
+/* Treat as a pseudoclass. */
 .tab-active {
     background-color: @accent_color_light; 
 }
