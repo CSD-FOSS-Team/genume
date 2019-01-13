@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-echo VALUE BAS genume 'Graphical\ ENUMEration\ ver.\ 1.0' 
+echo VALUE BAS genume 'Graphical\ ENUMEration\ ver.\ 1.0'
 echo VALUE BAS team 'CSD\ foss\ team,\ https://foss.csd.auth.gr'
 
 # testing changing values
