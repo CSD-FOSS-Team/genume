@@ -117,7 +117,7 @@ check "wireshark-cli" "--version"
 Remote Connectivity.
 '''
 
-check "ssh" "--version"
+check "ssh" "-V"
 # Uses FUSE to mount folders remotely using SSH.
 check "sshfs" "--version"
 # FTP Client.

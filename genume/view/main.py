@@ -33,7 +33,7 @@ class MainWindow(Gtk.Window):
 
         self.reg = Registry()
         self.reg.update()
-        # print_enumeration(reg.root)  # TODO remove, here for debugging
+        # print_enumeration(reg.root)  # TODO: remove, here for debugging
 
         # Load css once.
         self.load_css()
@@ -147,7 +147,7 @@ class MainWindow(Gtk.Window):
 
                 self.generate_root_and_subtree(name, entry, roots_container, subtrees_container)
             else:
-                print("Scripts on the root scripts folder are not supported, yet")  # TODO implement
+                print("Scripts on the root scripts folder are not supported, yet")  # TODO: implement
 
         self.subtrees_container = subtrees_container
         return main_view
