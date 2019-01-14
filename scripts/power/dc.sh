@@ -9,6 +9,6 @@ cnt=0
 curdir=${dir%/*}
 
 if [ -f ${curdir}/online ]; then
-  online=$(cat ${curdir}/online)
-  echo VALUE BAS online ${online}
+    online=$(cat ${curdir}/online)
+    echo VALUE BAS online ${online}
 fi

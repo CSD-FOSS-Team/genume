@@ -2,14 +2,14 @@
 
 # Check for an app and if it exists provide the version.
 function check() {
-  name=$1
-  version=$2
+    name=$1
+    version=$2
 
-  key=$name
+    key=$name
 
-  if command -v "$name" >/dev/null; then
-    echo VALUE BAS "$key" \"$($name $version 2>&1 | sed '/./q; d')\" GROUP "apps"
-  fi
+    if command -v "$name" >/dev/null; then
+        echo VALUE BAS "$key" \"$($name $version 2>&1 | sed '/./q; d')\" GROUP "apps"
+    fi
 }
 
 '''
@@ -82,7 +82,7 @@ check "kde-applications" "--version"
 # Bulk rename.
 check "krename" "--version"
 # File-version control.
-check "kdiff" "--version" 
+check "kdiff" "--version"
 
 '''
 Programming Languages & Compilers.
@@ -143,9 +143,9 @@ Text Editors/IDEs.
 
 check "nano" "--version"
 if hash vi --version 2>/dev/null; then
-  check "vi" "--version"
+    check "vi" "--version"
 else
-  check "vim" "--version"
+    check "vim" "--version"
 fi
 check "emacs" "--version"
 check "code" "--version"
@@ -165,7 +165,7 @@ Virtual Enviroment Testing.
 '''
 
 check "vagrant" "--version"
-check "docker" "--version" 
+check "docker" "--version"
 
 '''
 File Editors.
