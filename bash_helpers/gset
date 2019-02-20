@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+import argparse
+import shlex
+import sys
+import os
+
+
+# Protocol converter | gset -> SET
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog="gset", description="Converts simple shell commands to the protocol SET command.")
+    parser.add_argument('--description', dest='desc', action='store', type=str, help='Your script\'s description.')
+    args = parser.parse_args()
+    if "HOST_VERSION" in os.environ:
+        if args.desc is not None:
+            print("SET DESCRIPTION " + shlex.quote(args.desc))

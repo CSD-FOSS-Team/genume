@@ -63,7 +63,7 @@ def parse_set(args, mc, obs, state):
             target = __get_category_from_state(mc, state)
             target.desc = value
         else:
-            log.warning("SET %s: requires only one arguments" % (type_arg))
+            log.warning("SET %s: requires only one argument, got %d" % (type_arg, len(args)))
     else:
         log.warning("SET %s: unknown key" % (type_arg))
 

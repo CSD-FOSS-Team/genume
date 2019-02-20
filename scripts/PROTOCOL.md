@@ -8,11 +8,11 @@ Genume traverses the files under `script/` in alphabetical order every time it n
 
 ## Bash
 
-- For bash scripts there are some helper executables. For more information read [bash helpers](../bash_helpers/README.md). For more advanced usage the [low level](#low-level) can also be used directly.
+- For bash scripts there are some helper executables. For more information read [bash helpers](../bash_helpers/README.md). For more advanced usage the [low level protocol](#low-level) can also be used.
 
 ## Low Level
 
-- Communication with the host program happens threw environment variables and pipes/streams.
+- Communication with the host program happens with environment variables and pipes/streams.
 
 ### Input
 
@@ -35,7 +35,7 @@ Constants are passed from the host program to the child as environments variable
 Commands are sent to the host by writing to stdout. Responses, if specified by the command are sent to the stdin of the child process. Stderr gets redirected to host's stdout.
 
 ```sh
-CONF id [dependencies...]
+CONF [dependencies...]
 SET DESCRIPTION value
 VALUE [BAS|ADV] [SUBCAT path] key value...
 SUBCAT [BAS|ADV] path
@@ -46,7 +46,7 @@ SUBCAT [BAS|ADV] path
     - `dependencies` is a variable size set of strings of all the external executables the child needs. One custom dependency is `root`, which provides root access to the child(if allowed by the user).
     - This commands replies with `OK` if everything has been setup correctly. Else it replies with an error message.
 
-2. `SET DESCRIPTION value`
+2. `SET <property> value`
     - Changes a property to a new value.
     - Currently supported properties are:
         1. `DESCRIPTION`: The description of the current (sub)category (string).
@@ -63,7 +63,7 @@ SUBCAT [BAS|ADV] path
     - Creates a new subcategory or switches to an already existing one. All following commands will refer to the new subcategory until a new subcat command.
     - `SUBCAT` the command name.
     - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information. It has no effect if the category already exists.
-    - `path` is the path of the subcategory to switch to. Two subcategories must be seperated by a dot and should only contain alphanumeric and underscores. Paths starting with dot (.) are interpreted as relative paths. An empty path is interpreted as the master/root category.
+    - `path` is the path of the subcategory to switch to. Two subcategories must be seperated by a dot and should only contain alphanumeric and underscores. Paths starting with dot (.) are interpreted as relative to the current path. An empty path is interpreted as the master/root category.
 
 #### Notes
 

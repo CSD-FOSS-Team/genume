@@ -1,1 +1,35 @@
 #!/usr/bin/env python3
+import argparse
+import sys
+import os
+
+
+def error(msg):
+    sys.stderr.write(msg + "\n")
+
+
+# Protocol converter | configure -> CONF
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog="configure",
+                                     description="Converts simple shell commands to the protocol CONF command.")
+    parser.add_argument('dependencies', metavar='DEP', type=str, nargs='*',
+                        help="Required commands for your script to run")
+    parser.add_argument('--nonfatal', dest='fatal', action='store_false',
+                        help="Returns an error instead of crashing.")
+    args = parser.parse_args()
+    if "HOST_VERSION" in os.environ:
+        print("CONF %s" % (" ".join(args.dependencies)))
+        result = sys.stdin.readline().strip()
+        if result == "OK":
+            sys.exit(0)
+        else:
+            error(result)
+            if(args.fatal):
+                # Make parent crash.
+                pid = os.getppid()
+                if pid != 1:
+                    os.kill(pid, 9)
+                sys.exit(1)
+            else:
+                # Just return error code.
+                sys.exit(1)
