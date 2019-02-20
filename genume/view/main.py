@@ -1,6 +1,7 @@
 import gi
 import os
 import math
+import logging as log
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
@@ -31,26 +32,39 @@ class MainWindow(Gtk.Window):
         self.load_css()
         # Setup the layout.
         self.set_titlebar(self.generate_header_bar())
-        self.add(self.generate_main_view())
+        self.main_view, self.roots_container = self.generate_main_view()
+        self.add(self.main_view)
         # Handle events.
         self.connect("destroy", Gtk.main_quit)
 
         # Finish up and enter the main loop.
         self.show_all()
+        self.refresh()
         Gtk.main()
 
     def refresh(self):
-        """Updates the registry and refreshes the view"""
-        self.reg.update()
+        """Updates the registry and refreshes the view."""
+        self.reg.request_refresh()
 
-    def finish_async_refresh(self):
+    def finish_async_refresh(self, _):
         """Applies new registry tree to view."""
-        # TODO improve
-        current_page = self.subtrees_container.get_current_page()
-        self.remove(self.get_child())
-        self.add(self.generate_main_view())
+        # 0: Get required objects.
+        subtrees_container = self.subtrees_container
+        roots_container = self.roots_container
+        # 1: Clean up previous view.
+        for i in range(subtrees_container.get_n_pages()):
+            subtrees_container.remove_page(-1)
+        for c in roots_container.get_children():
+            roots_container.remove(c)
+        # 2: Fill view from registy.
+        root = self.reg.get_async_data()
+        for name, entry in root.items():
+            if isinstance(entry, CategoryEntry):
+                self.generate_root_and_subtree(name, entry, roots_container, self.subtrees_container)
+            else:
+                log.error("Scripts on the root scripts folder are not supported yet!")
+        # 3: Finish up
         self.show_all()
-        self.subtrees_container.set_current_page(current_page)
 
     def generate_header_bar(self):
         bar = Gtk.HeaderBar(
@@ -80,8 +94,6 @@ class MainWindow(Gtk.Window):
         add_separator()
         add("About", self.request_about)
         add("Close", self.request_close)
-
-        # TODO: Extend the menu.
 
         menu.show_all()
         return menu
@@ -134,7 +146,7 @@ class MainWindow(Gtk.Window):
         inner_container.pack_start(self.load_logo(), False, False, 0)
 
         self.subtrees_container = subtrees_container
-        return main_view
+        return (main_view, roots_container)
 
     def load_css(self):
         style_provider = Gtk.CssProvider()
@@ -230,12 +242,11 @@ class MainWindow(Gtk.Window):
     def generate_subtrees_container(self):
         backBox = Gtk.Notebook(show_tabs=False)
         # backBox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
-
         return backBox
 
     def generate_subtree(self, name, entry: CategoryEntry):
         """Generate the list like view that correspond to the given entry."""
-
+        log.debug("Adding %d entries to %s" % (len(entry), name))
         tree = Gtk.TreeView(self.create_treestore(entry))
         tree.expand_all()
         # Enable this if the show_tabs value is set to True.
@@ -243,7 +254,6 @@ class MainWindow(Gtk.Window):
 
         # TODO: find a way to set this background
         for i, column_title in enumerate(["Name", "Value"]):
-
             tree.append_column(Gtk.TreeViewColumn(
                 column_title,
                 Gtk.CellRendererText(),
@@ -252,14 +262,11 @@ class MainWindow(Gtk.Window):
         return tree
 
     def create_treestore(self, entry: CategoryEntry):
-
         store = Gtk.TreeStore(str, str)
         self.create_subtreestore(store, None, entry)
-
         return store
 
     def create_subtreestore(self, store, parent, entry: CategoryEntry):
-
         for name, entry in entry.items():
             if isinstance(entry, CategoryEntry):
                 x = store.append(parent, [self.format_name(name), None])
@@ -326,6 +333,7 @@ class Item(FixedVBox):
     # Event handlers.
 
     def on_click(self, widget, event):
+        log.info("Switching to %d" % (self.page_index))
         self.parent.show_root(self.page_index)
         self.addClass("tab-active")
         if(self.parent.selected_tab is not None):
