@@ -12,9 +12,9 @@ function check() {
     fi
 }
 
-'''
-Shells.
-'''
+
+# Shells.
+
 
 check "bash" "-version"
 check "zsh" "--version"
@@ -22,9 +22,9 @@ check "csh" "--version"
 check "ksh" "--version"
 check "fish" "--version"
 
-'''
-Code Helpers.
-'''
+
+# Code Helpers.
+
 
 # Shell Parser, Formatter and Interpreter.
 check "shfmt" "--version"
@@ -43,9 +43,9 @@ check "ctags" "--version"
 # Code Search (a specialized grep).
 check "ack" "--version"
 
-'''
-Terminal Management.
-'''
+
+# Terminal Management.
+
 
 # Terminal Multiplexer.
 check "byobu" "--version"
@@ -54,29 +54,29 @@ check "tmux" "--version"
 # Multiple Terminals Management.
 check "terminator" "--version"
 
-'''
-# TODO:
-'''
+
+# TODO:(xlxs4)
+
 
 # Executes Commands in Makefile.
 check "make" "--version"
 
-'''
-Version Control.
-'''
+
+# Version Control.
+
 
 check "git" "--version"
 check "subversion" "--version"
 
-'''
-GNOME.
-'''
+
+# GNOME.
+
 
 check "gnome-software" "--version"
 
-'''
-KDE.
-'''
+
+# KDE.
+
 
 check "kde-applications" "--version"
 # Bulk rename.
@@ -84,9 +84,9 @@ check "krename" "--version"
 # File-version control.
 check "kdiff" "--version"
 
-'''
-Programming Languages & Compilers.
-'''
+
+# Programming Languages & Compilers.
+
 
 # GNU Compiler Collection (C, C++, Go...).
 check "gcc" "--version"
@@ -103,9 +103,9 @@ check "perl" "-v"
 check "lua" "-v"
 check "mysql" "--version"
 
-'''
-PenTest.
-'''
+
+# PenTest.
+
 
 check "freedom" "-version"
 # Security Scanner.
@@ -113,9 +113,9 @@ check "nmap" "-V"
 # Wire protocols inspector.
 check "wireshark-cli" "--version"
 
-'''
-Remote Connectivity.
-'''
+
+# Remote Connectivity.
+
 
 check "ssh" "-V"
 # Uses FUSE to mount folders remotely using SSH.
@@ -129,17 +129,17 @@ check "unison" "--version"
 # Dropbox Alternative.
 check "sparkleshare" "--version"
 
-'''
-Encryption.
-'''
+
+# Encryption.
+
 
 check "veracrypt" "--version"
 check "pgp" "--version"
 check "gpg" "--version"
 
-''' 
-Text Editors/IDEs.
-'''
+
+# Text Editors/IDEs.
+
 
 check "nano" "--version"
 if hash vi --version 2>/dev/null; then
@@ -160,16 +160,16 @@ check "geany" "--version"
 check "kwrite" "--version"
 check "scite" "--version"
 
-'''
-Virtual Enviroment Testing.
-'''
+
+# Virtual Enviroment Testing.
+
 
 check "vagrant" "--version"
 check "docker" "--version"
 
-'''
-File Editors.
-'''
+
+# File Editors.
+
 
 # Text-Based File Manager.
 check "ranger" "--version"
@@ -188,15 +188,15 @@ check "gnuplot" "--version"
 # 3D CAD Modeler.
 check "freecad" "--version"
 
-'''
-Window Managers.
-'''
+
+# Window Managers.
+
 
 check "i3" "--version"
 
-'''
-# TODO:
-'''
+
+# TODO:(xlxs4)
+
 
 # Partition Tables Manipulator.
 check "parted" "--version"
@@ -207,9 +207,9 @@ check "stacer" "--version"
 # BitTorrent Client.
 check "transmission-cli" "--version"
 
-''' 
-Media.
-'''
+
+# Media.
+
 
 # CD/DVD Burner.
 check "k3b" "--version"
@@ -218,25 +218,25 @@ check "vlc" "--version"
 # Graphics Editor.
 check "gimp" "--version"
 
-'''
-IRC & General Communication.
-'''
+
+# IRC & General Communication.
+
 
 # Communication Wrapper.
 check "pidgin" "--version"
 # IRC Client.
 check "hexchat" "--version"
 
-'''
-Browsers.
-'''
+
+# Browsers.
+
 
 check "chromium" "--version"
 check "firefox" "--version"
 
-'''
-Email Applications.
-'''
+
+# Email Applications.
+
 
 check "thunderbird" "--version"
 
