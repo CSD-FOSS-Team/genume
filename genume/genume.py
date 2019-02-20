@@ -1,7 +1,7 @@
 import os
 import argparse
 
-import genume.view.main as gui
+from genume.view.main import MainWindow
 from genume.constants import NAME, DESC, VERSION
 from genume.registry.registry import Registry
 from genume.exports.terminal import TextExporter
@@ -26,7 +26,7 @@ def main():
     if args.export is None:
         # Check if a graphical environment is available(X11 or Wayland).
         if "DISPLAY" in os.environ or "WAYLAND_DISPLAY" in os.environ:
-            gui.main()
+            gui = MainWindow()
         else:
             print("Could not detect a graphical environment!")
     else:

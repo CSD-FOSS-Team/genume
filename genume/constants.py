@@ -31,3 +31,13 @@ SCRIPTS_BASH_EXTRA = os.path.dirname(os.path.realpath(__file__)) + "/../" + "bas
 # Limit the maximum number of child processes to have running at any given time.
 # This limit is imposed by each instance of Registry separately.
 SCRIPTS_MAX_MULTI_DISPATCH = multiprocessing.cpu_count()
+
+# Assets folder. Used by the view.
+ASSETS_ROOT = "data/images/"
+
+# The path to the logo.
+# The logo image must be 200X100 px
+ASSETS_LOGO = ASSETS_ROOT + "logo.png"
+
+# The path to the refresh icon.
+ASSETS_REFRESH = ASSETS_ROOT + "icon_refresh.png"
