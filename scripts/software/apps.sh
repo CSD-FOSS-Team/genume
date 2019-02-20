@@ -50,16 +50,9 @@ check "ack" "--version"
 # Terminal Multiplexer.
 check "byobu" "--version"
 # Another Terminal Multiplexer.
-check "tmux" "--version"
+check "tmux" "-V"
 # Multiple Terminals Management.
 check "terminator" "--version"
-
-
-# TODO:(xlxs4)
-
-
-# Executes Commands in Makefile.
-check "make" "--version"
 
 
 # Version Control.
@@ -90,6 +83,8 @@ check "kdiff" "--version"
 
 # GNU Compiler Collection (C, C++, Go...).
 check "gcc" "--version"
+# Executes Commands in Makefile.
+check "make" "--version"
 check "java" "-version"
 check "python" "-V"
 # Haskell Compiler.
@@ -195,17 +190,13 @@ check "freecad" "--version"
 check "i3" "--version"
 
 
-# TODO:(xlxs4)
+# System Monitors.
 
 
-# Partition Tables Manipulator.
-check "parted" "--version"
 # Command Line System Monitor.
 check "htop" "--version"
 # System Optimizer.
 check "stacer" "--version"
-# BitTorrent Client.
-check "transmission-cli" "--version"
 
 
 # Media.
@@ -239,5 +230,14 @@ check "firefox" "--version"
 
 
 check "thunderbird" "--version"
+
+
+# Miscellaneous.
+
+
+# Partition Tables Manipulator.
+check "parted" "--version"
+# BitTorrent Client.
+check "transmission-cli" "--version"
 
 # TODO: Extend.
