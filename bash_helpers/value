@@ -1,1 +1,30 @@
 #!/usr/bin/env python3
+import argparse
+import shlex
+import sys
+import os
+
+
+# Protocol converter | value -> VALUE
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog="value",
+                                     description="Converts simple shell commands to the protocol VALUE command.")
+    parser.add_argument('key', metavar='KEY', type=str, nargs=1,
+                        help='The key of this value')
+    parser.add_argument('val', metavar='VALUE', type=str, nargs='+',
+                        help='A number of strings which will be concatenated to form the value')
+    parser.add_argument('--advanced', dest='adv', action='store_true',
+                        help='Mark this as advanced information')
+    parser.add_argument('--subcat', dest='path', action='store', type=str, default='.',
+                        help='Path of the subcategory in which this value will be placed')
+    args = parser.parse_args()
+    if "HOST_VERSION" in os.environ:
+        print("VALUE %s SUBCAT %s %s %s" % ("ADV" if args.adv else "BAS",
+                                            shlex.quote(args.path),
+                                            shlex.quote(args.key[0]),
+                                            shlex.quote(" ".join(args.val))))
+    else:
+        print("%s%s%s=%s" % (shlex.quote(args.path),
+                             '' if args.path == '.' else '.', shlex.quote(
+                                 args.key[0]),
+                             shlex.quote(" ".join(args.val))))
