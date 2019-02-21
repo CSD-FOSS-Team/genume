@@ -1,10 +1,10 @@
 #!/bin/bash
 
+echo VALUE BAS genume 'Graphical\ ENUMEration\ ver.\ 1.0'
+echo VALUE BAS team 'CSD\ foss\ team,\ https://foss.csd.auth.gr'
 
-echo VALUE BAS GENUME 'Graphical\ ENUMEration\ ver.\ 1.0' 
-echo VALUE BAS Team 'CSD\ foss\ team,\ https://foss.csd.auth.gr' 
-# testing list values 
-git log --pretty="VALUES BAS authors \"%an %ce\"" | sort | uniq | grep -v noreply
-
-# testing changing values
+# Test changing values.
 echo VALUE BAS date \"$(date)\"
+
+# Test list values.
+git log --all --format="VALUES BAS authors \"%aN <%aE>\"" | awk '{ print length, $0 }' | sort -nur | cut -d" " -f2- | sort -u -t'<' -k2,2 | sed '/noreply/s/ <.*>//' | sort

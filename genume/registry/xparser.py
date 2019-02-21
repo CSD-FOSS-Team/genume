@@ -95,5 +95,5 @@ def run_and_parse(cat, file):
 
 
 # Initialize environment variables.
-# TODO move elsewhere
+# TODO: move elsewhere
 os.putenv("GENUME_VERSION", VERSION)

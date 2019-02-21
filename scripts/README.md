@@ -2,6 +2,11 @@
 
 This where all the scripts go. For more info about the script interface and examples please go to [PROTOCOL.md](PROTOCOL.md).
 
+## Styleguide
+
+The scripts ought to abide to [Google's Shell Styleguide](https://google.github.io/styleguide/shell.xml).
+**Important**: Note that 4 spaces are used for indentation instead of the above link's suggested 2.
+
 ## Files/directories of interest
 
 1. `/proc` and `/sys`

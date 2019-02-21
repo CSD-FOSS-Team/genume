@@ -1,19 +1,18 @@
 #!/bin/bash
 
-# check for root user
+# Check for root user.
 if [ "$EUID" -ne 0 ]; then
 
-	echo VALUE BAS firewall \""<requires root>"\"
+    echo VALUE BAS firewall \""<requires root>"\"
 
 else
 
-	# TODO extend
+    # TODO: Extend.
 
-	status=$(sudo ufw status verbose)
+    status=$(sudo ufw status verbose)
 
-	active=$(echo "$status" | grep Status: | cut -d " " -f 2)
+    active=$(echo "$status" | grep Status: | cut -d " " -f 2)
 
-	echo VALUE BAS firewall \"$active\"
-	
+    echo VALUE BAS firewall \"$active\"
+
 fi
-

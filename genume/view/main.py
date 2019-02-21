@@ -15,11 +15,11 @@ def main():
     Gtk.main()
 
 
-LOGO = "data/images/logo.png"  # The logo image must be 200X100 px
+LOGO = "data/images/logo.png"  # The logo image must be 200X100 px.
 CSS = "genume/view/styles.css"
 REFRESH_ICON = "data/icons/refresh.png"
 
-# Sizes
+# Sizes.
 WIDTH = 650
 HEIGHT = 425
 
@@ -33,22 +33,22 @@ class MainWindow(Gtk.Window):
 
         self.reg = Registry()
         self.reg.update()
-        # print_enumeration(reg.root)  # TODO remove, here for debugging
+        # print_enumeration(reg.root)  # TODO: remove, here for debugging
 
-        # Load css once
+        # Load css once.
         self.load_css()
 
-        # setup the layout
+        # Setup the layout.
         self.set_titlebar(self.generate_header_bar())
         self.add(self.generate_main_view())
 
-        # handle events
+        # Handle events.
         self.connect("destroy", Gtk.main_quit)
         self.show_all()
 
     def refresh(self):
         """Updates the registry and refreshes the view"""
-        # TODO improve
+        # TODO: improve
         self.reg.update()
         current_page = self.subtrees_container.get_current_page()
         self.remove(self.get_child())
@@ -71,7 +71,7 @@ class MainWindow(Gtk.Window):
         return bar
 
     def generate_header_bar_menu(self):
-        """Generates and returns a menu for the header bar menu button"""
+        """Generates and returns a menu for the header bar menu button."""
 
         menu = Gtk.Menu(halign=Gtk.Align.END)
 
@@ -87,13 +87,13 @@ class MainWindow(Gtk.Window):
         add("About", self.request_about)
         add("Close", self.request_close)
 
-        # TODO extend the menu
+        # TODO: Extend the menu.
 
         menu.show_all()
         return menu
 
     def generate_main_view(self):
-        """Generate and return the content of the window"""
+        """Generate and return the content of the window."""
 
         main_view = Gtk.Overlay()
 
@@ -124,7 +124,7 @@ class MainWindow(Gtk.Window):
         roots_container = self.generate_roots_container()
 
         # The inner container is used so that the only content that is
-        # scrollable is the tabs and not the logo
+        # scrollable is the tabs and not the logo.
         inner_container = Gtk.VBox()
         inner_container.pack_end(srcoll_wrap(roots_container), True, True, 0)
 
@@ -134,12 +134,12 @@ class MainWindow(Gtk.Window):
 
         grid.pack_start(srcoll_wrap(subtrees_container, True), True, True, 0)
 
-        # fill the layout
+        # Fill the layout.
 
-        # Add logo
+        # Add logo.
         inner_container.pack_start(self.load_logo(), False, False, 0)
 
-        # TODO remove, here for debugging
+        # TODO: remove, here for debugging
         # print_enumeration(reg.root)
 
         for name, entry in self.reg.root.items():
@@ -147,7 +147,7 @@ class MainWindow(Gtk.Window):
 
                 self.generate_root_and_subtree(name, entry, roots_container, subtrees_container)
             else:
-                print("Scripts on the root scripts folder are not supported, yet")  # TODO implement
+                print("Scripts on the root scripts folder are not supported, yet")  # TODO: implement
 
         self.subtrees_container = subtrees_container
         return main_view
@@ -208,7 +208,7 @@ class MainWindow(Gtk.Window):
         return container
 
     def generate_root_and_subtree(self, name, entry: CategoryEntry, roots_container, subtrees_container):
-        """Generate a root tab and the corresponding subtree view"""
+        """Generate a root tab and the corresponding subtree view."""
 
         root = self.generate_root(name, entry)
         roots_container.pack_start(root, False, False, 0)
@@ -216,7 +216,7 @@ class MainWindow(Gtk.Window):
         subtree = self.generate_subtree(name, entry)
         subtrees_container.append_page(subtree, Gtk.Label(label=name))
 
-        # setup the events
+        # Setup the events.
         root.page_index = subtrees_container.get_n_pages() - 1
         root.parent = self
 
@@ -227,18 +227,18 @@ class MainWindow(Gtk.Window):
         return mainBox
 
     def generate_root(self, name, entry: CategoryEntry):
-        """Generate the tab like button that correspond to the given entry"""
+        """Generate the tab like button that correspond to the given entry."""
 
         item = Item()
         item.setTitle(name)
 
-        # Make the first tab active
+        # Make the first tab active.
         if (self.selected_tab is None):
             self.selected_tab = item
             item.addClass("tab-active")
 
         # After refresh:
-        # Keep the active atribute of the selected class
+        # Keep the active atribute of the selected class.
         if (self.selected_tab is not None and item.title == self.selected_tab.title):
             self.selected_tab = item
             item.addClass("tab-active")
@@ -252,11 +252,11 @@ class MainWindow(Gtk.Window):
         return backBox
 
     def generate_subtree(self, name, entry: CategoryEntry):
-        """Generate the list like view that correspond to the given entry"""
+        """Generate the list like view that correspond to the given entry."""
 
         tree = Gtk.TreeView(self.create_treestore(entry))
         tree.expand_all()
-        # Enable this if the show_tabs value is set to True
+        # Enable this if the show_tabs value is set to True.
         # tree.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(primary_color_light))
 
         # TODO: find a way to set this background
@@ -286,18 +286,18 @@ class MainWindow(Gtk.Window):
                 store.append(parent, [self.format_name(name), repr(entry)])
 
     def format_name(self, name):
-        # TODO extend
+        # TODO: extend
         return name.replace("_", " ")
 
     def show_root(self, button):
-        """Changes to the tab given by the page_index value of the button"""
+        """Changes to the tab given by the page_index value of the button."""
         self.subtrees_container.set_current_page(button.page_index)
 
     def request_refresh(self, _):
         self.refresh()
 
     def request_about(self, _):
-        # TODO show about dialog
+        # TODO: show about dialog
         pass
 
     def request_close(self, _):
@@ -341,7 +341,7 @@ class Item(FixedVBox):
         self.removeOnMouseEnterHandler()
         self.removeOnMouseLeaveHandler()
 
-    # Event handlers
+    # Event handlers.
 
     def on_click(self, widget, event):
         self.parent.show_root(self.page_index)
@@ -350,7 +350,7 @@ class Item(FixedVBox):
             self.parent.selected_tab.removeClass("tab-active")
         self.parent.selected_tab = self
 
-    # TODO: Find a way for pseudoclasses to work
+    # TODO: Find a way for pseudoclasses to work.
     def on_mouse_enter(self, widget, event):
         self.addClass("tab-hover")
         self.parent.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.HAND2))
