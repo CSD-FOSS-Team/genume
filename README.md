@@ -2,12 +2,11 @@
 
 **genume** is a graphical user interface for a collection of enumeration scripts.
 
-![](https://img.shields.io/travis/CSD-FOSS-Team/genume.svg)
-![](https://img.shields.io/badge/python-3.3,%203.4,%203.5,%203.6-blue.svg)
-![](https://img.shields.io/badge/license-GPLv2-lightgrey.svg)
+![Build Status](https://img.shields.io/travis/CSD-FOSS-Team/genume.svg)
+![python-3.3, 3.4, 3.5, 3.6, 3.7](https://img.shields.io/badge/python-3.3,%203.4,%203.5,%203.6,%203.7-blue.svg)
+![GPLv2](https://img.shields.io/badge/license-GPLv2-lightgrey.svg)
 
-![Alt text](data/images/screenshot_genume.png?raw=true "")
-
+![Screenshot](data/images/screenshot_genume.png)
 
 Build with **Python 3** and **Gtk+3**.
 
@@ -15,9 +14,13 @@ First `git clone https://github.com/CSD-FOSS-Team/genume.git`
 
 Start **genume** by running `make` or `python3 -m genume`.
 
+## Features
+
+By default genume displays the collected information in a gui. But it can also export the enumeration in file format. Please run `genume --help` to see the list of supported exporters.
+
 ## Install
 
-?
+TODO: #22
 
 ## Contribute
 
