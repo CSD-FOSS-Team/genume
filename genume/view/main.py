@@ -8,10 +8,10 @@ from gi.repository import Gtk, Gdk
 from genume.registry.registry import Registry
 from genume.view.event_panels import FixedVBox
 from genume.registry.category import CategoryEntry
-from genume.constants import ASSETS_LOGO, ASSETS_REFRESH
+from genume.constants import ASSETS_ROOT, ASSETS_LOGO, ASSETS_REFRESH
 
 
-CSS = os.path.join(os.path.dirname(__file__), "styles.css")
+CSS = os.path.join(ASSETS_ROOT, "styles.css")
 
 # Default minimum window size.
 WIDTH = 640

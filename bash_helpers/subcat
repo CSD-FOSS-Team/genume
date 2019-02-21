@@ -15,6 +15,6 @@ if __name__ == '__main__':
                         help='Mark this as advanced information')
     args = parser.parse_args()
     if "HOST_VERSION" in os.environ:
-        print("SUBCAT %s %s" % ("ADV" if args.adv else "BAS", shlex(args.path)))
+        print("SUBCAT %s %s" % ("ADV" if args.adv else "BAS", shlex.quote(args.path)), flush=True)
     else:
-        print("Change to %s" % (shlex.quote(args.path)))
+        print("Change to %s" % (shlex.quote(args.path)), flush=True)

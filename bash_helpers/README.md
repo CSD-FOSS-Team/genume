@@ -21,6 +21,8 @@ This command takes 2 or more positional arguments. The first one is always the k
 ## Example script
 
 ```sh
+#!/bin/bash
+
 # Specify required commands.
 configure date pwd
 # Add description(optional).
@@ -33,7 +35,12 @@ value --advanced adv 'Only for advanced people!'
 subcat
 # Temporary subcategory.
 output=$(date)
-value --subcat .date time "Time is ticking: \n ${output}"
+value --subcat .date time "Time is ticking:"
+value --subcat .date time "${output}"
 # Execute command inside string.
 value --advanced dir "Running inside $(pwd)"
 ```
+
+This results in the following output:
+
+![Screenshot](../assets/screenshot_bash.png)

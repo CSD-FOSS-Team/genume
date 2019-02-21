@@ -18,4 +18,7 @@ class ValueEntry(BaseEntry):
         return '\n'.join(self.values)
 
     def __str__(self):
-        return '[' + ', '.join(self.values) + ']'
+        if len(self.values) > 1:
+            return '[' + ', '.join(self.values) + ']'
+        else:
+            return ''.join(self.values)

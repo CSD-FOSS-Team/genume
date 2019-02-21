@@ -18,7 +18,7 @@ if __name__ == '__main__':
                         help="Returns an error instead of crashing.")
     args = parser.parse_args()
     if "HOST_VERSION" in os.environ:
-        print("CONF %s" % (" ".join(args.dependencies)))
+        print("CONF %s" % (" ".join(args.dependencies)), flush=True)
         result = sys.stdin.readline().strip()
         if result == "OK":
             sys.exit(0)

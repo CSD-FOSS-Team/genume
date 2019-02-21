@@ -3,6 +3,7 @@
 # Fullproof way of finding the user's preferences=distribution.
 # Posix shell compliant.
 
+configure cat sed tr uname
 # The currently correct way.
 releasefile() {
     if [ -f "/etc/os-release" ]; then
@@ -69,16 +70,9 @@ ARCH=$(uname -m)
 LINUX_VERSION=$(uname -sr)
 LINUX_INFO="${LINUX_VERSION}(${ARCH})"
 # Output findings.
-if [ -z "$HOST_VERSION" ]; then
-    echo $DISPLAY_NAME
-    if [ ! -z "$EXTRA_URL" ]; then
-        echo $EXTRA_URL
-    fi
-    echo $LINUX_INFO
-else
-    echo VALUE BAS dist_name \""${DISPLAY_NAME}\""
-    if [ ! -z "$EXTRA_URL" ]; then
-        echo VALUE BAS dist_url "\"${EXTRA_URL}\""
-    fi
-    echo VALUE BAS kernel "\"${LINUX_INFO}\""
+value dist_name "${DISPLAY_NAME}"
+if [ ! -z "$EXTRA_URL" ]; then
+    value dist_url "${EXTRA_URL}"
 fi
+value kernel "${LINUX_INFO}"
+

@@ -12,4 +12,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if "HOST_VERSION" in os.environ:
         if args.desc is not None:
-            print("SET DESCRIPTION " + shlex.quote(args.desc))
+            print("SET DESCRIPTION " + shlex.quote(args.desc), flush=True)

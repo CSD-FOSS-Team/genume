@@ -33,11 +33,11 @@ SCRIPTS_BASH_EXTRA = os.path.dirname(os.path.realpath(__file__)) + "/../" + "bas
 SCRIPTS_MAX_MULTI_DISPATCH = multiprocessing.cpu_count()
 
 # Assets folder. Used by the view.
-ASSETS_ROOT = "data/images/"
+ASSETS_ROOT = os.path.join(os.path.dirname(__file__), "view/assets")
 
 # The path to the logo.
 # The logo image must be 200X100 px
-ASSETS_LOGO = ASSETS_ROOT + "logo.png"
+ASSETS_LOGO = os.path.join(ASSETS_ROOT, "logo.png")
 
 # The path to the refresh icon.
-ASSETS_REFRESH = ASSETS_ROOT + "icon_refresh.png"
+ASSETS_REFRESH = os.path.join(ASSETS_ROOT, "icon_refresh.png")

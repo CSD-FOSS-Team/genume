@@ -22,9 +22,9 @@ if __name__ == '__main__':
         print("VALUE %s SUBCAT %s %s %s" % ("ADV" if args.adv else "BAS",
                                             shlex.quote(args.path),
                                             shlex.quote(args.key[0]),
-                                            shlex.quote(" ".join(args.val))))
+                                            shlex.quote(" ".join(args.val))), flush=True)
     else:
         print("%s%s%s=%s" % (shlex.quote(args.path),
                              '' if args.path == '.' else '.', shlex.quote(
                                  args.key[0]),
-                             shlex.quote(" ".join(args.val))))
+                             shlex.quote(" ".join(args.val))), flush=True)

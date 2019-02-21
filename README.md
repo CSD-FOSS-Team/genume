@@ -6,7 +6,7 @@
 ![python-3.3, 3.4, 3.5, 3.6, 3.7](https://img.shields.io/badge/python-3.3,%203.4,%203.5,%203.6,%203.7-blue.svg)
 ![GPLv2](https://img.shields.io/badge/license-GPLv2-lightgrey.svg)
 
-![Screenshot](data/images/screenshot_genume.png)
+![Screenshot](assets/screenshot_genume.png)
 
 Build with **Python 3** and **Gtk+3**.
 
