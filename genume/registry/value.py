@@ -1,22 +1,11 @@
-from genume.registry.base import BaseEntry
+from genume.registry.base import BaseEntry, InfoLevel
 
 
 class ValueEntry(BaseEntry):
-    """A type of entry which contains a single string."""
-
-    def __init__(self, parent=None, value=""):
-        super().__init__(parent)
-        self.value = value
-
-    def __repr__(self):
-        return self.value
-
-
-class ListEntry(BaseEntry):
     """A entry which contains a list of strings"""
 
-    def __init__(self, parent=None, value=None):
-        super().__init__(parent)
+    def __init__(self, parent=None, level=InfoLevel.basic, value=None):
+        super().__init__(parent, level)
         if value is None:
             self.values = []
         else:
@@ -29,4 +18,7 @@ class ListEntry(BaseEntry):
         return '\n'.join(self.values)
 
     def __str__(self):
-        return '[' + ', '.join(self.values) + ']'
+        if len(self.values) > 1:
+            return '[' + ', '.join(self.values) + ']'
+        else:
+            return ''.join(self.values)

@@ -1,7 +1,9 @@
 #! /bin/bash
 
+configure getconf grep expr
+
 oput=$(getconf -a | grep CACHE)
-sizes=$(grep _SIZE <<<"$oput")
+sizes=$(grep _SIZE <<< "$oput")
 i=0
 j=0
 k=0
@@ -19,14 +21,14 @@ done
 l=0
 for s in ${strings[*]}; do
     if [ ${nums[$l]} -eq 0 ]; then
-        echo VALUE BAS $s \" \<doesn\'t exist\> \"
+        value $s \<doesn\'t exist\>
     else
         numOfCaches=$(expr $numOfCaches + 1)
-        echo VALUE BAS $s \" ${nums[$l]} \"
+        value $s ${nums[$l]}
     fi
     let l=$(expr $l + 1)
 done
-echo VALUE BAS num_of_caches \" $numOfCaches \"
+value num_of_caches $numOfCaches
 unset sizes
 unset strings
 unset nums
@@ -47,9 +49,9 @@ done
 l=0
 for s in ${strings[*]}; do
     if [ ${nums[$l]} -eq 0 ]; then
-        echo VALUE ADV $s \" \<doesn\'t exist\> \"
+        value --advanced $s \<doesn\'t exist\>
     else
-        echo VALUE ADV $s \" ${nums[$l]} \"
+        value --advanced $s ${nums[$l]}
     fi
     let l=$(expr $l + 1)
 done
@@ -73,9 +75,9 @@ for val in $assocs; do
 done
 for s in ${strings[*]}; do
     if [ ${nums[$l]} -eq 0 ]; then
-        echo VALUE ADV $s \" \<doesn\'t exist\> \"
+        value --advanced $s \<doesn\'t exist\>
     else
-        echo VALUE ADV $s \" ${nums[$l]} \"
+        value --advanced $s ${nums[$l]}
     fi
     let l=$(expr $l + 1)
 done

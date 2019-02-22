@@ -1,10 +1,12 @@
 #!/bin/bash
+
+configure ls wc awk head tail tr cut cat
 files=$(ls /proc/sys/dev/cdrom 2>/dev/null | wc -l)
 if [ "$files" != "0" ]; then
     num=$(awk '{print NF}' /proc/sys/dev/cdrom/info | head -n 3 | tail -n 1)
     num=$(($num - 2))
-    echo GROUP BAS cdroms
-    echo VALUE BAS connected_cdrom_devices ${num}
+    subcat cdroms
+    value connected_cdrom_devices ${num}
 
     if (($num > 0)); then
         for i in $num; do
@@ -75,20 +77,20 @@ if [ "$files" != "0" ]; then
                 writes_dvdram=false
             fi
 
-            echo PATH BAS cdroms.cdrom_$i
-            echo VALUE BAS drive_name \"$drive_name\"
-            echo VALUE ADV drive_speed \"$drive_speed\"
-            echo VALUE ADV number_of_slots \"$number_of_slots\"
-            echo VALUE ADV closes_tray \"$closes_tray\"
-            echo VALUE ADV opens_tray \"$opens_tray\"
-            echo VALUE ADV locks_tray \"$locks_tray\"
-            echo VALUE ADV changes_speed \"$changes_speed\"
-            echo VALUE ADV plays_audio \"$plays_audio\"
-            echo VALUE ADV writes_cdr \"$writes_cdr\"
-            echo VALUE ADV writes_cdrw \"$writes_cdrw\"
-            echo VALUE ADV reads_dvd \"$reads_dvd\"
-            echo VALUE ADV writes_dvdr \"$writes_dvdr\"
-            echo VALUE ADV writes_dvdram \"$writes_dvdram\"
+            subcat cdroms.cdrom_$i
+            value drive_name $drive_name
+            value --advanced drive_speed $drive_speed
+            value --advanced number_of_slots $number_of_slots
+            value --advanced closes_tray $closes_tray
+            value --advanced opens_tray $opens_tray
+            value --advanced locks_tray $locks_tray
+            value --advanced changes_speed $changes_speed
+            value --advanced plays_audio $plays_audio
+            value --advanced writes_cdr $writes_cdr
+            value --advanced writes_cdrw $writes_cdrw
+            value --advanced reads_dvd $reads_dvd
+            value --advanced writes_dvdr $writes_dvdr
+            value --advanced writes_dvdram $writes_dvdram
         done
     fi
 fi

@@ -4,80 +4,67 @@ Genume traverses the files under `script/` in alphabetical order every time it n
 
 1. Ignores the file if it matches at least one regex from `SCRIPTS_IGNORE`.
 2. If the file is a directory, then it creates a new category and performs the same steps for all the files of the new directory.
-3. If the file's extension equals `py`, then it is executed as a [python](#python) script.
-4. Else if the executable bit is set, it is handled as a generic [executable](#other-executables).
+3. Finally if the **executable** bit is set, the file gets executed. One can then communicate with the host program as described in sections [bash](#bash) for generic shell scripts or at the [lower level protocol](#low-level) for everything that is not a script.
 
-## Python
+## Bash
 
-Each python script must `from genume.registry.pyhandle import PythonScript` and create a subclass of `PythonScript` with class name the filename of the python script, excluding the extension, in all caps. It must also overwrite the `run` method and inside that method call the `register` method.
+- For bash scripts there are some helper executables. For more information read [bash helpers](../bash_helpers/README.md). For more advanced usage the [low level protocol](#low-level) can also be used.
 
-```py
-from genume.registry.pyhandle import PythonScript
-# Put this in a file named pyex.py
-class PYEX(PythonScript):
-    "Example python script."
-    def run(self):
-        # We just create a new entry with key "pytest" and value "Hello from python!!!"
-        self.register("pytest", "Hello from python!!!")
+## Low Level
+
+- Communication with the host program happens with environment variables and pipes/streams.
+
+### Input
+
+Constants are passed from the host program to the child as environments variables. These currently are:
+
+1. `HOST_VERSION`
+    - A string representing the host version that is running this script. If this variable is not set, then your executable is probably getting run in a terminal.
+
+2. `HOST_NAME`
+    - A string containing the name of the host program.
+
+3. `HOST_DESC`
+    - A string containing a small description of the host program.
+
+4. `MASTER_CATEGORY`
+    - Contains the name of the root category of the current child. Any new entries will go under this category.
+
+### Communicating with the host
+
+Commands are sent to the host by writing to stdout. Responses, if specified by the command are sent to the stdin of the child process. Stderr gets redirected to host's stdout.
+
+```sh
+CONF [dependencies...]
+SET DESCRIPTION value
+VALUE [BAS|ADV] [SUBCAT path] key value...
+SUBCAT [BAS|ADV] path
 ```
 
-## Other executables
+1. `CONF [dependencies...]`
+    - Configures the child process. This must be sent only once and be the first command sent.
+    - `dependencies` is a variable size set of strings of all the external executables the child needs. One custom dependency is `root`, which provides root access to the child(if allowed by the user).
+    - This commands replies with `OK` if everything has been setup correctly. Else it replies with an error message.
 
-- Communication with other executable formats happens with environment variables and pipes.
+2. `SET <property> value`
+    - Changes a property to a new value.
+    - Currently supported properties are:
+        1. `DESCRIPTION`: The description of the current (sub)category (string).
 
-### Getting input
-
-Input from genume happens mostly with environment variables.
-
-1. `GENUME_VERSION`
-    - A string representing the genume version that is running this script. If this variable is not set, then your executable is probable run outside of genume <sub><sup>\*<sub><sup>*hint*</sup></sub></sup></sub>.
-
-### Creating entries
-
-Entries are created by parsing the output of the script. As a result it must output any number of the below sequences to modify the enumeration.
-
-```
-[VALUE|VALUES] [BAS|ADV] key value
-[GROUP|PATH] [BAS|ADV] path
-[VALUE|VALUES] [BAS|ADV] key value [GROUP|PATH] path
-```
-
-1. `VALUE [BAS|ADV] key value`
-    - Creates a new entry containing a simple string.
+3. `VALUE [BAS|ADV] [SUBCAT path] key value...`
+    - Creates a new entry containing a string or multiples.
     - `VALUE` is the command name.
-    - `[BAS|ADV]` is an enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
+    - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information. It has no effect if the entry already exists.
+    - `[SUBCAT path]` is an optional subcategory. Unlike the full command the effects of this option are temporary.
     - `key` is the key. It should contain only characters you would use to name a variable _(aka alphanumeric and underscores)_.
-    - `value` is the string to display. It must be between double quotation marks.
+    - `value...` is the string or strings to display. Each one must be between double or single quotation marks or parenthesis.
 
-2. `VALUES [BAS|ADV] key value`
-    - Creates a new entry containing a list with the single string value passed. If the key already exists, it adds the value to the list.
-    - `VALUES` is the command name.
-    - `[BAS|ADV]` is an enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information.
-    - `key` is the key. It should contain only characters you would use to name a variable _(aka alphanumeric and underscores)_.
-    - `value` is one of the strings to display. It must be between double quotation marks.
-
-3. `GROUP [BAS|ADV] name`
-    - Defines a new group. All following commands will refer to the new group untill a new group or path command.
-
-4. `PATH [BAS|ADV] path`
-    - Equivalent to the group command except the given value correspnds to a path of groups. The groups in the path are separated with `.`
-
-5. `[VALUE|VALUES] [BAS|ADV] key value [GROUP|PATH] path`
-    - A combination of the value and group commands
-    - The group or path specified for this command will not affect the folloing commands.
+4. `SUBCAT [BAS|ADV] path`
+    - Creates a new subcategory or switches to an already existing one. All following commands will refer to the new subcategory until a new subcat command.
+    - `SUBCAT` the command name.
+    - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information. It has no effect if the category already exists.
+    - `path` is the path of the subcategory to switch to. Two subcategories must be seperated by a dot and should only contain alphanumeric and underscores. Paths starting with dot (.) are interpreted as relative to the current path. An empty path is interpreted as the master/root category.
 
 #### Notes
 
-- The values will be trimmed of whitespace.
-
-### Example script
-
-```sh
-#!/bin/sh
-# Don't forget to set the executable bit with chmod +x ./example.sh
-if [ -z "$GENUME_VERSION" ]; then
-    echo "Running outside of genume."
-else
-    echo "VALUE BAS test \"Hello from shell!!!\""
-fi
-```
+- String values will be trimmed of leading and trailing whitespace.

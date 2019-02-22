@@ -6,8 +6,10 @@ from genume.registry.base import BaseEntry, InfoLevel
 
 class CategoryEntry(BaseEntry, MutableMapping):
     """A registry entry which acts as a container for other entries."""
-    def __init__(self, parent=None, level=InfoLevel.basic):
+    def __init__(self, parent=None, level=InfoLevel.basic, path=None, description=""):
+        self.desc = description
         self.storage = OrderedDict()
+        self.path = path
         super().__init__(parent, level)
 
     def __getitem__(self, key):
@@ -27,3 +29,8 @@ class CategoryEntry(BaseEntry, MutableMapping):
 
     def __keytransform__(self, key):
         return key
+
+    def merge(self, entry):
+        if entry.desc is not None and entry != "":
+            self.desc = entry.desc
+        self.update(entry)

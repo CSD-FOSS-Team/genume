@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Ensure correct bash behaviour.
+configure echo grep sed
 set -o pipefail
 
 # Check for an app and if it exists provide the version.
@@ -12,11 +13,11 @@ function check() {
     if command -v "$name" >/dev/null; then
 	    result=$($name $version 2>&1)
 	    result=$(echo $result | grep -Po "(\d+\.)+\d+" | sed '/./q; d')
-	if [ $? -eq 0 ]; then
-		echo VALUE BAS "$key" \"$result\" GROUP "apps"
-	else
-		echo VALUE BAS "$key" \"$($name $version 2>&1 | sed '/./q; d')\" GROUP "apps"
-	fi
+	    if [ $? -eq 0 ]; then
+		    value --subcat=apps "$key" "$result"
+	    else
+		    value --subcat=apps "$key" "$($name $version 2>&1 | sed '/./q; d')"
+	    fi
     fi
 }
 

@@ -14,6 +14,7 @@ sudorun:
 lint:
 	@$(PYTHON) -m compileall -fq genume
 	@pycodestyle --ignore=E501,E402 genume/
+	@pycodestyle --ignore=E501,E402 bash_helpers/
 	@echo OK
 
 .phony: git
