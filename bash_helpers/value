@@ -11,7 +11,7 @@ if __name__ == '__main__':
                                      description="Converts simple shell commands to the protocol VALUE command.")
     parser.add_argument('key', metavar='KEY', type=str, nargs=1,
                         help='The key of this value')
-    parser.add_argument('val', metavar='VALUE', type=str, nargs='+',
+    parser.add_argument('val', metavar='VALUE', type=str, nargs='*',
                         help='A number of strings which will be concatenated to form the value')
     parser.add_argument('--advanced', dest='adv', action='store_true',
                         help='Mark this as advanced information')
@@ -22,7 +22,7 @@ if __name__ == '__main__':
         print("VALUE %s SUBCAT %s %s %s" % ("ADV" if args.adv else "BAS",
                                             shlex.quote(args.path),
                                             shlex.quote(args.key[0]),
-                                            shlex.quote(" ".join(args.val))), flush=True)
+                                            "<empty>" if len(args.val) == 0 else shlex.quote(" ".join(args.val))), flush=True)
     else:
         print("%s%s%s=%s" % (shlex.quote(args.path),
                              '' if args.path == '.' else '.', shlex.quote(

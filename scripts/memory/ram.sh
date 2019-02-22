@@ -1,9 +1,15 @@
 #!/bin/bash
 
-totalMem=$(grep Mem /proc/meminfo | head -n 1 | cut -f 2 -d :)
-freeMem=$(grep Mem /proc/meminfo | head -n 2 | tail -n 1 | cut -f 2 -d :)
-swapMem=$(grep Mem /proc/meminfo | head -n 3 | tail -n 1 | cut -f 2 -d :)
+configure grep head cut tail
 
-echo VALUE BAS total_memory \" $totalMem \"
-echo VALUE BAS free_memory \" $freeMem \"
-echo VALUE BAS swap_memory \" $swapMem \"
+totalMem=$(awk '( $1 == "MemTotal:" ) { print $2/1048576 }' /proc/meminfo)
+cachedMem=$(awk '( $1 == "Cached:" ) { print $2/1048576 }' /proc/meminfo)
+freeMem=$(awk '( $1 == "MemAvailable:" ) { print $2/1048576 }' /proc/meminfo)
+swapMem=$(awk '( $1 == "SwapTotal:" ) { print $2/1048576 }' /proc/meminfo)
+swapFreeMem=$(awk '( $1 == "SwapFree:" ) { print $2/1048576 }' /proc/meminfo)
+
+value total_memory $totalMem GiB
+value avail_memory $freeMem GiB
+value cached_memory $cachedMem GiB
+value swap_memory $swapMem GiB
+value swap_free_memory $swapFreeMem GiB

@@ -1,9 +1,10 @@
 #!/bin/bash
 
+configure echo ufw grep cut
 # Check for root user.
 if [ "$EUID" -ne 0 ]; then
 
-    echo VALUE BAS firewall \""<requires root>"\"
+    value firewall "<requires root>"
 
 else
 
@@ -13,6 +14,6 @@ else
 
     active=$(echo "$status" | grep Status: | cut -d " " -f 2)
 
-    echo VALUE BAS firewall \"$active\"
+    value firewall $active
 
 fi
