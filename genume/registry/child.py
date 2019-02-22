@@ -53,7 +53,7 @@ class ChildHandler:
                     self.path.name, self.executable.pid, delta_ms))
             else:
                 log.error("Child %s (%i) has stopped execution with code %i." % (
-                    self.path.name, self.executable.pid, self.executable.returncode, delta_ms))
+                    self.path.name, self.executable.pid, self.executable.returncode))
             self.done = True
             return True
         else:
