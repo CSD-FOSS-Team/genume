@@ -18,8 +18,6 @@ class JsonExporterBase(Exporter):
         for k, v in root.items():
             if isinstance(v, CategoryEntry):
                 o[k] = self.sub_handle(v)
-            elif isinstance(v, ValueEntry):
-                o[k] = v.values
             else:
                 o[k] = str(v)
 

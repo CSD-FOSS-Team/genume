@@ -1,5 +1,6 @@
 import os
 import argparse
+import logging as log
 
 from genume.view.main import MainWindow
 from genume.constants import NAME, DESC, VERSION
@@ -15,6 +16,9 @@ def main():
     parser = argparse.ArgumentParser(prog=NAME, description=DESC)
 
     parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + VERSION)
+    parser.add_argument('-q', '--quiet', dest='quiet', action='store_true', help="Only print errors.")
+    parser.add_argument('--no-titlebar', dest='titlebar', action='store_false', help="Disables custom titlebar.")
+    parser.add_argument('--output', dest='output', type=str, action='store', help="Where to save the export.")
 
     export_group = parser.add_mutually_exclusive_group()
     for k in sorted(exporters.keys()):
@@ -23,16 +27,25 @@ def main():
 
     args = parser.parse_args()
 
+    if args.quiet:
+        log.getLogger().setLevel(log.ERROR)
+
     if args.export is None:
         # Check if a graphical environment is available(X11 or Wayland).
         if "DISPLAY" in os.environ or "WAYLAND_DISPLAY" in os.environ:
-            gui = MainWindow()
+            gui = MainWindow(args.titlebar)
         else:
             print("Could not detect a graphical environment!")
     else:
         registry = Registry()
         registry.refresh()
-        print(exporters[args.export].export(registry))
+        export_string = exporters[args.export].export(registry)
+        if args.output is None:
+            print(export_string)
+        else:
+            f = open(args.output, "w")
+            f.write(export_string)
+            f.close()
 
 
 def gen_exporters():

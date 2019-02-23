@@ -22,6 +22,16 @@ git:
 	git remote add upstream https://github.com/CSD-FOSS-Team/genume
 	git remote -v
 
+.phony: update
+update: git
+	git fetch upstream
+	git rebase -i upstream/master
+
+.phony: contributors
+contributors:
+	./authors.sh > AUTHORS
+	cp AUTHORS scripts/about/
+
 .phony: help
 help:
-	@echo "Usage: make [run|lint|git]"
+	@echo "Usage: make [run|lint|git|update|contributors]"

@@ -1,0 +1,1 @@
+git log --all --format="%aN <%aE>" | awk '{ print length, $0 }' | sort -nur | cut -d" " -f2- | sort -u -t'<' -k2,2 | sed '/noreply/s/ <.*>//' | sort -R

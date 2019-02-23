@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
-# Execute with
-# $ python genume/__main__.py (2.6+)
-# $ python -m genume          (2.7+)
+# Execute with:
+# python -m genume
 
 import sys
 import os.path
 import logging
 
 from genume.logging.logger import init as initLogger
+from genume.extract import extract
 from genume.genume import main
 
 if __package__ is None and not hasattr(sys, 'frozen'):
@@ -18,4 +18,5 @@ if __package__ is None and not hasattr(sys, 'frozen'):
 
 if __name__ == '__main__':
     initLogger()
+    extract()
     main()

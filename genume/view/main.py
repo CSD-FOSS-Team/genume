@@ -21,17 +21,19 @@ HEIGHT = 480
 class MainWindow(Gtk.Window):
     selected_tab = None
 
-    def __init__(self):
+    def __init__(self, titlebar=True):
         Gtk.Window.__init__(self, title="genume")
         self.set_default_size(WIDTH, HEIGHT)
         # Prepare registry and also start first refresh.
+        self.refresh_progress = -1
         self.reg = Registry()
         self.reg.observer.connect("refresh_complete", self.finish_async_refresh)
 
         # Load css once.
         self.load_css()
         # Setup the layout.
-        self.set_titlebar(self.generate_header_bar())
+        if titlebar:
+            self.set_titlebar(self.generate_header_bar())
         self.main_view, self.roots_container = self.generate_main_view()
         self.add(self.main_view)
         # Handle events.
@@ -44,7 +46,11 @@ class MainWindow(Gtk.Window):
 
     def refresh(self):
         """Updates the registry and refreshes the view."""
-        self.reg.request_refresh()
+        if self.refresh_progress == -1:
+            self.refresh_progress = 0
+            self.reg.request_refresh()
+        else:
+            log.warn("User is being impatient!")
 
     def finish_async_refresh(self, _):
         """Applies new registry tree to view."""
@@ -64,6 +70,7 @@ class MainWindow(Gtk.Window):
             else:
                 log.error("Scripts on the root scripts folder are not supported yet!")
         # 3: Finish up
+        self.refresh_progress = -1
         self.show_all()
 
     def generate_header_bar(self):
@@ -103,7 +110,7 @@ class MainWindow(Gtk.Window):
 
         main_view = Gtk.Overlay()
 
-        def srcoll_wrap(container, vertical=False):
+        def scroll_wrap(container, vertical=False):
             s = Gtk.ScrolledWindow()
             s.set_policy(
                 Gtk.PolicyType.AUTOMATIC if vertical else Gtk.PolicyType.NEVER,
@@ -132,13 +139,13 @@ class MainWindow(Gtk.Window):
         # The inner container is used so that the only content that is
         # scrollable is the tabs and not the logo.
         inner_container = Gtk.VBox()
-        inner_container.pack_end(srcoll_wrap(roots_container), True, True, 0)
+        inner_container.pack_end(scroll_wrap(roots_container), True, True, 0)
 
         grid.pack_start(inner_container, False, False, 0)
 
         subtrees_container = self.generate_subtrees_container()
 
-        grid.pack_start(srcoll_wrap(subtrees_container, True), True, True, 0)
+        grid.pack_start(scroll_wrap(subtrees_container, True), True, True, 0)
 
         # Fill the layout.
 
@@ -297,9 +304,7 @@ class MainWindow(Gtk.Window):
 
 
 class Item(FixedVBox):
-    """
-    This class represents a root element.
-    """
+    """This class represents a root element."""
 
     title = ""
     page_index = ""

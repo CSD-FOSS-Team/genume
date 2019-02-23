@@ -25,3 +25,4 @@ install:
 
 script:
   - make lint
+  # - time $(command -v python3 > /dev/null && echo python3 || echo python) -m genume --json-min
