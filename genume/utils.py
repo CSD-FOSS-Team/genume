@@ -36,6 +36,6 @@ def find_executable(name):
     "Finds the path of an executable. Returns None if the executable could not be found."
     paths = os.environ["PATH"].split(':')
     for path in paths:
-        if name in os.listdir(path):
+        if os.path.isdir(path) and name in os.listdir(path):
             return path + "/" + name
     return None
