@@ -4,8 +4,16 @@ This where all the scripts go. For more info about the script interface and exam
 
 ## Styleguide
 
-The scripts ought to abide to [Google's Shell Styleguide](https://google.github.io/styleguide/shell.xml).
-**Important**: Note that 4 spaces are used for indentation instead of the above link's suggested 2.
+The scripts ought to abide to [Google's Shell Styleguide]
+(https://google.github.io/styleguide/shell.xml).
+
+**Important**: Note that 4 spaces are used for indentation
+instead of the above link's suggested 2.
+
+*Easy Mode*: You could use the script in whichever way you see fit
+and then use a utility like [shfmt](https://github.com/mvdan/sh#shfmt) 
+to automatically format it. Just open a terminal and fire the 
+command `shfmt -i 4 -ci -w <script.sh>`
 
 ## Files/directories of interest
 

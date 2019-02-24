@@ -37,8 +37,6 @@ check "fish" "--version"
 
 # Shell Parser, Formatter and Interpreter.
 check "shfmt" "--version"
-# Regex Evaluator.
-check "kiki" "--version"
 # Flash Card Tool to Help Memorize Shortcuts.
 check "mnemosyne" "--version"
 # Fix Previous Command.
