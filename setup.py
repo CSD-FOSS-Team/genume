@@ -14,7 +14,7 @@ package_artifacts()
 os.rename("package.tar", "genume/package.tar")
 setuptools.setup(
     name="genume",
-    version="0.1.1",
+    version="0.1.2",
     author="CSD FOSS Team",
     description="A graphical enumeration tool",
     url="https://github.com/CSD-FOSS-Team/genume",
@@ -22,7 +22,7 @@ setuptools.setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'genume = genume.console:console_entry'
+            'genume = genume.genume:main'
         ]
     },
     classfilters=[
