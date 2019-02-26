@@ -8,20 +8,6 @@ cross-platform independance and a deeper understanding of Git itself.
 Install
 ---------
 
-#### Windows
-
-Install [Git for Windows][].
-
-During the installation process, choose these recommended settings:
-
-* Use Git from the Windows Command Prompt
-* Use OpenSSH
-* Checkout Windows-style, commit Unix-style line endings
-* Use Windows' default console window
-* Enable file system caching
-
-[Git for Windows]: https://git-scm.com/download/win
-
 #### Linux
 
 Install by using the package manager on your system.
@@ -59,11 +45,7 @@ Git.
 Authentication
 --------------
 
-#### Windows
-On Windows, the best way to use Git securely is [Git Credential Manager for Windows][manager].
-It's included in the official Git installer for Windows.
-
-#### Linux and macOS
+#### Linux
 
 If you do not have a preferred method of authentication, enable the storage
 credential helper, which will cache your credentials in plaintext on your
