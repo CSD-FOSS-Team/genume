@@ -1,6 +1,6 @@
 # ![logo][] Genume - *Graphical ENUMEration*
 
-**Genume** is a Linux graphical user interface that serves as a means
+**Genume** is a Linux graphical user interface utility tool that serves as a means
 of providing the user with a plethora of enumeration scripts.
 
 [logo]: https://raw.githubcontent.com/CSD-FOSS-Team/genume/master/assets/logo.svg?sanitize=true
@@ -66,7 +66,13 @@ Documentation in this repository uses [PowerShell][]'s docs as a format template
 
 ## Features
 
-By default genume displays the collected information in a gui. But it can also export the enumeration in file format. Please run `genume --help` to see the list of supported exporters.
+Genume utilizes a custom [protocol][] and [bash helpers][], which reinforces the core design idea of heavy modularity.
+By default genume displays the collected information in a GUI,
+but it can also export the enumeration in a wide range of various file formats.
+Visit the [getting started] documentation.
+
+[getting started]: https://github.com/CSD-FOSS-Team/genume/tree/master/docs/learning-genume
+
 
 ## Install
 
