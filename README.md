@@ -15,7 +15,7 @@ of providing the user with a plethora of enumeration scripts.
 [GPLv2]: https://img.shields.io/badge/license-GPLv2-lightgrey.svg
 [screenshot]: httpsL//raw.githubcontent.com/CSD-FOSS-Team/genume/master/assets/screenshot_genume.png?sanitize=true
 
-## New to Genume? FIXME:
+## New to Genume?
 
 If you are new to Genume and would like to learn more, we recommend reviewing the [getting started] documentation.
 
@@ -38,13 +38,13 @@ Start Genume by running `make` or `python3 -m genume`.
 
 Please see the [Contribution Guide][] for how to develop and contribute.
 
-[Contribution Guide]: https://github.com/CSD-FOSS-Team/genume/blob/master/.github/CONTRIBUTING.md TODO:
+[Contribution Guide]: https://github.com/CSD-FOSS-Team/genume/blob/master/.github/CONTRIBUTING.md
 
 ## Support
 
 For support please see the [Support Section][].
 
-[Support Section]: https://github.com/CSD-FOSS-Team/genume/tree/master/.github/SUPPORT.md FIXME:
+[Support Section]: https://github.com/CSD-FOSS-Team/genume/tree/master/.github/SUPPORT.md
 
 ## Legal and Licensing
 

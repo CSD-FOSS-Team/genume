@@ -23,7 +23,6 @@ Please read the rest of this document to ensure a smooth contribution process.
 
 ## Contributing to Issues
 
-* Review [Issue Management][issue-management].
 * Check if the issue you are going to file already exists in our [GitHub issues][open-issue].
 * If you can't find your issue already,
   [open a new issue](https://github.com/CSD-FOSS-Team/genume/issues/new),
@@ -38,7 +37,7 @@ Please read the rest of this document to ensure a smooth contribution process.
 
 ### Contributing to documentation related to Genume
 
-Please see the [Contributor Guide in `CSD-FOSS-Team/genume-Docs`]FIXME:(https://github.com/CSD-FOSS-Team/genume-Docs/blob/staging/CONTRIBUTING.md).
+Please see the [Contributor Guide in `CSD-FOSS-Team/genume-Docs`](https://github.com/CSD-FOSS-Team/genume-Docs/blob/staging/CONTRIBUTING.md).
 
 ### Contributing to documentation related to maintaining or contributing to the Genume project
 
@@ -50,8 +49,7 @@ Please see the [Contributor Guide in `CSD-FOSS-Team/genume-Docs`]FIXME:(https://
 
 Documentation is spellchecked. We use the
 [markdown-spellcheck](https://github.com/lukeapage/node-markdown-spellcheck) command line tool,
-which can be run in interactive mode to correct typos or add words to the ignore list
-(`.spelling` at the repository root).
+which can be run in interactive mode to correct typos or add words to the ignore list.
 
 To run the spellchecker, follow these steps:
 
@@ -59,7 +57,6 @@ To run the spellchecker, follow these steps:
 * install [markdown-spellcheck](https://github.com/lukeapage/node-markdown-spellcheck) by
   `npm install -g markdown-spellcheck` (v0.11.0 or up)
 * run `mdspell "**/*.md" --ignore-numbers --ignore-acronyms --en-us`
-* if the `.spelling` file is updated, commit and push it
 
 #### Checking links in documentation
 
@@ -80,11 +77,7 @@ To run the link-checker, follow these steps:
 
 #### Building Genume
 
-Please see [Building Genume](../README.md#building-the-repository).
-
-#### Testing Genume
-
-Please see Genume [Testing Guidelines - Running Tests Outside of CI][running-tests-outside-of-ci] on how to test you build locally.
+TODO: Please see [Building Genume](../README.md#building-the-repository).
 
 ### Finding or creating an issue
 
@@ -109,8 +102,6 @@ Additional references:
 
 #### Before submitting
 
-* If your change would fix a security vulnerability,
-  first follow the [vulnerability issue reporting policy][vuln-reporting], before submitting a PR.
 * To avoid merge conflicts, make sure your branch is rebased on the `master` branch of this repository.
 * Many code changes will require new tests,
   so make sure you've added a new test if existing tests do not effectively test the code changed.
@@ -134,7 +125,7 @@ Additional references:
   Don't simply put: "Fix issue #5".
   Also don't directly use the issue title as the PR title.
   An issue title is to briefly describe what is wrong, while a PR title is to briefly describe what is changed.
-  A better example is: "Add Ensure parameter to New-Item cmdlet", with "Fix #5" in the PR's body.
+  A better example is: "Patch GUI refresh button", with "Fix #5" in the PR's body.
 * When you create a pull request,
   including a summary about your changes in the PR description.
   The description is used to create change logs,
@@ -162,20 +153,17 @@ Additional references:
 
 #### Pull Request - Automatic Checks
 
-* Make sure you follow the [Common Engineering Practices](#common-engineering-practices)
-  and [testing guidelines](../docs/testing-guidelines/testing-guidelines.md).
 * After submitting your pull request,
-  our [CI system (Travis)][ci-system]
+  our CI system (Travis)
   will run a suite of tests and automatically update the status of the pull request.
 
 #### Pull Request - Workflow
 
 1. The PR *author* creates a pull request from a fork.
-1. The *author* ensures that their pull request passes the [CI system][ci-system] build.
+1. The *author* ensures that their pull request passes the CI system build.
    - If the build fails, the *author* can then continue to update the pull request until the build passes.
 1. If the *author* knows whom should participate in the review, they should add them otherwise they can add the recommended *reviewers*.
 1. Once the build passes, if there is not sufficient review, the *maintainer* finds a suitable reviewer.
-1. An [Area Expert][area-expert] should also review the pull request.
    - If the *author* does not meet the *reviewer*'s standards, the *reviewer* makes comments. The *author* must address the comments.
    - If the *author* meets the *reviewer*'s standards, the *reviewer* approves the PR.
 1. Once the code review is completed, a *maintainer* merges the pull request after a period of time to allow for additional critical feedback.
@@ -193,8 +181,8 @@ Additional references:
    - `Request changes` if you believe the PR merge should be blocked if your feedback is not addressed,
    - `Approve` if you believe your feedback has been addressed or the code is fine as-is, it is customary (although not required) to leave a simple "Looks good to me" (or "LGTM") as the comment for approval.
    - `Comment` if you are making suggestions that the *author* does not have to accept.
-   Early in the review, it is acceptable to provide feedback on coding formatting based on the published [Coding Guidelines](../docs/dev-process/coding-guidelines.md), however,
-   after the PR has been approved, it is generally _not_ recommended to focus on formatting issues unless they go against the [Coding Guidelines](../docs/dev-process/coding-guidelines.md).
+   Early in the review, it is acceptable to provide feedback on coding formatting based on the published TODO: [Coding Guidelines], however,
+   after the PR has been approved, it is generally _not_ recommended to focus on formatting issues unless they go against the [Coding Guidelines].
    Non-critical late feedback (after PR has been approved) can be submitted as a new issue or new pull request from the *reviewer*.
 1. *Assignee* who are always *Maintainers* ensure that proper review has occurred and if they believe one approval is not sufficient, the *maintainer* is responsible to add more reviewers.
    An *assignee* may also be a reviewer, but the roles are distinct.
@@ -216,8 +204,8 @@ In these cases:
 
 ## Common Engineering Practices
 
-Other than the guidelines for ([coding](../docs/dev-process/coding-guidelines.md),
-[documentation](#contributing-to-documentation) and [testing](../docs/testing-guidelines/testing-guidelines.md)) discussed above,
+Other than the guidelines for TODO: ([coding](../docs/dev-process/coding-guidelines.md) and
+[documentation](#contributing-to-documentation)) discussed above,
 we encourage contributors to follow these common engineering practices:
 
 * Format commit messages following these guidelines:
@@ -265,22 +253,13 @@ is also appropriate, as is using Markdown syntax.
   Before you invest a large amount of time,
   file an issue and start a discussion with the community.
 
-[testing-guidelines]: ../docs/testing-guidelines/testing-guidelines.md
-[running-tests-outside-of-ci]: ../docs/testing-guidelines/testing-guidelines.md#running-tests-outside-of-ci
-[issue-management]: ../docs/maintainers/issue-management.md
-[vuln-reporting]: ../docs/maintainers/issue-management.md#Security-Vulnerabilities
-[governance]: ../docs/community/governance.md
 [using-prs]: https://help.github.com/articles/using-pull-requests/
 [fork-a-repo]: https://help.github.com/articles/fork-a-repo/
 [closing-via-message]: https://help.github.com/articles/closing-issues-via-commit-messages/
-[CLA]: #contributor-license-agreement-cla
-[ci-system]: ../docs/testing-guidelines/testing-guidelines.md#ci-system
 [good-git-resources]: https://help.github.com/articles/good-resources-for-learning-git-and-github/
 [contribute-issues]: #contributing-to-issues
-[open-issue]: https://github.com/Genume/Genume/issues
-[up-for-grabs]: https://github.com/Genume/Genume/issues?q=is%3Aopen+is%3Aissue+label%3AUp-for-Grabs
+[open-issue]: https://github.com/CSD-FOSS-Team/genume/issues
+[up-for-grabs]: https://github.com/CSD-FOSS-Team/genume/issues?q=is%3Aopen+is%3Aissue+label%3AUp-for-Grabs
 [semantic linefeeds]: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
 [Genume-Docs]: https://github.com/CSD-FOSS-Team/genume-docs/
-[repository-maintainer]: ../docs/community/governance.md#repository-maintainers
-[ci-system]: ../docs/testing-guidelines/testing-guidelines.md#ci-system
-[first-time-issue]: https://github.com/Genume/Genume/issues?q=is%3Aopen+is%3Aissue+label%3AFirst-Time-Issue
+[first-time-issue]: https://github.com/CSD-FOSS-Team/genume/issues?q=is%3Aopen+is%3Aissue+label%3AFirst-Time-Issue
