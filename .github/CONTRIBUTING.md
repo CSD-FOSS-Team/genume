@@ -181,8 +181,8 @@ Additional references:
    - `Request changes` if you believe the PR merge should be blocked if your feedback is not addressed,
    - `Approve` if you believe your feedback has been addressed or the code is fine as-is, it is customary (although not required) to leave a simple "Looks good to me" (or "LGTM") as the comment for approval.
    - `Comment` if you are making suggestions that the *author* does not have to accept.
-   Early in the review, it is acceptable to provide feedback on coding formatting based on the published TODO: [Coding Guidelines], however,
-   after the PR has been approved, it is generally _not_ recommended to focus on formatting issues unless they go against the [Coding Guidelines].
+   Early in the review, it is acceptable to provide feedback on coding formatting based on the published [Coding Guidelines][coding-guidelines], however,
+   after the PR has been approved, it is generally _not_ recommended to focus on formatting issues unless they go against the [Coding Guidelines][coding-guidelines].
    Non-critical late feedback (after PR has been approved) can be submitted as a new issue or new pull request from the *reviewer*.
 1. *Assignee* who are always *Maintainers* ensure that proper review has occurred and if they believe one approval is not sufficient, the *maintainer* is responsible to add more reviewers.
    An *assignee* may also be a reviewer, but the roles are distinct.
@@ -204,7 +204,7 @@ In these cases:
 
 ## Common Engineering Practices
 
-Other than the guidelines for TODO: ([coding](../docs/dev-process/coding-guidelines.md) and
+Other than the guidelines for ([coding](https://github.com/CSD-FOSS-Team/genume/blob/master/scripts/README.md) and
 [documentation](#contributing-to-documentation)) discussed above,
 we encourage contributors to follow these common engineering practices:
 
@@ -253,6 +253,7 @@ is also appropriate, as is using Markdown syntax.
   Before you invest a large amount of time,
   file an issue and start a discussion with the community.
 
+[coding-guidelines]: https://github.com/CSD-FOSS-Team/genume/blob/master/scripts/README.md
 [using-prs]: https://help.github.com/articles/using-pull-requests/
 [fork-a-repo]: https://help.github.com/articles/fork-a-repo/
 [closing-via-message]: https://help.github.com/articles/closing-issues-via-commit-messages/
