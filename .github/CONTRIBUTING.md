@@ -77,7 +77,7 @@ To run the link-checker, follow these steps:
 
 #### Building Genume
 
-TODO: Please see [Building Genume](../README.md#building-the-repository).
+Please see [Building Genume](../README.md#building-the-repository).
 
 ### Finding or creating an issue
 

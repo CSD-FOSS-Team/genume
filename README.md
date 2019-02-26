@@ -55,7 +55,7 @@ Code in this repository is licensed under the [GNU General Public License v2.0][
 Data in this repository is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/), unless explicitly stated otherwise.
 
-Documentation in this repository uses [PowerShell][]'s docs as a format template, which is licensed under the [MIT License][]
+Documentation in this repository uses [Genume][]'s docs as a format template, which is licensed under the [MIT License][]
 
 **genume author list** can be determined via `git shortlog -sne`.
 
@@ -77,3 +77,24 @@ Visit the [getting started] documentation.
 ## Install
 
 TODO: #22
+
+## Building the Repository
+
+TODO: ?
+
+### Build Genume on Linux
+
+This guide will walk you through building Genume on Linux.
+We'll start by showing how to set up your environment from scratch.
+
+### Environment
+
+We strive to establish Genume as a distribution-independant tool. 
+
+#### Git Setup
+
+Using Git requires it to be set up correctly;
+refer to the [Working with the Genume Repository](../git/README.md),
+[README](../../README.md), and [Contributing Guidelines](../../.github/CONTRIBUTING.md).
+
+**This guide assumes that you have recursively cloned the Genume repository and `cd`ed into it.**
