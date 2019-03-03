@@ -1,38 +1,43 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: File a report to help us track bugs down and remove them 
 title: ''
-labels: ''
-assignees: ''
+labels: bug
+assignees:
+- Sima214
+- xlxs4
 
 ---
 
+**Before Submitting**
+Make sure to go through the currently open [issues][].
+Don't forget to check the `log` for any useful information.
+Not necessary but suggested to pass your code from the pycodestyle check by running `make lint`
+When asking general 'how to' questions, use an appropriate resource such as [Stack Overflow][].
+If any uncertainities persist, feel free to read our [Support][support] markdown file.
+
+[issues]: https://github.com/CSD-FOSS-Team/genume/issues
+[Stack Overflow]: https://stackoverflow.com/
+[support]: https://github.com/CSD-FOSS-Team/genume/blob/master/.github/SUPPORT.md 
+
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. Remember to go through our [Contribution Guides][contribution-guides] markdown file and, especially, the Contributing to Issues section.
+
+[contribution-guides]: https://github.com/CSD-FOSS-Team/genume/tree/master/.github/CONTRIBUTING.md
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+0. Go to X
+1. Click on Y 
+2. Do Z
+3. See error
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+A clear and concise description of what you expected to happen and why.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
-
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+If applicable, add screenshots or any other sorts of visual assistance to help explain your problem
+and communicate your findings more effortlessly.
 
 **Additional context**
-Add any other context about the problem here.
+Did the bug appear after the latest patch? Add any other context about the problem here.
