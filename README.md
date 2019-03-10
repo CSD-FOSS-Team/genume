@@ -27,7 +27,9 @@ TODO: #22
 [tested in raspberry pi3 with raspbian]
 
 $sudo apt-get install python3-gi
+
  run 
+
 $make
 
 ## Contribute
