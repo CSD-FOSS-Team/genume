@@ -16,19 +16,11 @@ Start **genume** by running `make` or `python3 -m genume`.
 
 ## Features
 
-By default genume displays the collected information in a gui. But it can also export the enumeration in file format. Please run `python3 -m genume --help` to see the list of supported exporters.
+By default genume displays the collected information in a gui. But it can also export the enumeration in file format. Please run `genume --help` to see the list of supported exporters.
 
 ## Install
 
 TODO: #22
-
-## Support for raspberry
-
-[tested in raspberry pi3, with rasbian]
-
-$sudo apt-get install python3-gi
- run 
-$make
 
 ## Contribute
 
