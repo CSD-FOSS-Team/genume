@@ -24,7 +24,7 @@ TODO: #22
 
 ## Support for raspberry
 
-[tested in raspberry pi3, with rasbian]
+[tested in raspberry pi3 with raspbian]
 
 $sudo apt-get install python3-gi
  run 
