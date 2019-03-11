@@ -22,7 +22,7 @@ setuptools.setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'genume = genume.genume:main'
+            'genume = genume.__main__:consoleentry'
         ]
     },
     classfilters=[
