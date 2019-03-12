@@ -1,11 +1,12 @@
 #!/bin/bash
 
+configure lspci lsusb egrep wc echo cat
+
 wcnt=0
 echo $wcnt > /tmp/wirelessgenume
 ecnt=0
 echo $ecnt > /tmp/ethernetgenume
-echo PATH BAS Ethernet
-echo PATH BAS Wireless
+
 lspci | egrep -i 'Network|Ethernet|802.11' | while read i
 do
 	wireless=''
@@ -25,12 +26,12 @@ do
 	fi
 	if [  ! -z "${wireless}" ]
 	then
-		echo PATH BAS Wireless.Wireless_$wcnt
-		echo VALUE BAS Wireless \"${wireless}\"
+		subcat Wireless.Wireless_$wcnt
+		value Wireless "${wireless}"
 	elif [  ! -z "${ethernet}" ]
 	then
-		echo PATH BAS Ethernet.Ethernet_$ecnt
-		echo VALUE BAS Ethernet \"${ethernet}\"
+		subcat Ethernet.Ethernet_$ecnt
+		value Ethernet "${ethernet}"
 	fi
 done
 lsusb | egrep -i "Network|Wireless|Ethernet|802.11" | while read i
@@ -52,12 +53,12 @@ do
 
 	if [  ! -z "${wireless}" ]
 	then
-		echo PATH BAS Wireless.Wireless_$wcnt
-		echo VALUE BAS Wireless \"${wireless}\"
+		subcat Wireless.Wireless_$wcnt
+		value Wireless "${wireless}"
 	elif [  ! -z "${ethernet}" ]
 	then
-		echo PATH BAS Ethernet.Ethernet_$ecnt
-		echo VALUE BAS Ethernet \"${ethernet}\"
+		subcat Ethernet.Ethernet_$ecnt
+		value Ethernet "${ethernet}"
 	fi
 done
 rm /tmp/wirelessgenume
