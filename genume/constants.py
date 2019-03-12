@@ -10,15 +10,6 @@ DESC = "Graphical ENUMEration"
 # A string representing our current version.
 VERSION = "0.1.2"
 
-# Log filepath or None to disable logging to file.
-LOGGER_FILE = "genume.log"
-
-# Log format string.
-LOGGER_FMT = "%(asctime)s [%(levelname)s|%(threadName)s] %(message)s"
-
-# Log date format string.
-LOGGER_DATE_FMT = "%H:%M:%S"
-
 # Package file. Used for packaging the scripts when installing
 GENUME_PACK = os.path.join(os.path.dirname(os.path.realpath(__file__)), "package.tar")
 
@@ -28,11 +19,20 @@ GENUME_RELEASE = os.path.isfile(GENUME_PACK)
 # Path of where the scripts and bash helper folders are. Differs between development and release.
 GENUME_ROOT = os.path.expanduser("~/.cache/genume/") if GENUME_RELEASE else os.path.join(os.path.dirname(os.path.realpath(__file__)), os.path.pardir)
 
+# Log filepath or None to disable logging to file.
+LOGGER_FILE = os.path.join(GENUME_ROOT, "genume.log")
+
+# Log format string.
+LOGGER_FMT = "%(asctime)s [%(levelname)s|%(threadName)s] %(message)s"
+
+# Log date format string.
+LOGGER_DATE_FMT = "%H:%M:%S"
+
 # Path of the scripts folder.
 SCRIPTS_ROOT = os.path.join(GENUME_ROOT, "scripts")
 
 # A list of ignored files when searching for scripts.
-SCRIPTS_IGNORE = [r"__pycache__", r"^\..+", r".*\.md$"]
+SCRIPTS_IGNORE = [r"__pycache__", r"^\..+", r".*\.md$", r".*\.log$"]
 
 # Extra executables for bash folder.
 SCRIPTS_BASH_EXTRA = os.path.join(GENUME_ROOT, "bash_helpers")

@@ -32,6 +32,10 @@ contributors:
 	./authors.sh > AUTHORS
 	cp AUTHORS scripts/about/
 
+.phony: install
+install:
+	python3 setup.py install
+
 .phony: help
 help:
-	@echo "Usage: make [run|lint|git|update|contributors]"
+	@echo "Usage: make [run|lint|git|update|contributors|install]"
