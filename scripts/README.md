@@ -6,48 +6,31 @@ This where all the scripts go. For more info about the script interface and exam
 
 The scripts ought to abide to [Google's Shell Styleguide](https://google.github.io/styleguide/shell.xml).
 
-**Important**: Note that 4 spaces are used for indentation
-instead of the above link's suggested 2.
+**Important**: Note that 4 spaces are used for indentation instead of the above link's suggested 2.
 
-*Easy Mode*: You could use the script in whichever way you see fit
-and then use a utility like [shfmt](https://github.com/mvdan/sh#shfmt) 
-to automatically format it. Just open a terminal and fire the 
-command `shfmt -i 4 -ci -w <script.sh>`
+*Easy Mode*: You could use the script in whichever way you see fit and then use a utility like [shfmt](https://github.com/mvdan/sh#shfmt) to automatically format it. Just open a terminal and fire the command `shfmt -i 4 -ci -w <script.sh>`
 
 ## Best Practices
 
-* Avoid hard-coding anything unless it's absolutely necessary.
+- Avoid hard-coding anything unless it's absolutely necessary.
 
-* Avoid a method that is too long and complex.
-  In such case, separate it to multiple methods or even a nested class as you see fit.
+- Use [Defensive programming](https://en.wikipedia.org/wiki/Defensive_programming). The scripts will be run on a variety of linux distributions and it's important that your code does not error on other computers.
 
-* Stick to the DRY principle -- Don't Repeat Yourself.
-    * Wrap the commonly used code in methods,
-      or even put it in a utility class if that makes sense,
-      so that the same code can be reused.
-    * Check if the code for the same purpose already exists in the code base before inventing your own wheel.
-      If you're having trouble understanding a piece of code somebody else wrote, ask around!
-    
 ## Coding Conventions
 
-As a general rule, our coding convention is to follow the style mentioned above.
-However, if a file happens to differ in style from conventions defined here,
-the existing style in that file takes precedence,
-until a *maintainer* reformatts it.
+As a general rule, our coding convention is to follow the style mentioned above. However, if a file happens to differ in style from conventions defined here, the existing style in that file takes precedence, until a *maintainer* reformats it.
 
-Thus, when making changes, you may find some existing code goes against the conventions defined here.
-In such cases, please avoid reformatting any existing code when submitting a PR as it obscures the functional changes of the PR.
-A separate PR should be submitted for style-only changes, or you could ask a *maintainer* to dig in.
+Thus, when making changes, you may find some existing code goes against the conventions defined here. In such cases, please avoid reformatting any existing code when submitting a PR as it obscures the functional changes of the PR. A separate PR should be submitted for style-only changes, or you could ask a *maintainer* to dig in.
 
 ## Commenting Conventions
 
-* Place the comment on a separate line, not at the end of a line of code.
+- Place the comment on a separate line, not at the end of a line of code.
 
-* Begin comment text with an uppercase letter and end it with a period.
+- Begin comment text with an uppercase letter and end it with a period.
 
-* Comments should be shebang-only (no multi line comment syntax shenaningans)
+- Comments should be shebang-only (no multi line comment syntax shenaningans)
 
-* Update existing comments when you are changing the corresponding code.
+- Update existing comments when you are changing the corresponding code.
 
 ## Files/directories of interest
 
