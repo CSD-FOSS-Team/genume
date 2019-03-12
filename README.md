@@ -42,6 +42,8 @@ Please see the [Contribution Guide][] for how to develop and contribute.
 
 ## Support
 
+## Contribute
+
 For support please see the [Support Section][].
 
 [Support Section]: .github/SUPPORT.md
@@ -65,3 +67,7 @@ Genume utilizes a custom [protocol][] and [bash helpers][], which reinforces the
 [getting started]: docs/learning-genume
 
 ## Build and Install
+
+### Raspbian
+
+Raspberry Pi is also supported! Just follow the same instructions as any other system.

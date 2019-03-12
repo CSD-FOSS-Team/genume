@@ -94,6 +94,7 @@ check "gcc" "--version"
 check "make" "--version"
 check "java" "-version"
 check "python" "-V"
+check "python3" "-V"
 # Haskell Compiler.
 check "ghci" "--version"
 check "ruby" "-v"
@@ -110,7 +111,7 @@ check "mysql" "--version"
 
 
 check "freedom" "-version"
-# Security Scanner.
+# Port Scanner.
 check "nmap" "-V"
 # Wire protocols inspector.
 check "wireshark-cli" "--version"
@@ -134,7 +135,7 @@ check "sparkleshare" "--version"
 
 # Encryption.
 
-
+check "openssl" "version"
 check "veracrypt" "--version"
 check "pgp" "--version"
 check "gpg" "--version"
@@ -149,6 +150,8 @@ if hash vi --version 2>/dev/null; then
 else
     check "vim" "--version"
 fi
+check "bluefish" "--version" 
+check "leafpad" "--version"
 check "emacs" "--version"
 check "code" "--version"
 check "atom" "--version"
@@ -237,9 +240,8 @@ check "firefox" "--version"
 
 
 check "thunderbird" "--version"
+check "claws-mail" "--version"
 
-
-# Miscellaneous.
 
 
 # Partition Tables Manipulator.
