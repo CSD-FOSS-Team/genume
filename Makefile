@@ -19,7 +19,7 @@ lint:
 
 .phony: git
 git:
-	git remote add upstream https://github.com/CSD-FOSS-Team/genume
+	git remote add upstream https://github.com/CSD-FOSS-Team/genume || true
 	git remote -v
 
 .phony: update

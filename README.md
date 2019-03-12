@@ -40,6 +40,8 @@ Please see the [Contribution Guide][] for how to develop and contribute.
 
 [Contribution Guide]: .github/CONTRIBUTING.md
 
+**Important**: When authoring a pull request always do an **interactive rebase**, if you want to sync your fork with the master branch. For genume the `make update` target is available as a shortcut.
+
 ## Support
 
 ## Contribute
@@ -68,6 +70,32 @@ Genume utilizes a custom [protocol][] and [bash helpers][], which reinforces the
 
 ## Build and Install
 
-### Raspbian
+First you must install gtk+3.0 python3-gi
 
-Raspberry Pi is also supported! Just follow the same instructions as any other system.
+### Ubuntu/Debian/Raspbian
+
+Raspberry Pi is also supported!
+
+```sh
+sudo apt install gtk+3.0 python3-gi
+```
+
+### Fedora
+
+```sh
+sudo yum install python3-gobject gtk3
+```
+
+### Arch linux
+
+```sh
+sudo pacman -Sy python-gobject gtk3
+```
+
+Finally **inside the directory where you've download genume's source code** run:
+
+```sh
+python3 setup.py install
+```
+
+to install genume on your system.
