@@ -36,6 +36,5 @@ deploy:
   file_glob: true
   file: dist/genume-*
   skip_cleanup: true
-  draft: true
   on:
     tags: true
