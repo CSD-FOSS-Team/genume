@@ -25,4 +25,17 @@ install:
 
 script:
   - make lint
-  # - time $(command -v python3 > /dev/null && echo python3 || echo python) -m genume --json-min
+
+before_deploy:
+  - "$(command -v python3 > /dev/null && echo python3 || echo python) setup.py bdist_egg"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: hqkmzAW068QOpJdpsb6aIdgOoF7X/OugWCT2+LrIoI+IO+Q5ZlQmXUkbg6yrWXT8SF6BPjyZVLOusxaHtE//aFzKcO4WwX1YYaWeJpnSBhv8oRUPh6IMz8W3VdpZCLc/SYsUYDk8jgY0RCmDV8OxVqZinOnxPBtSwfHKRNZvNjLCw6TTOg+K1DE9qJC9npfXfBu5rd54XykprjRGiZOTk6feOWoRFJGF51d+3H6jYVRXFImYV41Odw3JGQBeUDEeQ80j4sAkxT861eA4G3fpxkgO+6hxysUt/q8w1pWF7DAeOtkuvo7b6hCe2PLr9LTMFac53QOgF16yd9rp6cr3AvulI7VwVd/uoKkhEUHUtgMubDm2/SqP7Fa/pzof+aEkIK7P4EQI+NiwPYU492wRFCKA603ofL6B01wnyK2WCiyqRzOW7+O9JlbGvhiuMKwrV93ea9dDgPIA7yFjt81J0vHbHvIhKHIpCsuC2WnW/oXF3EUbR6glqysx6mcUQ2kNbuLQBgKqKvdc7YcdtrP3KAC3ffUGQjudBTffoeBo6ox1Dp+fgqUO1HOKN9E4AtOkuNNEgZEaJw7shsLd1bJwwO2/kEF881olmPur4JPtI4lL8oNHhS9in6T9ki0o1j/Y/sDahC1LYOFFUWIQ0OGsgTr3ZLaPjXkTwXuz6+byXHU=
+  file_glob: true
+  file: dist/genume-*
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true
