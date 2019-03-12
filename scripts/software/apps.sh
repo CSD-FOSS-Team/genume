@@ -243,6 +243,8 @@ check "thunderbird" "--version"
 check "claws-mail" "--version"
 
 
+# Miscellaneous/Unsorted.
+
 
 # Partition Tables Manipulator.
 check "parted" "--version"
