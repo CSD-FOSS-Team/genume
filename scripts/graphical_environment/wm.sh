@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 configure pgrep xprop echo tr
 
