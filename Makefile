@@ -6,6 +6,10 @@ PYTHON := $(shell command -v python3 > /dev/null && echo python3 || echo python)
 run:
 	@$(PYTHON) -m genume
 
+.phony: text
+text:
+	@$(PYTHON) -m genume --text
+
 .phony: sudorun
 sudorun:
 	@sudo $(PYTHON) -m genume
