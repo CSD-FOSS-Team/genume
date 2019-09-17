@@ -39,7 +39,7 @@ SCRIPTS_BASH_EXTRA = os.path.join(GENUME_ROOT, "bash_helpers")
 
 # Limit the maximum number of child processes to have running at any given time.
 # This limit is imposed by each instance of Registry separately.
-SCRIPTS_MAX_MULTI_DISPATCH = max(min(multiprocessing.cpu_count(), 32), 4)
+SCRIPTS_MAX_MULTI_DISPATCH = max(min(multiprocessing.cpu_count(), 32), 4) * 20
 
 # Assets folder. Used by the view.
 ASSETS_ROOT = os.path.join(os.path.dirname(__file__), "view/assets")
