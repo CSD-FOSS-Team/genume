@@ -6,6 +6,9 @@ set -o pipefail
 
 # Check for an app and if it exists provide the version.
 function check() {
+	check1 $1 $2 &
+}
+function check1() {
     name=$1
     version=$2
 
@@ -14,9 +17,9 @@ function check() {
 	    result=$($name $version 2>&1)
 	    result=$(echo $result | grep -Po "(\d+\.)+\d+" | sed '/./q; d')
 	    if [ $? -eq 0 ]; then
-		    value --subcat=apps "$key" "$result"
+		    echo `value --subcat apps "$key" "$result"`
 	    else
-		    value --subcat=apps "$key" "$($name $version 2>&1 | sed '/./q; d')"
+		    echo `value --subcat apps "$key" "$($name $version 2>&1 | sed '/./q; d')"`
 	    fi
     fi
 }
@@ -30,7 +33,6 @@ check "zsh" "--version"
 check "csh" "--version"
 check "ksh" "--version"
 check "fish" "--version"
-
 
 # Code Helpers.
 
@@ -252,3 +254,5 @@ check "parted" "--version"
 check "transmission-cli" "--version"
 
 # TODO: Extend.
+
+wait
