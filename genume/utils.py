@@ -1,6 +1,8 @@
 import re
 import os
 
+from genume.constants import SCRIPTS_AVERAGE_MEM_USAGE
+
 # Random methods used by the rest of the program.
 
 
@@ -39,3 +41,19 @@ def find_executable(name):
         if os.path.isdir(path) and name in os.listdir(path):
             return path + "/" + name
     return None
+
+
+def get_available_memory():
+    """Returns the available/usable memory in kB."""
+    with open("/proc/meminfo", 'r') as mem:
+        for s in mem:
+            comps = s.split()
+            if str(comps[0]) == "MemAvailable:":
+                return int(comps[1])
+    return 0
+
+
+def get_scripts_multidispatch_limit():
+    avail = get_available_memory() * 0.8
+    limit = avail / SCRIPTS_AVERAGE_MEM_USAGE
+    return max(int(limit), 16)

@@ -7,8 +7,8 @@ from collections import deque
 
 from gi.repository import GObject
 
-from genume.constants import SCRIPTS_ROOT, SCRIPTS_IGNORE, SCRIPTS_MAX_MULTI_DISPATCH
-from genume.utils import match_list, make_signal_emitter
+from genume.constants import SCRIPTS_ROOT, SCRIPTS_IGNORE
+from genume.utils import match_list, make_signal_emitter, get_scripts_multidispatch_limit
 from genume.registry.category import CategoryEntry
 from genume.registry.child import ChildHandler
 
@@ -81,7 +81,7 @@ class Registry(Thread):
         # Children waiting execution.
         pending = deque(children)
         # Children currently under execution.
-        executing = [None] * SCRIPTS_MAX_MULTI_DISPATCH
+        executing = [None] * get_scripts_multidispatch_limit()
         while len(pending) != 0 or executing.count(None) != len(executing):
             for i, slot in enumerate(executing):
                 if slot is None and len(pending) != 0:
