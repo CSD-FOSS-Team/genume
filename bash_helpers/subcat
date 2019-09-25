@@ -1,3 +1,7 @@
+#!/bin/bash
+echo SUBCAT BAS "$1"
+exit 0
+
 #!/usr/bin/env python3
 import argparse
 import shlex
