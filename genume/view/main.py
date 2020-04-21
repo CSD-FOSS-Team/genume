@@ -18,6 +18,7 @@ WIDTH = 640
 HEIGHT = 480
 REFRESH_BUTTON_SIZE = 40
 
+
 class MainWindow(Gtk.Window):
     selected_tab = None
 
@@ -34,6 +35,9 @@ class MainWindow(Gtk.Window):
         # Setup the layout.
         if titlebar:
             self.set_titlebar(self.generate_header_bar())
+        else:
+            # TODO add the spinner somewhere
+            self.spinner = None
         self.main_view, self.roots_container = self.generate_main_view()
         self.add(self.main_view)
         # Handle events.
@@ -47,6 +51,8 @@ class MainWindow(Gtk.Window):
     def refresh(self):
         """Updates the registry and refreshes the view."""
         if self.refresh_progress == -1:
+            if self.spinner is not None:
+                self.spinner.start()
             self.refresh_progress = 0
             self.reg.request_refresh()
         else:
@@ -72,12 +78,18 @@ class MainWindow(Gtk.Window):
         # 3: Finish up
         self.refresh_progress = -1
         self.show_all()
+        if self.spinner is not None:
+            self.spinner.stop()
 
     def generate_header_bar(self):
         bar = Gtk.HeaderBar(
             title="genume",
             show_close_button=True
         )
+
+        spinner = Gtk.Spinner()
+        self.spinner = spinner
+        bar.pack_start(spinner)
 
         menu_button = Gtk.MenuButton()
         menu_button.add(Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.BUTTON))
@@ -113,8 +125,8 @@ class MainWindow(Gtk.Window):
 
         def set_button_location(overlay, b, allocation):
             size = REFRESH_BUTTON_SIZE
-            allocation.x = 200 - size/2
-            allocation.y = overlay.get_allocated_height() - 2*size
+            allocation.x = 200 - size / 2
+            allocation.y = overlay.get_allocated_height() - 2 * size
             allocation.width = size
             allocation.height = size
             return allocation
