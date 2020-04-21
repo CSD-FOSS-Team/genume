@@ -110,7 +110,7 @@ case ${WM_lower} in
     'fluxbox') WM="FluxBox";;
     'flwm'|'flwm_topside') WM="FLWM";;
     'fvwm') WM="FVWM";;
-    'gnome shell'*) WM="Mutter";;
+    'gnome shell'*) WM="Gnome Shell";;
     'herbstluftwm') WM="herbstluftwm";;
     'howm') WM="howm";;
     'i3') WM="i3";;
@@ -141,4 +141,4 @@ case ${WM_lower} in
     'xmonad') WM="XMonad";;
 esac
 
-value wm $WM
+value window_manager $WM
