@@ -147,7 +147,7 @@ class MainWindow(Gtk.Window):
 
         subtrees_container = self.generate_subtrees_container()
 
-        grid.pack_start(scroll_wrap(subtrees_container, True), True, True, 0)
+        grid.pack_start(subtrees_container, True, True, 0)
 
         # Fill the layout.
 
@@ -269,7 +269,10 @@ class MainWindow(Gtk.Window):
                 Gtk.CellRendererText(),
                 text=i
             ))
-        return tree
+        wrapper = Gtk.ScrolledWindow()
+        wrapper.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        wrapper.add(tree)
+        return wrapper
 
     def create_treestore(self, entry: CategoryEntry):
         store = Gtk.TreeStore(str, str)
