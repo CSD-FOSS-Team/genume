@@ -25,7 +25,6 @@ value OpenGl_Rendrerer_String $OpenGLRendererString
 value OpenGl_Version $OpenGLVersion
 value --advanced OpenGL_Shading_Language_Version $OpenGLShadLangVersion
 value --advanced OpenGL_Context_Flags $OpenGLContextFlags
->&2 echo $OpenGLExtension
 value --advanced OpenGL_Extension $OpenGLExtension
 
 OpenGLCoreProfVersion=$(echo "$info" | grep "OpenGL core profile version" | head -n 1 | cut -d ":" -f 2)

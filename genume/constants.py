@@ -32,7 +32,7 @@ LOGGER_DATE_FMT = "%H:%M:%S"
 SCRIPTS_ROOT = os.path.join(GENUME_ROOT, "scripts")
 
 # A list of ignored files when searching for scripts.
-SCRIPTS_IGNORE = [r"__pycache__", r"^\..+", r".*\.md$", r".*\.log$"]
+SCRIPTS_IGNORE = [r"__pycache__", r"^\..+", r".*\.md$", r".*\.txt$", r".*\.log$"]
 
 # Extra executables for bash folder.
 SCRIPTS_BASH_EXTRA = os.path.join(GENUME_ROOT, "bash_helpers")

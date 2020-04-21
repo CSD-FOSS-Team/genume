@@ -8,9 +8,9 @@ value genume Graphical ENUMEration ver. 1.0
 value team CSD foss team, https://foss.csd.auth.gr
 
 # Test changing values.
-value date $(date)
+value date "$(date)"
 
 # Show off contributors.
 while IFS="" read -r p || [ -n "$p" ]; do
   value authors "$p"
-done < "$DIR/AUTHORS"
+done < "$DIR/AUTHORS.txt"
