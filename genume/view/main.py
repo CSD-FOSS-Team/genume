@@ -16,7 +16,7 @@ CSS = os.path.join(ASSETS_ROOT, "styles.css")
 # Default minimum window size.
 WIDTH = 640
 HEIGHT = 480
-
+REFRESH_BUTTON_SIZE = 40
 
 class MainWindow(Gtk.Window):
     selected_tab = None
@@ -98,6 +98,7 @@ class MainWindow(Gtk.Window):
         def add_separator():
             menu.append(Gtk.SeparatorMenuItem())
 
+        add("Refresh", self.request_refresh)
         add_separator()
         add("About", self.request_about)
         add("Close", self.request_close)
@@ -110,19 +111,12 @@ class MainWindow(Gtk.Window):
 
         main_view = Gtk.Overlay()
 
-        def scroll_wrap(container, vertical=False):
-            s = Gtk.ScrolledWindow()
-            s.set_policy(
-                Gtk.PolicyType.AUTOMATIC if vertical else Gtk.PolicyType.NEVER,
-                Gtk.PolicyType.AUTOMATIC)
-            s.add(container)
-            return s
-
-        def set_button_location(s, b, allocation):
-            allocation.x = 200 - 25
-            allocation.y = HEIGHT - 100
-            allocation.width = 50
-            allocation.height = 50
+        def set_button_location(overlay, b, allocation):
+            size = REFRESH_BUTTON_SIZE
+            allocation.x = 200 - size/2
+            allocation.y = overlay.get_allocated_height() - 2*size
+            allocation.width = size
+            allocation.height = size
             return allocation
 
         grid = Gtk.Box()
@@ -135,6 +129,14 @@ class MainWindow(Gtk.Window):
         main_view.connect("get-child-position", set_button_location)
 
         roots_container = self.generate_roots_container()
+
+        def scroll_wrap(container, vertical=False):
+            s = Gtk.ScrolledWindow()
+            s.set_policy(
+                Gtk.PolicyType.AUTOMATIC if vertical else Gtk.PolicyType.NEVER,
+                Gtk.PolicyType.AUTOMATIC)
+            s.add(container)
+            return s
 
         # The inner container is used so that the only content that is
         # scrollable is the tabs and not the logo.
@@ -176,10 +178,11 @@ class MainWindow(Gtk.Window):
         return logo
 
     def generate_refresh_button(self):
+        size = REFRESH_BUTTON_SIZE
         container = Gtk.Fixed()
-        container.set_size_request(50, 50)
+        container.set_size_request(size, size)
         event = Gtk.EventBox()
-        event.set_size_request(50, 50)
+        event.set_size_request(size, size)
         button = Gtk.Box()
         icon = Gtk.Image()
         icon.set_from_file(ASSETS_REFRESH)
