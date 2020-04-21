@@ -60,7 +60,7 @@ class Registry(Thread):
             for file in sorted(current_path.iterdir()):
                 if match_list(file.name, SCRIPTS_IGNORE):
                     # Ignore case.
-                    log.warning("Ignoring: %s" % (file.name))
+                    log.debug("Ignoring: %s" % (file.name))
                 elif file.is_dir():
                     # Directory case.
                     new_cat = CategoryEntry(parent=current_cat, path=file)

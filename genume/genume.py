@@ -17,6 +17,7 @@ def main():
 
     parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + VERSION)
     parser.add_argument('-q', '--quiet', dest='quiet', action='store_true', help="Only print errors.")
+    parser.add_argument('-V', '--verbose', dest='verbose', action='store_true', help="Print everything.")
     parser.add_argument('--no-titlebar', dest='titlebar', action='store_false', help="Disables custom titlebar.")
     parser.add_argument('--output', dest='output', type=str, action='store', help="Where to save the export.")
 
@@ -27,6 +28,9 @@ def main():
 
     args = parser.parse_args()
 
+    log.getLogger().setLevel(log.INFO)
+    if args.verbose:
+        log.getLogger().setLevel(log.DEBUG)
     if args.quiet:
         log.getLogger().setLevel(log.ERROR)
 
