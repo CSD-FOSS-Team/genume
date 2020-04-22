@@ -22,12 +22,12 @@ REFRESH_BUTTON_SIZE = 40
 class MainWindow(Gtk.Window):
     selected_tab = None
 
-    def __init__(self, titlebar=True):
+    def __init__(self, registry, titlebar=True):
         Gtk.Window.__init__(self, title="genume")
         self.set_default_size(WIDTH, HEIGHT)
         # Prepare registry and also start first refresh.
+        self.reg = registry
         self.refresh_progress = -1
-        self.reg = Registry()
         self.reg.observer.connect("refresh_complete", self.finish_async_refresh)
 
         # Load css once.
@@ -68,7 +68,7 @@ class MainWindow(Gtk.Window):
             subtrees_container.remove_page(-1)
         for c in roots_container.get_children():
             roots_container.remove(c)
-        # 2: Fill view from registy.
+        # 2: Fill view from registry.
         root = self.reg.get_async_data()
         for name, entry in root.items():
             if isinstance(entry, CategoryEntry):
