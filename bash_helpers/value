@@ -27,7 +27,7 @@ echo -n "VALUE $advanced SUBCAT $subcat \"$1\" "
 shift
 
 while (( "$#" )); do
-  echo -n "\"$1\""
+  echo -n "\" $1\""
   shift
 done
 
