@@ -356,7 +356,7 @@ class Item(FixedVBox):
     # Event handlers.
 
     def on_click(self, widget, event):
-        log.info("Switching to %d" % (self.page_index))
+        log.debug("Switching to %d" % (self.page_index))
         self.parent.show_root(self.page_index)
         self.addClass("tab-active")
         if(self.parent.selected_tab is not None):

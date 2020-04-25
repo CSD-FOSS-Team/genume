@@ -98,7 +98,7 @@ class Registry(Thread):
             c.finish_up()
 
     def run(self):
-        log.info("Registry thread is starting up...")
+        log.debug("Registry thread is starting up...")
         while True:
             if self.lock.acquire(blocking=True) and self.state is RegistryStates.start:
                 log.debug("A refresh has been requested.")
