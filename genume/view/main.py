@@ -38,6 +38,7 @@ class MainWindow(Gtk.Window):
         else:
             # TODO add the spinner somewhere
             self.spinner = None
+        self.current_page_index = 0
         self.main_view, self.roots_container = self.generate_main_view()
         self.add(self.main_view)
         # Handle events.
@@ -80,6 +81,7 @@ class MainWindow(Gtk.Window):
         self.show_all()
         if self.spinner is not None:
             self.spinner.stop()
+        self.show_root(self.current_page_index)
 
     def generate_header_bar(self):
         bar = Gtk.HeaderBar(
@@ -303,10 +305,6 @@ class MainWindow(Gtk.Window):
         # TODO: extend
         return name.replace("_", " ")
 
-    def show_root(self, button):
-        """Changes to the tab given by the page_index value of the button."""
-        self.subtrees_container.set_current_page(button.page_index)
-
     def request_refresh(self, _):
         self.refresh()
 
@@ -318,6 +316,9 @@ class MainWindow(Gtk.Window):
         self.close()
 
     def show_root(self, page_index):
+        if page_index >= self.subtrees_container.get_n_pages():
+            return
+        self.current_page_index = page_index
         self.subtrees_container.set_current_page(page_index)
 
 
