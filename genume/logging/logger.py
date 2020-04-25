@@ -1,5 +1,5 @@
 import logging as log
-from sys import stdout
+from sys import stderr
 
 from genume.constants import LOGGER_FILE, LOGGER_FMT, LOGGER_DATE_FMT
 
@@ -35,7 +35,7 @@ def init(level=log.DEBUG):
         fileHndl.setFormatter(fileFmt)
         rootLogger.addHandler(fileHndl)
     # Terminal output.
-    termHndl = log.StreamHandler(stream=stdout)
+    termHndl = log.StreamHandler(stream=stderr)
     termFmt = ColoredFormatter(fmt=LOGGER_FMT, datefmt=LOGGER_DATE_FMT)
     termHndl.setFormatter(termFmt)
     rootLogger.addHandler(termHndl)

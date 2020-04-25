@@ -63,7 +63,7 @@ SUBCAT [BAS|ADV] path
     - Creates a new subcategory or switches to an already existing one. All following commands will refer to the new subcategory until a new subcat command.
     - `SUBCAT` the command name.
     - `[BAS|ADV]` is an optional enum. It is either `BAS` for **basic** or information or `ADV` for **advanced** information. It has no effect if the category already exists.
-    - `path` is the path of the subcategory to switch to. Two subcategories must be seperated by a dot and should only contain alphanumeric and underscores. Paths starting with dot (.) are interpreted as relative to the current path. An empty path is interpreted as the master/root category.
+    - `path` is the path of the subcategory to switch to. Two subcategories must be separated by a dot and should only contain alphanumeric and underscores. Paths starting with dot (.) are interpreted as relative to the current path. An empty path is interpreted as the master/root category.
 
 #### Notes
 

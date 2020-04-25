@@ -9,7 +9,7 @@ swapMem=$(awk '( $1 == "SwapTotal:" ) { print $2/1048576 }' /proc/meminfo)
 swapFreeMem=$(awk '( $1 == "SwapFree:" ) { print $2/1048576 }' /proc/meminfo)
 
 value total_memory $totalMem GiB
-value avail_memory $freeMem GiB
+value available_memory $freeMem GiB
 value cached_memory $cachedMem GiB
 value swap_memory $swapMem GiB
 value swap_free_memory $swapFreeMem GiB
