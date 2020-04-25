@@ -23,6 +23,9 @@ def __get_category_from_state(root, state):
 
 
 def __parse_path(path, state):
+    # Reset to root if empty path.
+    if (len(path) == 0):
+        return []
     # Break down path into components.
     parsed = path.split(".")
     # Handles empty and relative paths.
