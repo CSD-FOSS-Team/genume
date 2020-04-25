@@ -16,17 +16,18 @@ CSS = os.path.join(ASSETS_ROOT, "styles.css")
 # Default minimum window size.
 WIDTH = 640
 HEIGHT = 480
+REFRESH_BUTTON_SIZE = 40
 
 
 class MainWindow(Gtk.Window):
     selected_tab = None
 
-    def __init__(self, titlebar=True):
+    def __init__(self, registry, titlebar=True):
         Gtk.Window.__init__(self, title="genume")
         self.set_default_size(WIDTH, HEIGHT)
         # Prepare registry and also start first refresh.
+        self.reg = registry
         self.refresh_progress = -1
-        self.reg = Registry()
         self.reg.observer.connect("refresh_complete", self.finish_async_refresh)
 
         # Load css once.
@@ -34,6 +35,9 @@ class MainWindow(Gtk.Window):
         # Setup the layout.
         if titlebar:
             self.set_titlebar(self.generate_header_bar())
+        else:
+            # TODO add the spinner somewhere
+            self.spinner = None
         self.main_view, self.roots_container = self.generate_main_view()
         self.add(self.main_view)
         # Handle events.
@@ -47,6 +51,8 @@ class MainWindow(Gtk.Window):
     def refresh(self):
         """Updates the registry and refreshes the view."""
         if self.refresh_progress == -1:
+            if self.spinner is not None:
+                self.spinner.start()
             self.refresh_progress = 0
             self.reg.request_refresh()
         else:
@@ -62,7 +68,7 @@ class MainWindow(Gtk.Window):
             subtrees_container.remove_page(-1)
         for c in roots_container.get_children():
             roots_container.remove(c)
-        # 2: Fill view from registy.
+        # 2: Fill view from registry.
         root = self.reg.get_async_data()
         for name, entry in root.items():
             if isinstance(entry, CategoryEntry):
@@ -72,12 +78,18 @@ class MainWindow(Gtk.Window):
         # 3: Finish up
         self.refresh_progress = -1
         self.show_all()
+        if self.spinner is not None:
+            self.spinner.stop()
 
     def generate_header_bar(self):
         bar = Gtk.HeaderBar(
             title="genume",
             show_close_button=True
         )
+
+        spinner = Gtk.Spinner()
+        self.spinner = spinner
+        bar.pack_start(spinner)
 
         menu_button = Gtk.MenuButton()
         menu_button.add(Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.BUTTON))
@@ -98,6 +110,7 @@ class MainWindow(Gtk.Window):
         def add_separator():
             menu.append(Gtk.SeparatorMenuItem())
 
+        add("Refresh", self.request_refresh)
         add_separator()
         add("About", self.request_about)
         add("Close", self.request_close)
@@ -110,19 +123,12 @@ class MainWindow(Gtk.Window):
 
         main_view = Gtk.Overlay()
 
-        def scroll_wrap(container, vertical=False):
-            s = Gtk.ScrolledWindow()
-            s.set_policy(
-                Gtk.PolicyType.AUTOMATIC if vertical else Gtk.PolicyType.NEVER,
-                Gtk.PolicyType.AUTOMATIC)
-            s.add(container)
-            return s
-
-        def set_button_location(s, b, allocation):
-            allocation.x = 200 - 25
-            allocation.y = HEIGHT - 100
-            allocation.width = 50
-            allocation.height = 50
+        def set_button_location(overlay, b, allocation):
+            size = REFRESH_BUTTON_SIZE
+            allocation.x = 200 - size / 2
+            allocation.y = overlay.get_allocated_height() - 2 * size
+            allocation.width = size
+            allocation.height = size
             return allocation
 
         grid = Gtk.Box()
@@ -136,6 +142,14 @@ class MainWindow(Gtk.Window):
 
         roots_container = self.generate_roots_container()
 
+        def scroll_wrap(container, vertical=False):
+            s = Gtk.ScrolledWindow()
+            s.set_policy(
+                Gtk.PolicyType.AUTOMATIC if vertical else Gtk.PolicyType.NEVER,
+                Gtk.PolicyType.AUTOMATIC)
+            s.add(container)
+            return s
+
         # The inner container is used so that the only content that is
         # scrollable is the tabs and not the logo.
         inner_container = Gtk.VBox()
@@ -145,7 +159,7 @@ class MainWindow(Gtk.Window):
 
         subtrees_container = self.generate_subtrees_container()
 
-        grid.pack_start(scroll_wrap(subtrees_container, True), True, True, 0)
+        grid.pack_start(subtrees_container, True, True, 0)
 
         # Fill the layout.
 
@@ -176,10 +190,11 @@ class MainWindow(Gtk.Window):
         return logo
 
     def generate_refresh_button(self):
+        size = REFRESH_BUTTON_SIZE
         container = Gtk.Fixed()
-        container.set_size_request(50, 50)
+        container.set_size_request(size, size)
         event = Gtk.EventBox()
-        event.set_size_request(50, 50)
+        event.set_size_request(size, size)
         button = Gtk.Box()
         icon = Gtk.Image()
         icon.set_from_file(ASSETS_REFRESH)
@@ -266,7 +281,10 @@ class MainWindow(Gtk.Window):
                 Gtk.CellRendererText(),
                 text=i
             ))
-        return tree
+        wrapper = Gtk.ScrolledWindow()
+        wrapper.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        wrapper.add(tree)
+        return wrapper
 
     def create_treestore(self, entry: CategoryEntry):
         store = Gtk.TreeStore(str, str)

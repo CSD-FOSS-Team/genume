@@ -1,9 +1,11 @@
 import os
+import sys
 import argparse
 import logging as log
+from pathlib import Path
 
 from genume.view.main import MainWindow
-from genume.constants import NAME, DESC, VERSION
+from genume.constants import NAME, DESC, VERSION, SCRIPTS_ROOT
 from genume.registry.registry import Registry
 from genume.exports.terminal import TextExporter
 from genume.exports.json import JsonExporter, JsonPrettyExporter
@@ -17,8 +19,11 @@ def main():
 
     parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + VERSION)
     parser.add_argument('-q', '--quiet', dest='quiet', action='store_true', help="Only print errors.")
+    parser.add_argument('-V', '--verbose', dest='verbose', action='store_true', help="Print everything.")
     parser.add_argument('--no-titlebar', dest='titlebar', action='store_false', help="Disables custom titlebar.")
     parser.add_argument('--output', dest='output', type=str, action='store', help="Where to save the export.")
+    parser.add_argument('-r', '--scripts-root', dest='scripts_root', type=str, action='store', default=SCRIPTS_ROOT,
+                        help="Load scripts form a specified directory.")
 
     export_group = parser.add_mutually_exclusive_group()
     for k in sorted(exporters.keys()):
@@ -27,17 +32,26 @@ def main():
 
     args = parser.parse_args()
 
+    log.getLogger().setLevel(log.INFO)
+    if args.verbose:
+        log.getLogger().setLevel(log.DEBUG)
     if args.quiet:
         log.getLogger().setLevel(log.ERROR)
+
+    scripts_path = Path(args.scripts_root).expanduser()
+    if not scripts_path.exists():
+        print("Path '{0}' does not exist!".format(scripts_path))
+        sys.exit(2)
 
     if args.export is None:
         # Check if a graphical environment is available(X11 or Wayland).
         if "DISPLAY" in os.environ or "WAYLAND_DISPLAY" in os.environ:
-            gui = MainWindow(args.titlebar)
+            registry = Registry(scripts_path)
+            gui = MainWindow(registry, titlebar=args.titlebar)
         else:
             print("Could not detect a graphical environment!")
     else:
-        registry = Registry()
+        registry = Registry(scripts_path)
         registry.refresh()
         export_string = exporters[args.export].export(registry)
         if args.output is None:

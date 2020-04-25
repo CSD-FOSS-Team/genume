@@ -34,7 +34,7 @@ update: git
 .phony: contributors
 contributors:
 	./authors.sh > AUTHORS
-	cp AUTHORS scripts/about/
+	cp AUTHORS scripts/about/AUTHORS.txt
 
 .phony: install
 install:
