@@ -11,9 +11,9 @@ def find_key_of_value(d, v):
     return list(d.keys())[list(d.values()).index(v)]
 
 
-def match_list(s, l):
-    "Match any in a list 'l' (with regex 's')."
-    for i in l:
+def match_list(s, ll):
+    "Match any in a list 'll' (with regex 's')."
+    for i in ll:
         if re.match(i, s):
             return True
     return False
